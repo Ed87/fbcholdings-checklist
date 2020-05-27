@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="48305c0b803349709d971a751c792855" Name="Diagram1">
+        <EntityTypeShape EntityType="Models.Server" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Application" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Models.Service" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Models.Credential" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Models.Frequency" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Models.Job" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Models.Scheduler" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="Models.FK_Jobs_FrequencyId" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

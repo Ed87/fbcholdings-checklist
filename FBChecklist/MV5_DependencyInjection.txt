@@ -1,0 +1,13 @@
+﻿  //private readonly IServersService<Server> _serversService;
+        //public ServersController() : this(new ServersService())
+        //{
+        //    //the framework calls this
+        //}
+        //public ServersController(IServersService serversService)
+        //{
+        //    _serversService = serversService;
+        //}
+        //public ServersController() : this(new ServersService())
+        //{
+        //    //the framework calls this
+        //}
