@@ -148,15 +148,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ChecklistModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Common\Helpers.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserPrincipal.cs" />
     <Compile Include="Credential.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\ExceptionLogger.cs" />
     <Compile Include="Frequency.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
@@ -402,10 +403,12 @@
     <Content Include="Views\Jobs\Details.cshtml" />
     <Content Include="Views\Jobs\Edit.cshtml" />
     <Content Include="Views\Jobs\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
