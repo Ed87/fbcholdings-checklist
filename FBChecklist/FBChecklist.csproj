@@ -54,6 +54,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -150,6 +152,8 @@
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserPrincipal.cs" />
     <Compile Include="Credential.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
@@ -179,6 +183,7 @@
     <Compile Include="Services\ServersService.cs" />
     <Compile Include="Services\ServicesService.cs" />
     <Compile Include="ViewModels\JobViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerViewModel.cs" />
     <Compile Include="ViewModels\ServicesViewModel.cs" />
   </ItemGroup>
@@ -400,6 +405,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
