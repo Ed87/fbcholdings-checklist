@@ -30,6 +30,16 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="DomainController">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="50" />
+          <Property Name="LDAP" Type="nvarchar" MaxLength="100" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Frequency">
           <Key>
             <PropertyRef Name="FrequencyId" />
@@ -105,6 +115,7 @@
         <EntityContainer Name="ModelsStoreContainer">
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DomainController" EntityType="Self.DomainController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Frequency" EntityType="Self.Frequency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Scheduler" EntityType="Self.Scheduler" Schema="dbo" store:Type="Tables" />
@@ -145,6 +156,7 @@
             <End Role="Frequency" EntitySet="Frequencies" />
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
+          <EntitySet Name="DomainControllers" EntityType="Models.DomainController" />
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -231,6 +243,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DomainController">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Domain" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LDAP" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -326,6 +348,17 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="JobId" ColumnName="JobId" />
                 <ScalarProperty Name="RunId" ColumnName="RunId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DomainControllers">
+            <EntityTypeMapping TypeName="Models.DomainController">
+              <MappingFragment StoreEntitySet="DomainController">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="LDAP" ColumnName="LDAP" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

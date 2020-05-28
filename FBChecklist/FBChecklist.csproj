@@ -157,6 +157,9 @@
     <Compile Include="Credential.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DomainController.cs">
+      <DependentUpon>ChecklistModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Exceptions\ExceptionLogger.cs" />
     <Compile Include="Frequency.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
@@ -177,12 +180,15 @@
     <Compile Include="Service.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\DomainControllerService.cs" />
+    <Compile Include="Services\IDomainControllerService.cs" />
     <Compile Include="Services\IJobsService.cs" />
     <Compile Include="Services\IServersService.cs" />
     <Compile Include="Services\IServicesService.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\ServersService.cs" />
     <Compile Include="Services\ServicesService.cs" />
+    <Compile Include="ViewModels\DomainControllerViewModel.cs" />
     <Compile Include="ViewModels\JobViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerViewModel.cs" />

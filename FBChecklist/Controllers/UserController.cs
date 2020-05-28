@@ -1,17 +1,31 @@
 ﻿using FBChecklist.Exceptions;
+using FBChecklist.Services;
 using FBChecklist.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FBChecklist.Controllers
 {
     public class UserController : Controller
     {
+
+        private AppEntities db = new AppEntities();
+        private DomainControllerService domainControllerService;
+
+
+        public UserController(DomainControllerService domainControllerService)
+        {
+            this.domainControllerService = domainControllerService;
+
+        }
+        public UserController() : this(new DomainControllerService())
+        {
+            //the framework calls this
+        }
+
+
         // GET: User
         public ActionResult Index()
         {
@@ -20,13 +34,14 @@ namespace FBChecklist.Controllers
         // GET: User/Delete/5
         public ActionResult Login()
         {
-            LoginViewModel model = new LoginViewModel();
+            var model = new DomainControllerViewModel();
+           // LoginViewModel model = new LoginViewModel();
             return View(model);
         }
 
         // POST: User/Delete/5
         [HttpPost]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(DomainControllerViewModel model)
         {
             try
             {

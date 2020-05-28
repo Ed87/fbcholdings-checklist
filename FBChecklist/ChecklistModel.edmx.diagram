@@ -13,6 +13,7 @@
         <EntityTypeShape EntityType="Models.Job" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="Models.Scheduler" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="Models.FK_Jobs_FrequencyId" />
+        <EntityTypeShape EntityType="Models.DomainController" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
