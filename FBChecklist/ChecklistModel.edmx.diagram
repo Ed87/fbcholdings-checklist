@@ -14,6 +14,9 @@
         <EntityTypeShape EntityType="Models.Scheduler" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="Models.FK_Jobs_FrequencyId" />
         <EntityTypeShape EntityType="Models.DomainController" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Models.WebLogic" Width="1.5" PointX="3.375" PointY="7.75" />
+        <EntityTypeShape EntityType="Models.Health" Width="1.5" PointX="1.125" PointY="8.5" />
+        <AssociationConnector Association="Models.FK_WebLogic_Health" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

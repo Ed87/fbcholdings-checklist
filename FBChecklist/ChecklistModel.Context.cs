@@ -33,5 +33,7 @@ namespace FBChecklist
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Scheduler> Schedulers { get; set; }
         public virtual DbSet<DomainController> DomainControllers { get; set; }
+        public virtual DbSet<WebLogic> WebLogics { get; set; }
+        public virtual DbSet<Health> Healths { get; set; }
     }
 }

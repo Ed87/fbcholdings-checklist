@@ -15,6 +15,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="Url" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Credential">
           <Key>
@@ -24,7 +25,6 @@
           <Property Name="ApplicationId" Type="int" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
-          <Property Name="Url" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
@@ -46,6 +46,13 @@
           </Key>
           <Property Name="FrequencyId" Type="int" Nullable="false" />
           <Property Name="FrequencyText" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Health">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="state" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Jobs">
           <Key>
@@ -100,6 +107,20 @@
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="IsActive" Type="int" />
         </EntityType>
+        <EntityType Name="WebLogic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="state" Type="nvarchar" MaxLength="50" />
+          <Property Name="activeThreadCount" Type="int" />
+          <Property Name="jvmProcessorLoad" Type="int" />
+          <Property Name="usedPhysicalMemory" Type="decimal" Precision="12" Scale="0" />
+          <Property Name="heapFreeCurrent" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="heapSizeCurrent" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="StateId" Type="int" />
+        </EntityType>
         <Association Name="FK_Jobs_FrequencyId">
           <End Role="Frequency" Type="Self.Frequency" Multiplicity="0..1" />
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
@@ -112,18 +133,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WebLogic_Health">
+          <End Role="Health" Type="Self.Health" Multiplicity="0..1" />
+          <End Role="WebLogic" Type="Self.WebLogic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Health">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="WebLogic">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelsStoreContainer">
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DomainController" EntityType="Self.DomainController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Frequency" EntityType="Self.Frequency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Health" EntityType="Self.Health" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Scheduler" EntityType="Self.Scheduler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Server" EntityType="Self.Server" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebLogic_Health" Association="Self.FK_WebLogic_Health">
+            <End Role="Health" EntitySet="Health" />
+            <End Role="WebLogic" EntitySet="WebLogic" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -157,6 +196,12 @@
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
           <EntitySet Name="DomainControllers" EntityType="Models.DomainController" />
+          <EntitySet Name="WebLogics" EntityType="Models.WebLogic" />
+          <EntitySet Name="Healths" EntityType="Models.Health" />
+          <AssociationSet Name="FK_WebLogic_Health" Association="Models.FK_WebLogic_Health">
+            <End Role="Health" EntitySet="Healths" />
+            <End Role="WebLogic" EntitySet="WebLogics" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -168,6 +213,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -190,7 +236,6 @@
           <Property Name="ApplicationId" Type="Int32" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -253,6 +298,41 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="WebLogic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="activeThreadCount" Type="Int32" />
+          <Property Name="jvmProcessorLoad" Type="Int32" />
+          <Property Name="usedPhysicalMemory" Type="Decimal" Precision="12" Scale="0" />
+          <Property Name="heapFreeCurrent" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="heapSizeCurrent" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="StateId" Type="Int32" />
+          <NavigationProperty Name="Health1" Relationship="Models.FK_WebLogic_Health" FromRole="WebLogic" ToRole="Health" />
+        </EntityType>
+        <EntityType Name="Health">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WebLogics" Relationship="Models.FK_WebLogic_Health" FromRole="Health" ToRole="WebLogic" />
+        </EntityType>
+        <Association Name="FK_WebLogic_Health">
+          <End Type="Models.Health" Role="Health" Multiplicity="0..1" />
+          <End Type="Models.WebLogic" Role="WebLogic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Health">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="WebLogic">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -277,6 +357,7 @@
           <EntitySetMapping Name="Applications">
             <EntityTypeMapping TypeName="Models.Application">
               <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -307,7 +388,6 @@
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
@@ -359,6 +439,29 @@
                 <ScalarProperty Name="LDAP" ColumnName="LDAP" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebLogics">
+            <EntityTypeMapping TypeName="Models.WebLogic">
+              <MappingFragment StoreEntitySet="WebLogic">
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="heapSizeCurrent" ColumnName="heapSizeCurrent" />
+                <ScalarProperty Name="heapFreeCurrent" ColumnName="heapFreeCurrent" />
+                <ScalarProperty Name="usedPhysicalMemory" ColumnName="usedPhysicalMemory" />
+                <ScalarProperty Name="jvmProcessorLoad" ColumnName="jvmProcessorLoad" />
+                <ScalarProperty Name="activeThreadCount" ColumnName="activeThreadCount" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Healths">
+            <EntityTypeMapping TypeName="Models.Health">
+              <MappingFragment StoreEntitySet="Health">
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

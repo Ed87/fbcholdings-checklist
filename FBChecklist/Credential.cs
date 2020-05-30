@@ -18,7 +18,6 @@ namespace FBChecklist
         public Nullable<int> ApplicationId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Url { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string ModifiedBy { get; set; }

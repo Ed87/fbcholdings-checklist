@@ -20,10 +20,6 @@ namespace FBChecklist.Services
         IEnumerable<SelectListItem> GetApplications();
 
         //void PopulateLookups(TEntity entity);
-        //IEnumerable<Server> GetAll();
-
-        //void AddServer(Server server);
-
-        //void EditServer(Server server);
+        
     }
 }
