@@ -30,6 +30,21 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="Disk">
+          <Key>
+            <PropertyRef Name="DiskId" />
+          </Key>
+          <Property Name="DiskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" />
+          <Property Name="ServerId" Type="int" />
+          <Property Name="FreeSpace" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="UsedSpace" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="TotalSpace" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="DiskName" Type="nvarchar" MaxLength="100" />
+          <Property Name="RunDate" Type="datetime" />
+          <Property Name="Memory" Type="nvarchar" MaxLength="50" />
+          <Property Name="CPU" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="DomainController">
           <Key>
             <PropertyRef Name="Id" />
@@ -121,6 +136,30 @@
           <Property Name="heapSizeCurrent" Type="decimal" Precision="10" Scale="0" />
           <Property Name="StateId" Type="int" />
         </EntityType>
+        <Association Name="FK_Disk_App">
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Disk">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Disk_Server">
+          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
+          <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Disk">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Jobs_FrequencyId">
           <End Role="Frequency" Type="Self.Frequency" Multiplicity="0..1" />
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
@@ -148,6 +187,7 @@
         <EntityContainer Name="ModelsStoreContainer">
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Disk" EntityType="Self.Disk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DomainController" EntityType="Self.DomainController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Frequency" EntityType="Self.Frequency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Health" EntityType="Self.Health" Schema="dbo" store:Type="Tables" />
@@ -156,6 +196,14 @@
           <EntitySet Name="Server" EntityType="Self.Server" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Disk_App" Association="Self.FK_Disk_App">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="Disk" EntitySet="Disk" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Disk_Server" Association="Self.FK_Disk_Server">
+            <End Role="Server" EntitySet="Server" />
+            <End Role="Disk" EntitySet="Disk" />
+          </AssociationSet>
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
@@ -182,6 +230,7 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="ApplicationId" Type="Int32" />
+          <NavigationProperty Name="Disks" Relationship="Models.FK_Disk_Server" FromRole="Server" ToRole="Disk" />
         </EntityType>
         <EntityContainer Name="AppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Servers" EntityType="Self.Server" />
@@ -202,6 +251,15 @@
             <End Role="Health" EntitySet="Healths" />
             <End Role="WebLogic" EntitySet="WebLogics" />
           </AssociationSet>
+          <EntitySet Name="Disks" EntityType="Models.Disk" />
+          <AssociationSet Name="FK_Disk_App" Association="Models.FK_Disk_App">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Disk" EntitySet="Disks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Disk_Server" Association="Models.FK_Disk_Server">
+            <End Role="Server" EntitySet="Servers" />
+            <End Role="Disk" EntitySet="Disks" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -214,6 +272,7 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Disks" Relationship="Models.FK_Disk_App" FromRole="Application" ToRole="Disk" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -330,6 +389,47 @@
             </Principal>
             <Dependent Role="WebLogic">
               <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Disk">
+          <Key>
+            <PropertyRef Name="DiskId" />
+          </Key>
+          <Property Name="DiskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <Property Name="ServerId" Type="Int32" />
+          <Property Name="FreeSpace" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="UsedSpace" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="TotalSpace" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="DiskName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
+          <Property Name="Memory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CPU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Application" Relationship="Models.FK_Disk_App" FromRole="Disk" ToRole="Application" />
+          <NavigationProperty Name="Server" Relationship="Models.FK_Disk_Server" FromRole="Disk" ToRole="Server" />
+        </EntityType>
+        <Association Name="FK_Disk_App">
+          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
+          <End Type="Models.Disk" Role="Disk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Disk">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Disk_Server">
+          <End Type="Models.Server" Role="Server" Multiplicity="0..1" />
+          <End Type="Models.Disk" Role="Disk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Disk">
+              <PropertyRef Name="ServerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -462,6 +562,22 @@
               <MappingFragment StoreEntitySet="Health">
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disks">
+            <EntityTypeMapping TypeName="Models.Disk">
+              <MappingFragment StoreEntitySet="Disk">
+                <ScalarProperty Name="CPU" ColumnName="CPU" />
+                <ScalarProperty Name="Memory" ColumnName="Memory" />
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+                <ScalarProperty Name="DiskName" ColumnName="DiskName" />
+                <ScalarProperty Name="TotalSpace" ColumnName="TotalSpace" />
+                <ScalarProperty Name="UsedSpace" ColumnName="UsedSpace" />
+                <ScalarProperty Name="FreeSpace" ColumnName="FreeSpace" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="DiskId" ColumnName="DiskId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<FBChecklist.Disk>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FreeSpace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsedSpace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalSpace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RunDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Memory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CPU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Application.ApplicationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Server.ServerIp)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FreeSpace)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsedSpace)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalSpace)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RunDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Memory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CPU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Application.ApplicationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Server.ServerIp)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DiskId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DiskId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DiskId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -17,6 +17,9 @@
         <EntityTypeShape EntityType="Models.WebLogic" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="Models.Health" Width="1.5" PointX="1.125" PointY="8.5" />
         <AssociationConnector Association="Models.FK_WebLogic_Health" />
+        <EntityTypeShape EntityType="Models.Disk" Width="1.5" PointX="5.625" PointY="0.75" />
+        <AssociationConnector Association="Models.FK_Disk_App" />
+        <AssociationConnector Association="Models.FK_Disk_Server" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

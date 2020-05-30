@@ -149,6 +149,7 @@
       <DependentUpon>ChecklistModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Controllers\DisksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
@@ -156,6 +157,9 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebLogicController.cs" />
     <Compile Include="Credential.cs">
+      <DependentUpon>ChecklistModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Disk.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainController.cs">
@@ -428,6 +432,11 @@
     <Content Include="Views\WebLogic\Details.cshtml" />
     <Content Include="Views\WebLogic\Edit.cshtml" />
     <Content Include="Views\WebLogic\Index.cshtml" />
+    <Content Include="Views\Disks\Create.cshtml" />
+    <Content Include="Views\Disks\Delete.cshtml" />
+    <Content Include="Views\Disks\Details.cshtml" />
+    <Content Include="Views\Disks\Edit.cshtml" />
+    <Content Include="Views\Disks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

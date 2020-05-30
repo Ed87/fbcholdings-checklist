@@ -1,0 +1,91 @@
+﻿@model FBChecklist.Disk
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Disk</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FreeSpace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FreeSpace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsedSpace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsedSpace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalSpace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalSpace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiskName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiskName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RunDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RunDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Memory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Memory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CPU)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CPU)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.ApplicationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.ApplicationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Server.ServerIp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Server.ServerIp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DiskId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

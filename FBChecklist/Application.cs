@@ -14,6 +14,12 @@ namespace FBChecklist
     
     public partial class Application
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Application()
+        {
+            this.Disks = new HashSet<Disk>();
+        }
+    
         public int ApplicationId { get; set; }
         public string ApplicationName { get; set; }
         public string CreatedBy { get; set; }
@@ -21,5 +27,8 @@ namespace FBChecklist
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public string Url { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Disk> Disks { get; set; }
     }
 }

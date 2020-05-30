@@ -35,5 +35,6 @@ namespace FBChecklist
         public virtual DbSet<DomainController> DomainControllers { get; set; }
         public virtual DbSet<WebLogic> WebLogics { get; set; }
         public virtual DbSet<Health> Healths { get; set; }
+        public virtual DbSet<Disk> Disks { get; set; }
     }
 }

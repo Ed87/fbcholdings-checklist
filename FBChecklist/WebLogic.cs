@@ -9,39 +9,21 @@
 
 namespace FBChecklist
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
     public partial class WebLogic
     {
         public int Id { get; set; }
-
-        [JsonProperty("name")]
         public string name { get; set; }
-
-        [JsonProperty("state")]
         public string state { get; set; }
-
-        [JsonProperty("activeThreadCount")]
         public Nullable<int> activeThreadCount { get; set; }
-
-        [JsonProperty("jvmProcessorLoad")]
         public Nullable<int> jvmProcessorLoad { get; set; }
-
-        [JsonProperty("usedPhysicalMemory")]
         public Nullable<decimal> usedPhysicalMemory { get; set; }
-
-        [JsonProperty("heapFreeCurrent")]
         public Nullable<decimal> heapFreeCurrent { get; set; }
-
-        [JsonProperty("heapSizeCurrent")]
         public Nullable<decimal> heapSizeCurrent { get; set; }
-
-      
         public Nullable<int> StateId { get; set; }
-
-        [JsonProperty("health")]
+    
         public virtual Health Health1 { get; set; }
     }
 }
