@@ -67,7 +67,12 @@ namespace FBChecklist.Controllers
             var sv = Convert.ToInt32(selectedValue);
             Session["SelectedApp"] = sv;
             Session["ServerId"] = disksService.GetServerId(sv);
-           
+
+            Session["Authority"] = disksService.GetAuthority(sv);
+            Session["Username"] = disksService.GetSuperUsername(sv);
+            Session["Password"] = disksService.GetSuperUserPassword(sv);
+            Session["ServerIP"] = disksService.GetServerIp(sv);
+
             var disk = new Disk();                  
             disksService.SaveEnvironmentInfo(disk);      
             return RedirectToAction("Index");

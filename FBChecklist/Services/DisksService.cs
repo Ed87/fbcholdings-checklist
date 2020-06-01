@@ -42,8 +42,33 @@ namespace FBChecklist.Services
             return appname.ToString();
         }
 
+        public string GetAuthority(int AppId)
+        {
+            var authority = (from c in appEntities.Credentials
+                             where c.ApplicationId == AppId
+                             select c.Reference).FirstOrDefault();
+            return authority.ToString();
+        }
 
-     
+
+        public string GetSuperUserPassword(int AppId)
+        {
+            var password = (from c in appEntities.Credentials
+                            where c.ApplicationId == AppId
+                            select c.Password).FirstOrDefault();
+            return password.ToString();
+        }
+
+        public string GetSuperUsername(int AppId)
+        {
+            var username = (from c in appEntities.Credentials
+                            where c.ApplicationId == AppId
+                            select c.Username).FirstOrDefault();
+            return username.ToString();
+        }
+
+
+
         public void GetApps(DiskViewModel model)
         {
             model.Applications = GetApplications();
@@ -96,14 +121,22 @@ namespace FBChecklist.Services
 
         public List<Disk> GetEnvironmentStatistics()
         {
+            var serverIP = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerIP"]); ;
+
             Disk disk = new Disk();
             List<Disk> diskinfo = new List<Disk>();
 
             //Add System.Management to access these utilities
-            ConnectionOptions options2 = new ConnectionOptions();
-           
+            ConnectionOptions options = new ConnectionOptions
+            {
+
+                Username = Convert.ToString(System.Web.HttpContext.Current.Session["Username"]),
+                Password = Convert.ToString(System.Web.HttpContext.Current.Session["Password"]),
+                Authority = Convert.ToString(System.Web.HttpContext.Current.Session["Authority"]),
+            };
+
             //root - root of the tree, cimv2 - version           
-            ManagementScope scope = new ManagementScope("\\\\localhost\\root\\CIMV2", options2);
+            ManagementScope scope = new ManagementScope("\\\\" + serverIP + "\\root\\CIMV2", options);
             scope.Connect();
 
             SelectQuery query = new SelectQuery("Select * from Win32_LogicalDisk");
