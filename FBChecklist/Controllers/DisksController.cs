@@ -1,4 +1,10 @@
-﻿using System.Data.Entity;
+﻿using FBChecklist.Exceptions;
+using FBChecklist.Services;
+using FBChecklist.ViewModels;
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -7,118 +13,66 @@ namespace FBChecklist.Controllers
 {
     public class DisksController : Controller
     {
+
         private AppEntities db = new AppEntities();
+        private DisksService disksService;
+
+
+        public DisksController(DisksService disksService)
+        {
+            this.disksService = disksService;
+
+        }
+        public DisksController() : this(new DisksService())
+        {
+            //the framework calls this
+        }
+
+
+
 
         // GET: Disks
-        public async Task<ActionResult> Index()
+        public  ActionResult Index()
         {
-            var disks = db.Disks.Include(d => d.Application).Include(d => d.Server);
-            return View(await disks.ToListAsync());
+                      
+            DateTime date = DateTime.Today;
+            var disks = db.Disks.Include(d => d.Application).Include(d => d.Server)
+                            .Where(d => EntityFunctions.TruncateTime(d.RunDate) == date);
+                return View( disks.ToList());
+           
         }
 
-        // GET: Disks/Details/5
-        public async Task<ActionResult> Details(int? id)
+        // GET: Disks/QueryDiskInformation
+        public ActionResult QueryDiskInformation()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Disk disk = await db.Disks.FindAsync(id);
-            if (disk == null)
-            {
-                return HttpNotFound();
-            }
-            return View(disk);
+            var model = new DiskViewModel();
+            disksService.GetApps(model);
+            return View(model);
+          
         }
 
-        // GET: Disks/Create
-        public ActionResult Create()
-        {
-            ViewBag.ApplicationId = new SelectList(db.Applications, "ApplicationId", "ApplicationName");
-            ViewBag.ServerId = new SelectList(db.Servers, "ServerId", "ServerIp");
-            return View();
-        }
-
-        // POST: Disks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "DiskId,ApplicationId,ServerId,FreeSpace,UsedSpace,TotalSpace,DiskName,RunDate,Memory,CPU")] Disk disk)
+        public ActionResult QueryDiskInformation([Bind(Include = "ApplicationId,ServerId,FreeSpace,UsedSpace,TotalSpace,DiskName,RunDate")] DiskViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Disks.Add(disk);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                disksService.GetApps(model);
+                return View(model);
             }
 
-            ViewBag.ApplicationId = new SelectList(db.Applications, "ApplicationId", "ApplicationName", disk.ApplicationId);
-            ViewBag.ServerId = new SelectList(db.Servers, "ServerId", "ServerIp", disk.ServerId);
-            return View(disk);
-        }
-
-        // GET: Disks/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Disk disk = await db.Disks.FindAsync(id);
-            if (disk == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ApplicationId = new SelectList(db.Applications, "ApplicationId", "ApplicationName", disk.ApplicationId);
-            ViewBag.ServerId = new SelectList(db.Servers, "ServerId", "ServerIp", disk.ServerId);
-            return View(disk);
-        }
-
-        // POST: Disks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "DiskId,ApplicationId,ServerId,FreeSpace,UsedSpace,TotalSpace,DiskName,RunDate,Memory,CPU")] Disk disk)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(disk).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ApplicationId = new SelectList(db.Applications, "ApplicationId", "ApplicationName", disk.ApplicationId);
-            ViewBag.ServerId = new SelectList(db.Servers, "ServerId", "ServerIp", disk.ServerId);
-            return View(disk);
-        }
-
-        // GET: Disks/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Disk disk = await db.Disks.FindAsync(id);
-            if (disk == null)
-            {
-                return HttpNotFound();
-            }
-            return View(disk);
-        }
-
-        // POST: Disks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Disk disk = await db.Disks.FindAsync(id);
-            db.Disks.Remove(disk);
-            await db.SaveChangesAsync();
+            //Get DropDown selected value
+            var selectedValue = Request.Form["ApplicationId"].ToString(); //this will get selected value
+            var sv = Convert.ToInt32(selectedValue);
+            Session["SelectedApp"] = sv;
+            Session["ServerId"] = disksService.GetServerId(sv);
+           
+            var disk = new Disk();                  
+            disksService.SaveEnvironmentInfo(disk);      
             return RedirectToAction("Index");
         }
-
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)

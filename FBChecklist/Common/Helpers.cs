@@ -258,8 +258,34 @@ namespace FBChecklist.Common
                 .Replace(">", "")
                 .Replace("|", "");
         }
-    
-        public static string DatabaseConnect2 = ConfigurationManager.ConnectionStrings["MIHR"].ConnectionString;
+
+        public static decimal? getDecimal(object rawValue)
+        {
+            decimal finalValue;
+
+            double? doubleValue = rawValue as double?;
+            if (doubleValue.HasValue)
+                return (decimal)doubleValue.Value;
+            else if (decimal.TryParse(rawValue as string, out finalValue))
+            {
+                return finalValue;
+            }
+            else
+            {
+                return null;//could also throw an exception if you wanted.
+            }
+        }
+
+
+
+        public static decimal DiskSpaceInGigabytes(decimal value)
+        {
+            const decimal BytesInGB = 1073741824;
+            var sizeInGigabytes = (value) / BytesInGB;
+            return sizeInGigabytes;
+        }
+
+       // public static string DatabaseConnect2 = ConfigurationManager.ConnectionStrings["MIHR"].ConnectionString;
         public static bool CheckConnection()
         {
             String address = "208.69.34.231";

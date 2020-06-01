@@ -29,6 +29,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Disk">
           <Key>
@@ -44,6 +45,10 @@
           <Property Name="RunDate" Type="datetime" />
           <Property Name="Memory" Type="nvarchar" MaxLength="50" />
           <Property Name="CPU" Type="nvarchar" MaxLength="50" />
+          <Property Name="VolumeName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DeviceId" Type="nvarchar" MaxLength="50" />
+          <Property Name="SystemName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PercentageUsed" Type="int" />
         </EntityType>
         <EntityType Name="DomainController">
           <Key>
@@ -136,30 +141,6 @@
           <Property Name="heapSizeCurrent" Type="decimal" Precision="10" Scale="0" />
           <Property Name="StateId" Type="int" />
         </EntityType>
-        <Association Name="FK_Disk_App">
-          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
-          <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Application">
-              <PropertyRef Name="ApplicationId" />
-            </Principal>
-            <Dependent Role="Disk">
-              <PropertyRef Name="ApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Disk_Server">
-          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
-          <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Server">
-              <PropertyRef Name="ServerId" />
-            </Principal>
-            <Dependent Role="Disk">
-              <PropertyRef Name="ServerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Jobs_FrequencyId">
           <End Role="Frequency" Type="Self.Frequency" Multiplicity="0..1" />
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
@@ -196,14 +177,6 @@
           <EntitySet Name="Server" EntityType="Self.Server" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Disk_App" Association="Self.FK_Disk_App">
-            <End Role="Application" EntitySet="Application" />
-            <End Role="Disk" EntitySet="Disk" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Disk_Server" Association="Self.FK_Disk_Server">
-            <End Role="Server" EntitySet="Server" />
-            <End Role="Disk" EntitySet="Disk" />
-          </AssociationSet>
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
@@ -299,6 +272,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Frequency">
           <Key>
@@ -408,6 +382,10 @@
           <Property Name="CPU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Application" Relationship="Models.FK_Disk_App" FromRole="Disk" ToRole="Application" />
           <NavigationProperty Name="Server" Relationship="Models.FK_Disk_Server" FromRole="Disk" ToRole="Server" />
+          <Property Name="VolumeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SystemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PercentageUsed" Type="Int32" />
         </EntityType>
         <Association Name="FK_Disk_App">
           <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
@@ -484,6 +462,7 @@
           <EntitySetMapping Name="Credentials">
             <EntityTypeMapping TypeName="Models.Credential">
               <MappingFragment StoreEntitySet="Credential">
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -568,6 +547,10 @@
           <EntitySetMapping Name="Disks">
             <EntityTypeMapping TypeName="Models.Disk">
               <MappingFragment StoreEntitySet="Disk">
+                <ScalarProperty Name="PercentageUsed" ColumnName="PercentageUsed" />
+                <ScalarProperty Name="SystemName" ColumnName="SystemName" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="VolumeName" ColumnName="VolumeName" />
                 <ScalarProperty Name="CPU" ColumnName="CPU" />
                 <ScalarProperty Name="Memory" ColumnName="Memory" />
                 <ScalarProperty Name="RunDate" ColumnName="RunDate" />

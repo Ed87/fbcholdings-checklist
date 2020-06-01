@@ -5,78 +5,271 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h2>Index</h2>
+<link href="~/assets2/css/jquery-ui.custom.min.css" rel="stylesheet" />
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Infrastructure</a>
+            </li>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FreeSpace)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UsedSpace)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalSpace)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DiskName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RunDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Memory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CPU)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Application.ApplicationName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Server.ServerIp)
-        </th>
-        <th></th>
-    </tr>
+            <li class="active">Dashboard</li>
+        </ul><!-- /.breadcrumb -->
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FreeSpace)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UsedSpace)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalSpace)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiskName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RunDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Memory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CPU)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Application.ApplicationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Server.ServerIp)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.DiskId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.DiskId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.DiskId })
-        </td>
-    </tr>
+        <div class="nav-search" id="nav-search">
+            <form class="form-search">
+                <span class="input-icon">
+                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                    <i class="ace-icon fa fa-search nav-search-icon"></i>
+                </span>
+            </form>
+        </div><!-- /.nav-search -->
+    </div>
+    <div class="page-content">
+        <div class="ace-settings-container" id="ace-settings-container">
+            <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                <i class="ace-icon fa fa-cog bigger-130"></i>
+            </div>
+
+            <div class="ace-settings-box clearfix" id="ace-settings-box">
+                <div class="pull-left width-50">
+                    <div class="ace-settings-item">
+                        <div class="pull-left">
+                            <select id="skin-colorpicker" class="hide">
+                                <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                            </select>
+                        </div>
+                        <span>&nbsp; Choose Skin</span>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-add-container">
+                            Inside
+                            <b>.container</b>
+                        </label>
+                    </div>
+                </div><!-- /.pull-left -->
+
+                <div class="pull-left width-50">
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+                        <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                    </div>
+                </div><!-- /.pull-left -->
+            </div><!-- /.ace-settings-box -->
+        </div><!-- /.ace-settings-container -->
+        <div class="page-header">
+            <h1>Dashboard</h1>
+        </div>
+
+        <div class="hr hr-16 hr-dotted"></div>
+        <div class="row">
+            <div class="col-xs-12">
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> Accordion </span><!-- /.col -->
+
+                            <span class="col-xs-6">
+                                <span class="pull-right inline">
+                                    <span class="grey smaller-80 bolder">style:</span>
+
+                                    <span class="btn-toolbar inline middle no-margin">
+                                        <span id="accordion-style" data-toggle="buttons" class="btn-group no-margin">
+                                            <label class="btn btn-xs btn-yellow active">
+                                                <input type="radio" value="1">
+                                                1
+                                            </label>
+
+                                            <label class="btn btn-xs btn-yellow">
+                                                <input type="radio" value="2">
+                                                2
+                                            </label>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;Group Item #1
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseOne" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="header smaller lighter green">Progress Bar</h3>
+
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-xs-8">
+                                    <div id="home4" class="tab-pane in active">
+                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                    </div>
+                                    <div id="home4" class="tab-pane in active">
+                                        <p>Is there enough disk space on the server?</p>
+                                    </div>
+                                    <p>Local Disk (@item.DiskName)</p>
+                                    <a class="navbar-brand">
+                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                    </a>
+                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                        <div class="progress-bar" style="width:50%;"></div>
+                                    </div>
+                                    <div class="infobox-content">
+                                        <span class="bigger-110">~</span>
+                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                    </div>
+                                    <br />
+                                </div><!-- /.col -->
+
+                                <div class="col-xs-4 center">
+                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                        <span class="percent"> CPU @item.CPU</span>%
+                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                    </div>
+                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                    </div>
+                                </div><!-- /.col -->
+                            }
+                        </div><!-- /.row -->
+                    </div><!-- /.col -->
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/assets2/js/jquery-ui.custom.min.js")
+    @Scripts.Render("~/assets2/js/jquery.ui.touch-punch.min.js")
+    @Scripts.Render("~/assets2/js/jquery.easypiechart.min.js")
+    @Scripts.Render("~/assets2/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/assets2/js/jquery.dataTables.bootstrap.min.js")
+    @Scripts.Render("~/assets2/js/dataTables.buttons.min.js")
+    @Scripts.Render("~/assets2/js/buttons.flash.min.js")
+    @Scripts.Render("~/assets2/js/buttons.html5.min.js")
+    <script>
+        $(document).ready(function () {
+
+            $("#simple-table").DataTable();
+        });
+    </script>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            /**
+            $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+              //console.log(e.target.getAttribute("href"));
+            })
+
+            $('#accordion').on('shown.bs.collapse', function (e) {
+                //console.log($(e.target).is('#collapseTwo'))
+            });
+            */
+
+            $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                //if($(e.target).attr('href') == "#home") doSomethingNow();
+            })
+
+            $('#accordion-style').on('click', function (ev) {
+                var target = $('input', ev.target);
+                var which = parseInt(target.val());
+                if (which == 2) $('#accordion').addClass('accordion-style2');
+                else $('#accordion').removeClass('accordion-style2');
+            });
+
+            //$('[href="#collapseTwo"]').trigger('click');
+
+
+            $('.easy-pie-chart.percentage').each(function () {
+                $(this).easyPieChart({
+                    barColor: $(this).data('color'),
+                    trackColor: '#EEEEEE',
+                    scaleColor: false,
+                    lineCap: 'butt',
+                    lineWidth: 8,
+                    animate: ace.vars['old_ie'] ? false : 1000,
+                    size: 75
+                }).css('color', $(this).data('color'));
+            });
+
+            $('[data-rel=tooltip]').tooltip();
+            $('[data-rel=popover]').popover({ html: true });
+
+
+       
+          
+            $('#id-pills-stacked').removeAttr('checked').on('click', function () {
+                $('.nav-pills').toggleClass('nav-stacked');
+            });
+
+            ///////////
+            $(document).one('ajaxloadstart.page', function (e) {
+                $.gritter.removeAll();
+                $('.modal').modal('hide');
+            });
+
+        });
+    </script>
 }
-
-</table>

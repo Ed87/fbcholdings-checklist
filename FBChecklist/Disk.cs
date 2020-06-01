@@ -24,6 +24,10 @@ namespace FBChecklist
         public Nullable<System.DateTime> RunDate { get; set; }
         public string Memory { get; set; }
         public string CPU { get; set; }
+        public string VolumeName { get; set; }
+        public string DeviceId { get; set; }
+        public string SystemName { get; set; }
+        public Nullable<int> PercentageUsed { get; set; }
     
         public virtual Application Application { get; set; }
         public virtual Server Server { get; set; }

@@ -57,6 +57,7 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -190,8 +191,10 @@
     <Compile Include="Service.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\DisksService.cs" />
     <Compile Include="Services\DomainControllerService.cs" />
     <Compile Include="Services\IAsyncWebLogicService.cs" />
+    <Compile Include="Services\IDisksService.cs" />
     <Compile Include="Services\IDomainControllerService.cs" />
     <Compile Include="Services\IJobsService.cs" />
     <Compile Include="Services\IServersService.cs" />
@@ -200,6 +203,7 @@
     <Compile Include="Services\ServersService.cs" />
     <Compile Include="Services\ServicesService.cs" />
     <Compile Include="Services\WebLogicService.cs" />
+    <Compile Include="ViewModels\DiskViewModel.cs" />
     <Compile Include="ViewModels\DomainControllerViewModel.cs" />
     <Compile Include="ViewModels\JobViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -437,6 +441,7 @@
     <Content Include="Views\Disks\Details.cshtml" />
     <Content Include="Views\Disks\Edit.cshtml" />
     <Content Include="Views\Disks\Index.cshtml" />
+    <Content Include="Views\Disks\QueryDiskInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
