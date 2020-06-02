@@ -1,4 +1,5 @@
 ﻿using FBChecklist.Common;
+using FBChecklist.Exceptions;
 using FBChecklist.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,16 @@ namespace FBChecklist.Services
                             select c.ApplicationName).FirstOrDefault();
             return appname.ToString();
         }
+
+        public int CheckForClusteredDisks(string serverIp)
+        {
+            var cluster = (from c in appEntities.Servers
+                           where c.ServerIp == serverIp
+                           select c.HasClusteredDisks).FirstOrDefault();
+            int isClustered = Convert.ToInt32(cluster);
+            return isClustered ;
+        }
+
 
         public string GetAuthority(int AppId)
         {
@@ -108,9 +119,9 @@ namespace FBChecklist.Services
                  entity.FreeSpace = di.FreeSpace;
                  entity.TotalSpace = di.TotalSpace;
                  entity.UsedSpace = di.UsedSpace;
-                 entity.PercentageUsed = di.PercentageUsed;
+                 //entity.PercentageUsed = di.PercentageUsed;
                  entity.RunDate = DateTime.Now;
-                 entity.CPU = di.CPU;                
+                 //entity.CPU = di.CPU;                
                  entity.ServerId = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerId"]);
                  entity.ApplicationId = Convert.ToInt32(System.Web.HttpContext.Current.Session["SelectedApp"]);
                  appEntities.Disks.Add(entity);
@@ -121,63 +132,55 @@ namespace FBChecklist.Services
 
         public List<Disk> GetEnvironmentStatistics()
         {
-            var serverIP = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerIP"]); ;
 
-            Disk disk = new Disk();
             List<Disk> diskinfo = new List<Disk>();
 
-            //Add System.Management to access these utilities
-            ConnectionOptions options = new ConnectionOptions
-            {
+            var serverIP = Convert.ToString(System.Web.HttpContext.Current.Session["ServerIP"]);
 
-                Username = Convert.ToString(System.Web.HttpContext.Current.Session["Username"]),
-                Password = Convert.ToString(System.Web.HttpContext.Current.Session["Password"]),
-                Authority = Convert.ToString(System.Web.HttpContext.Current.Session["Authority"]),
-            };
+        
+                //Add System.Management to access these utilities
+                ConnectionOptions options = new ConnectionOptions
+                {
 
-            //root - root of the tree, cimv2 - version           
-            ManagementScope scope = new ManagementScope("\\\\" + serverIP + "\\root\\CIMV2", options);
-            scope.Connect();
+                    Username = Convert.ToString(System.Web.HttpContext.Current.Session["Username"]),
+                    Password = Convert.ToString(System.Web.HttpContext.Current.Session["Password"]),
+                    Authority = Convert.ToString(System.Web.HttpContext.Current.Session["Authority"]),
+                };
 
-            SelectQuery query = new SelectQuery("Select * from Win32_LogicalDisk");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
-            ManagementObjectCollection queryCollection = searcher.Get();
-            foreach (ManagementObject mo in queryCollection)
-            {
-               
-                disk.DiskName = mo["Name"].ToString();
-                disk.VolumeName = mo["VolumeName"].ToString();
-                disk.DeviceId = mo["DeviceID"].ToString();
-                disk.SystemName = mo["SystemName"].ToString();
+                //root - root of the tree, cimv2 - version           
+                ManagementScope scope = new ManagementScope("\\\\" + serverIP + "\\root\\CIMV2", options);
+                scope.Connect();
 
-                disk.FreeSpace = Convert.ToDecimal(mo["FreeSpace"]);       
-                var formattedFreeSpace = Helpers.DiskSpaceInGigabytes(disk.FreeSpace?? 0);
-                disk.FreeSpace = Decimal.Truncate(formattedFreeSpace);
+                SelectQuery query = new SelectQuery("Select * from Win32_LogicalDisk");
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
+                ManagementObjectCollection queryCollection = searcher.Get();
 
-                disk.TotalSpace = Convert.ToDecimal(mo["Size"]);
-                var formattedTotalSpace = Helpers.DiskSpaceInGigabytes(disk.TotalSpace ?? 0);
-                disk.TotalSpace = Decimal.Truncate(formattedTotalSpace);
+                foreach (ManagementObject mo in queryCollection)
+                {
+                    Disk disk = new Disk();
+                    disk.DiskName = mo["Name"].ToString();
+                    disk.DeviceId = mo["DeviceID"].ToString();
+                    disk.SystemName = mo["SystemName"].ToString();
 
-                disk.UsedSpace = disk.TotalSpace - disk.FreeSpace;
+                    disk.FreeSpace = Convert.ToDecimal(mo["FreeSpace"]);
+                    var formattedFreeSpace = Helpers.DiskSpaceInGigabytes(disk.FreeSpace ?? 0);
+                    disk.FreeSpace = Decimal.Truncate(formattedFreeSpace);
 
-                var HDPercentageUsed = 100 - (100 * disk.FreeSpace / disk.TotalSpace);
-                disk.PercentageUsed = Convert.ToInt32(HDPercentageUsed);
-                diskinfo.Add(disk);
-            }
 
-            var winQuery = new ObjectQuery("select * from Win32_PerfFormattedData_PerfOS_Processor");
-            var searcherr = new ManagementObjectSearcher(winQuery);
+                    disk.TotalSpace = Convert.ToDecimal(mo["Size"]);
+                    var formattedTotalSpace = Helpers.DiskSpaceInGigabytes(disk.TotalSpace ?? 0);
+                    disk.TotalSpace = Decimal.Truncate(formattedTotalSpace);
 
-            foreach (var item in searcherr.Get())
-            {
-               
-                disk.CPU = Convert.ToString(item["PercentProcessorTime"]);           
-                diskinfo.Add(disk);
-            }
+                    disk.UsedSpace = disk.TotalSpace - disk.FreeSpace;
 
+                    // var HDPercentageUsed = 100 - (100 * disk.FreeSpace / disk.TotalSpace);
+                    // disk.PercentageUsed = Convert.ToInt32(HDPercentageUsed);
+                    diskinfo.Add(disk);
+                }
+
+           
             return diskinfo;
         }
-
       
     }
 }

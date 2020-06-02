@@ -18,6 +18,7 @@ namespace FBChecklist
         public Server()
         {
             this.Disks = new HashSet<Disk>();
+            this.Services = new HashSet<Service>();
         }
     
         public int ServerId { get; set; }
@@ -29,8 +30,11 @@ namespace FBChecklist
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<int> ApplicationId { get; set; }
+        public Nullable<int> HasClusteredDisks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Disk> Disks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

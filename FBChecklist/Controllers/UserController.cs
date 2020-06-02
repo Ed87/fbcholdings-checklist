@@ -91,7 +91,7 @@ namespace FBChecklist.Controllers
                         catch (Exception ex)
                         {
                             ExceptionLogger.SendErrorToText(ex);
-                            ViewBag.ErrorMessage = Common.Helpers.Messages.GENERAL_ERROR;
+                           
                             return View();
                         }
                     }
@@ -105,7 +105,7 @@ namespace FBChecklist.Controllers
             catch (Exception ex)
             {
                 ExceptionLogger.SendErrorToText(ex);
-                ViewBag.ErrorMessage = Common.Helpers.Messages.GENERAL_ERROR;
+                
                 return View();
             }
             return View();

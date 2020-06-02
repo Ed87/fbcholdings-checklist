@@ -16,11 +16,13 @@ namespace FBChecklist
     {
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
-        public string Url { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
-        public Nullable<int> IsActive { get; set; }
+        public Nullable<int> ServerId { get; set; }
+        public string ShortName { get; set; }
+    
+        public virtual Server Server { get; set; }
     }
 }

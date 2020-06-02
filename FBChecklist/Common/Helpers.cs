@@ -9,12 +9,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Mvc;
+using System.ServiceProcess;
 
 namespace FBChecklist.Common
 {
     public static class Helpers
     {
-
+       
         public class DownloadFile : Controller
         {
             private string _Url;
@@ -37,29 +38,7 @@ namespace FBChecklist.Common
         public static class Messages
         {
 
-            public static string JDMismatch = "This Job Title Does Not Belong to This Department ";
-            public static string BONUS_ALREADY_SET = "Already Configured Bonus For This Tax Year ";
-            public static string PASSWORD_CHANGE_SUCCESSFULL = "Password Has Been Changed Successfully. Next Login Use The New Password ";
-            public static string NoTitleChange = "There is no change with Employee's current Job Title";
-            public static string NoDepartmentChange = "There is no change with Employee's current Department";
-            public static string NoStationChange = "There is no change with Employee's current Work Station";
-            public static string INSUFFICIENTDAYS = "You Do Not Have Sufficient Leave Days, Your Annual Leave Balance Is ";
-            public static string INVALID_NUMBERING = "Invalid Numbering Of Days, Make Sure That Days Are Normally Arranged";
-            public static string AlreadyProcessSalaryForThisMonth = "Already Processd Salary For This Month";
-            public static string AlreadySubscribedToCredit = "Employee Already Subscribed to this Tax Concession";
-            public static string AlreadyProcessZimdefForThisMonth = "ZIMDEF Remittance Job Already Processed For This Month";
-            public static string AlreadyProcessSdfForThisMonth = "SDF Remittance Job Already Processed For This Month";
-            public static string AlreadyProcessBenefit = "Business Rule Violation ! Grade already configured for this Benefit Type";
-            public static string AlreadyProcessClaim = "Employee Already Has An Active Maintenance Claim";
-            public static string AgeViolation = "Age below 55 yrs! Employee not Eligible for this Credit";
-            public static string THRESHOLD_VIOLATION = "Claim Exceeds Threshold for thIs Employee.Input a Lower Amount";
-            public static string AlreadyProcessConcession = "Business Rule Violation ! Employee has reached Maximum Number of Tax Credit Claims";
-            public static string PayRunDateError = "You can Not process Payroll At This Time, Wait For The Approved Date";
-            public static string RECRUITMENT_REQUISITION_EXHASUSTED = "Number of recuits needed on this requisition code has been reached";
-            public static string INVALID_CREDENTIALS = "You have entered invalid credentials";
-            public static string ALREADY_APPLIED_FOR_SALARY_ADVANCE = "You have Already Made Application Which is Waiting For Approval, Please Relax";
-            public static string APPLICATION_IN_PROGRESS = "You have Already Made Application Which is Waiting For Approval, Please Relax";
-
+          
             public static string EMPTY_USERNAME_PASSWORD = "Empty username and/or password";
             public static string OPERATION_COMPLETED_SUCCESSFULLY = "Operation Completed Successfully";
             public static string WRONG_FULL_NAME_FORMAT = "Wrong full name format, it should be like " + "Samson Fiado" + " and avoid spaces";
@@ -71,18 +50,7 @@ namespace FBChecklist.Common
             public static string APPLICATION_CANT_BE_EDITED_AT_THIS_STAGE = "Application can not be edited at this stage,talk to your line manager";
             public static string ALREADY_APPLIED_FOR_LEAVE_GRANT_THIS_FISCAL_YEAR = "You have already applied for Leave Grant this financial year";
             public static string NOT_ELIGIBLE_FOR_LEAVE_GRANT = "You are not eligible for leave grant";
-            public static string GENERAL_ERROR = "Invalid Action!";
-            public static string SORT_OUT_SALARY_ADVANCE_ISSUE = "Sort out Salary Advance Issues First";
-            public static string LOAN_POLICY_VIOLATION_LIMIT_PERC = "Loan Policy Violation, Monthly Loan Deduction Superceed the Recommended ";
-            public static string ADVANCE_POLICY_VIOLATION_LIMIT_PERC = "Advance Policy Violation,Deduction Superceed the Recommended ";
-            public static string NoModeSelected = "Please Select Salary Adjustment Mode";
-            public static string NoEmployeeSelected = "Please Select Employee for Claim";
-            public static string NoPayCodeSelected = "Please Select Salary Pay Day Code";
-            public static string NotBusinessDay = "You cannot perform this action today. Transaction can only be done on a Working Day.";
-            public static string NoGradeBenefitSelected = "Missing Parameters ! Select both Benefit Type and Job Grade ";
-            public static string view { get; set; }
-            public static string TRAINING = "Development Training";
-            public static string SKILLSGAP = "Skills Gap";
+          
 
 
         }
@@ -98,14 +66,12 @@ namespace FBChecklist.Common
             return builder.ToString();
         }
 
-        //public static class ExtensionMethods
-        // {
+       
         public static int GetQuarter(this DateTime dt)
         {
             return (dt.Month - 1) / 3 + 1;
         }
-        // }
-
+      
 
         public struct TrainingReason
         {
@@ -147,16 +113,7 @@ namespace FBChecklist.Common
         public class parameters
         {
             public static int Total_Records_Per_Page_On_Search = Int32.MaxValue - 1;
-            public static string Married = "Married";
-            public static string Admin = "Admin";
-            public static string General = "SGM";
-            public static string SystemUser = "Index";
-            public static string SectionHead = "hos";
-            public static string DepartmentalHead = "hod";
-            public static string Administration = "HRAdmin";
-            public static string Executive = "exec";
-
-
+           
             //FileFormats
             public static int Pdf = 1;
             public static int Excel = 2;
@@ -164,7 +121,7 @@ namespace FBChecklist.Common
             public static int Html = 4;
             public static int Xml = 5;
             public static int IsAct = 2;
-
+            public static int ActiveDirectory = 22;
 
             //ActionTypes
             public static string DeleteAction = "DELETE";
@@ -172,52 +129,11 @@ namespace FBChecklist.Common
             public static string UpdateAction = "UPDATE";
             public static string ProcessAction = "PROCESS";
 
+            //Clustered Server Disk Settings
+            public static int hasClusteredDisks = 1;
+            public static int NoClusteredDisks = 2;
 
-
-
-
-            //Tx Credit params
-            //user roles strings
-            public static int user = 1;
-            public static int active = 1;
-
-            //CompensationParameters
-            public static String Taxable = "1";
-            public static String NotTaxable = "0";
-            public static String Active = "1";
-            public static String NotActive = "0";
-
-
-            //user roles strings
-            public static string userrole = "1";
-            public static string hosrole = "2";
-            public static string hodrole = "3";
-            public static string hradminrole = "4";
-            public static string execrole = "5";
-
-
-            public static int uncomplented = 1;
-            public static int fresh = 2;
-            public static int recommended = 3;
-            public static int NotRecommended = 3;
-            public static int approved = 3;
-            public static int rejected = 2;
-            public static int Cancelled = 6;
-
-
-
-
-
-            //system roles
-
-            public static int User = 1;
-            public static int sectionhead = 2;
-            public static int hraadmin = 1002;
-            public static int payrollmaster = 4;
-            public static int admin = 5;
-            public static int superadmin = 6;
-            public static int IHead = 1002;
-
+           
 
 
 
@@ -236,14 +152,7 @@ namespace FBChecklist.Common
                 new NotificationType("Memorandum","Memorandum")
             };
 
-            public static IEnumerable<Punishment> PUNISHMENTS = new List<Punishment>()
-            {
-                new Punishment("first Written Warning","first Written Warning"),
-                new Punishment("second Written Warning","second Written Warning"),
-                new Punishment("final Written Warning","final Written Warning"),
-                new Punishment("dismissal","dismissal")
-            };
-
+          
         }
         public static string ToSafeFileName(string s)
         {
@@ -276,8 +185,26 @@ namespace FBChecklist.Common
             }
         }
 
+        //Add System.ServiceProcess to access this
+        public static bool ServiceIsRunning(string ServiceName)
+        {           
+            ServiceController sc = new ServiceController();
+            sc.ServiceName = ServiceName;
 
+            if (sc.Status == ServiceControllerStatus.Running)
+            {
+                Console.WriteLine("Service is Up");
+                return true;
 
+            }
+            else
+            {
+                Console.WriteLine("Service is Down");
+                return false;
+            }
+        }
+
+       
         public static decimal DiskSpaceInGigabytes(decimal value)
         {
             const decimal BytesInGB = 1073741824;
@@ -300,19 +227,7 @@ namespace FBChecklist.Common
                 return false;
             }
         }
-        //public static DirectoryEntry GetDirectoryEntry()
-        //{
-        //    DirectoryEntry entry = new DirectoryEntry("LDAP://10.170.8.20:389/OU=FBC,DC=fbc,DC=corp", Convert.ToString(Session["Uname"], model.Password);
-        //    DirectoryEntry ldapConnection = new DirectoryEntry("FBC.CORP");
-        //    ldapConnection.Path = "LDAP://";
-        //    ldapConnection.Username = "Nyakudyap";// "Mashingat";
-        //    ldapConnection.Password = "legend45*";//"password1*"
-        //    ldapConnection.AuthenticationType = AuthenticationTypes.Secure;
-
-        //    //Login with user
-        //    object nativeObject = entry.NativeObject;
-        //    return entry;
-        //}
+       
 
 
         //Duplicates in NewBroker
@@ -325,25 +240,10 @@ namespace FBChecklist.Common
             return renamedFilePath;
         }
 
-        //public static class Extensions
-        //{
-        //    public static string ConvertToString(this char[] array)
-        //    {
-        //        return new string(array);
-        //    }
-        //}
-        // string s = array.ConvertToString();
+     
 
 
-        public static string CovertString(this char[] array)
-        {
-            //public static string ConvertToString(this char[] array)
-            //{
-            //    return new string(array);
-            //}
-            return new string(array);
-        }
-
+      
 
         public static int GetMonthDifference(DateTime startDate, DateTime endDate)
         {
@@ -467,7 +367,6 @@ namespace FBChecklist.Common
 
 
 
-        public static string Zimra = "Zimbabwe";
 
 
         public static string FormatName(string theName)

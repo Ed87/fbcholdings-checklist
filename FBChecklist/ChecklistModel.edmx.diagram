@@ -20,6 +20,7 @@
         <EntityTypeShape EntityType="Models.Disk" Width="1.5" PointX="5.625" PointY="0.75" />
         <AssociationConnector Association="Models.FK_Disk_App" />
         <AssociationConnector Association="Models.FK_Disk_Server" />
+        <AssociationConnector Association="Models.FK_Service_Server" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

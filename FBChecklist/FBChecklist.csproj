@@ -60,6 +60,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -198,10 +199,10 @@
     <Compile Include="Services\IDomainControllerService.cs" />
     <Compile Include="Services\IJobsService.cs" />
     <Compile Include="Services\IServersService.cs" />
-    <Compile Include="Services\IServicesService.cs" />
+    <Compile Include="Services\IServicesRepository.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\ServersService.cs" />
-    <Compile Include="Services\ServicesService.cs" />
+    <Compile Include="Services\ServicesRepository.cs" />
     <Compile Include="Services\WebLogicService.cs" />
     <Compile Include="ViewModels\DiskViewModel.cs" />
     <Compile Include="ViewModels\DomainControllerViewModel.cs" />

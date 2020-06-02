@@ -28,20 +28,6 @@ namespace FBChecklist.Controllers
             return View(serversService.GetAll());
         }
 
-        //// GET: Servers/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Server server = db.Servers.Find(id);
-        //    if (server == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(server);
-        //}
 
         private void PopulateLookups(ServerViewModel model)
         {

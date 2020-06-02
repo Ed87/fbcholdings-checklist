@@ -1,7 +1,8 @@
 ﻿using FBChecklist.Services;
+using FBChecklist.ViewModels;
 using System.Data.Entity;
-using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace FBChecklist.Controllers
@@ -9,34 +10,37 @@ namespace FBChecklist.Controllers
     public class ServicesController : Controller
     {
         private AppEntities db = new AppEntities();
-        private ServicesService servicesService;
+        private ServicesRepository servicesRepository;
 
 
-        public ServicesController(ServicesService servicesService)
+        public ServicesController(ServicesRepository servicesRepository)
         {
 
-            this.servicesService = servicesService;
+            this.servicesRepository = servicesRepository;
         }
 
-        public ServicesController() : this(new ServicesService())
+        public ServicesController() : this(new ServicesRepository())
         {
             //the framework calls this
         }
 
+
+
+
         // GET: Services
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.Services.ToList());
+            return View(await db.Services.ToListAsync());
         }
 
         // GET: Services/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = db.Services.Find(id);
+            Service service = await db.Services.FindAsync(id);
             if (service == null)
             {
                 return HttpNotFound();
@@ -47,32 +51,37 @@ namespace FBChecklist.Controllers
         // GET: Services/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new ServicesViewModel();
+            servicesRepository.GetServers(model);
+            return View(model);
         }
 
-        // POST: Services/Create      
+        // POST: Services/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ServiceName,Url,CreatedBy,CreatedOn")] Service service)
+        public ActionResult Create([Bind(Include = "ServiceId,ServerId,ServiceName,ShortName,CreatedBy,CreatedOn")] ServicesViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                servicesService.AddService(service);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                servicesRepository.GetServers(model);
+                return View(model);
             }
-
-            return View(service);
+            var service = new Service();
+            model.UpdateModel(service);
+            servicesRepository.AddService(service);
+            return RedirectToAction("Index");
         }
 
         // GET: Services/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = db.Services.Find(id);
+            Service service = await db.Services.FindAsync(id);
             if (service == null)
             {
                 return HttpNotFound();
@@ -85,25 +94,25 @@ namespace FBChecklist.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ServiceId,ServiceName,Url,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] Service service)
+        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Url,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,IsActive")] Service service)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(service).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(service);
         }
 
         // GET: Services/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = db.Services.Find(id);
+            Service service = await db.Services.FindAsync(id);
             if (service == null)
             {
                 return HttpNotFound();
@@ -114,11 +123,11 @@ namespace FBChecklist.Controllers
         // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Service service = db.Services.Find(id);
+            Service service = await db.Services.FindAsync(id);
             db.Services.Remove(service);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

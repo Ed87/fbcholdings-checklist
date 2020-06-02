@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace FBChecklist.ViewModels
 {
@@ -9,10 +10,10 @@ namespace FBChecklist.ViewModels
         {
             ServiceId = service.ServiceId;
             CreatedBy = service.CreatedBy;
-            Url = service.Url;
-            ServiceName = service.ServiceName;
-            IsActive = service.IsActive;
+            ServerId = service.ServerId;
+            ServiceName = service.ServiceName;         
             CreatedOn = service.CreatedOn;
+            ShortName = service.ShortName;
         }
 
         public ServicesViewModel()
@@ -20,20 +21,21 @@ namespace FBChecklist.ViewModels
         }
 
         public int ServiceId { get; set; }
-        public int? IsActive { get; set; }    
-        public string ServiceName { get; set; }
-        public string Url { get; set; }
+        public int? ServerId { get; set; }    
+        public string ServiceName { get; set; }       
         public string CreatedBy { get; set; }
+        public string ShortName { get; set; }
         public DateTime? CreatedOn { get; set; }
-       
+        public IEnumerable<SelectListItem> Servers { get; internal set; }
+
         public void UpdateModel(Service service)
         {
             service.ServiceId= ServiceId;
             service.ServiceName = ServiceName;
-            service.IsActive = IsActive;
-            service.Url = Url;
+            service.ServerId = ServerId;          
             service.CreatedBy = CreatedBy;
             service.CreatedOn = CreatedOn;
+            service.ShortName = ShortName;
         }
     }
 }

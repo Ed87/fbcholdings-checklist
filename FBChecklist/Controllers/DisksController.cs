@@ -1,4 +1,5 @@
-﻿using FBChecklist.Exceptions;
+﻿using FBChecklist.Common;
+using FBChecklist.Exceptions;
 using FBChecklist.Services;
 using FBChecklist.ViewModels;
 using System;
@@ -63,14 +64,14 @@ namespace FBChecklist.Controllers
             }
 
             //Get DropDown selected value
-            var selectedValue = Request.Form["ApplicationId"].ToString(); //this will get selected value
+            var selectedValue = Request.Form["ApplicationId"].ToString(); 
             var sv = Convert.ToInt32(selectedValue);
             Session["SelectedApp"] = sv;
             Session["ServerId"] = disksService.GetServerId(sv);
 
-            Session["Authority"] = disksService.GetAuthority(sv);
-            Session["Username"] = disksService.GetSuperUsername(sv);
-            Session["Password"] = disksService.GetSuperUserPassword(sv);
+            Session["Authority"] = disksService.GetAuthority(Helpers.parameters.ActiveDirectory);
+            Session["Username"] = disksService.GetSuperUsername(Helpers.parameters.ActiveDirectory);
+            Session["Password"] = disksService.GetSuperUserPassword(Helpers.parameters.ActiveDirectory);
             Session["ServerIP"] = disksService.GetServerIp(sv);
 
             var disk = new Disk();                  

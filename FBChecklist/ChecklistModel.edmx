@@ -113,6 +113,7 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="ApplicationId" Type="int" />
+          <Property Name="HasClusteredDisks" Type="int" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -120,12 +121,12 @@
           </Key>
           <Property Name="ServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Url" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
-          <Property Name="IsActive" Type="int" />
+          <Property Name="ServerId" Type="int" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="WebLogic">
           <Key>
@@ -150,6 +151,18 @@
             </Principal>
             <Dependent Role="Jobs">
               <PropertyRef Name="FrequencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Server">
+          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="ServerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -181,6 +194,10 @@
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Service_Server" Association="Self.FK_Service_Server">
+            <End Role="Server" EntitySet="Server" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
           <AssociationSet Name="FK_WebLogic_Health" Association="Self.FK_WebLogic_Health">
             <End Role="Health" EntitySet="Health" />
             <End Role="WebLogic" EntitySet="WebLogic" />
@@ -204,6 +221,8 @@
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="ApplicationId" Type="Int32" />
           <NavigationProperty Name="Disks" Relationship="Models.FK_Disk_Server" FromRole="Server" ToRole="Disk" />
+          <NavigationProperty Name="Services" Relationship="Models.FK_Service_Server" FromRole="Server" ToRole="Service" />
+          <Property Name="HasClusteredDisks" Type="Int32" />
         </EntityType>
         <EntityContainer Name="AppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Servers" EntityType="Self.Server" />
@@ -233,6 +252,10 @@
             <End Role="Server" EntitySet="Servers" />
             <End Role="Disk" EntitySet="Disks" />
           </AssociationSet>
+          <AssociationSet Name="FK_Service_Server" Association="Models.FK_Service_Server">
+            <End Role="Server" EntitySet="Servers" />
+            <End Role="Service" EntitySet="Services" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -253,12 +276,13 @@
           </Key>
           <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Int32" />
+          <Property Name="ServerId" Type="Int32" />
+          <NavigationProperty Name="Server" Relationship="Models.FK_Service_Server" FromRole="Service" ToRole="Server" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Credential">
           <Key>
@@ -411,6 +435,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Service_Server">
+          <End Type="Models.Server" Role="Server" Multiplicity="0..1" />
+          <End Type="Models.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -420,6 +456,7 @@
           <EntitySetMapping Name="Servers">
             <EntityTypeMapping TypeName="Models.Server">
               <MappingFragment StoreEntitySet="Server">
+                <ScalarProperty Name="HasClusteredDisks" ColumnName="HasClusteredDisks" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="ServerIp" ColumnName="ServerIp" />
@@ -448,12 +485,12 @@
           <EntitySetMapping Name="Services">
             <EntityTypeMapping TypeName="Models.Service">
               <MappingFragment StoreEntitySet="Service">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
               </MappingFragment>
