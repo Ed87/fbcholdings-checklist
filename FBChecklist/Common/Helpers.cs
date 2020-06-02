@@ -133,7 +133,7 @@ namespace FBChecklist.Common
             public static int hasClusteredDisks = 1;
             public static int NoClusteredDisks = 2;
 
-           
+          
 
 
 
@@ -184,6 +184,21 @@ namespace FBChecklist.Common
                 return null;//could also throw an exception if you wanted.
             }
         }
+
+        public static bool HasClusteredDisks(int status)
+        {
+            int hasClusteredDisks = 1;
+            if (status == hasClusteredDisks)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
 
         //Add System.ServiceProcess to access this
         public static bool ServiceIsRunning(string ServiceName)

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using System.Management.Automation;
 using System.Web.Mvc;
 
 namespace FBChecklist.Services
@@ -119,7 +120,7 @@ namespace FBChecklist.Services
                  entity.FreeSpace = di.FreeSpace;
                  entity.TotalSpace = di.TotalSpace;
                  entity.UsedSpace = di.UsedSpace;
-                 //entity.PercentageUsed = di.PercentageUsed;
+                 entity.PercentageUsed = di.PercentageUsed;
                  entity.RunDate = DateTime.Now;
                  //entity.CPU = di.CPU;                
                  entity.ServerId = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerId"]);
@@ -136,8 +137,46 @@ namespace FBChecklist.Services
             List<Disk> diskinfo = new List<Disk>();
 
             var serverIP = Convert.ToString(System.Web.HttpContext.Current.Session["ServerIP"]);
+            var clusterDisksStatus = CheckForClusteredDisks(serverIP);
 
-        
+            if (Helpers.HasClusteredDisks(clusterDisksStatus))
+            {
+                string getClusterSharedVolumesStatistics = "get-WmiObject win32_logicaldisk -Computername " + serverIP + "";
+                PowerShell ps = PowerShell.Create();              
+                ps.AddScript(getClusterSharedVolumesStatistics);
+                var results = ps.Invoke();
+
+                foreach (var psobject in results)
+                {
+
+                    if (psobject != null)
+                    {
+                        Disk clusteredDisk = new Disk();
+                        clusteredDisk.DiskName = Convert.ToString(psobject.Members["DeviceID"].Value);
+
+                        clusteredDisk.FreeSpace = Convert.ToDecimal(psobject.Members["FreeSpace"].Value);
+                        var formattedFreeSpace = Helpers.DiskSpaceInGigabytes(clusteredDisk.FreeSpace ?? 0);
+                        clusteredDisk.FreeSpace = Decimal.Truncate(formattedFreeSpace);
+
+
+                        clusteredDisk.TotalSpace = Convert.ToDecimal(psobject.Members["Size"].Value);
+                        var formattedTotalSpace = Helpers.DiskSpaceInGigabytes(clusteredDisk.TotalSpace ?? 0);
+                        clusteredDisk.TotalSpace = Decimal.Truncate(formattedTotalSpace);
+
+                        clusteredDisk.UsedSpace = clusteredDisk.TotalSpace - clusteredDisk.FreeSpace;
+                        clusteredDisk.VolumeName = Convert.ToString(psobject.Members["VolumeName"].Value);
+
+                        diskinfo.Add(clusteredDisk);
+                    }
+
+                  
+
+                }
+            }
+
+            else
+            {
+
                 //Add System.Management to access these utilities
                 ConnectionOptions options = new ConnectionOptions
                 {
@@ -155,30 +194,42 @@ namespace FBChecklist.Services
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
                 ManagementObjectCollection queryCollection = searcher.Get();
 
-                foreach (ManagementObject mo in queryCollection)
+                try
                 {
-                    Disk disk = new Disk();
-                    disk.DiskName = mo["Name"].ToString();
-                    disk.DeviceId = mo["DeviceID"].ToString();
-                    disk.SystemName = mo["SystemName"].ToString();
 
-                    disk.FreeSpace = Convert.ToDecimal(mo["FreeSpace"]);
-                    var formattedFreeSpace = Helpers.DiskSpaceInGigabytes(disk.FreeSpace ?? 0);
-                    disk.FreeSpace = Decimal.Truncate(formattedFreeSpace);
+                    foreach (ManagementObject mo in queryCollection)
+                    {
+
+                       
+                        Disk disk = new Disk();
+                        disk.DiskName = mo["Name"].ToString();
+                        disk.DeviceId = mo["DeviceID"].ToString();
+                        disk.SystemName = mo["SystemName"].ToString();
+
+                        disk.FreeSpace = Convert.ToDecimal(mo["FreeSpace"]);
+                        var formattedFreeSpace = Helpers.DiskSpaceInGigabytes(disk.FreeSpace ?? 0);
+                        disk.FreeSpace = Decimal.Truncate(formattedFreeSpace);
 
 
-                    disk.TotalSpace = Convert.ToDecimal(mo["Size"]);
-                    var formattedTotalSpace = Helpers.DiskSpaceInGigabytes(disk.TotalSpace ?? 0);
-                    disk.TotalSpace = Decimal.Truncate(formattedTotalSpace);
+                        disk.TotalSpace = Convert.ToDecimal(mo["Size"]);
+                        var formattedTotalSpace = Helpers.DiskSpaceInGigabytes(disk.TotalSpace ?? 0);
+                        disk.TotalSpace = Decimal.Truncate(formattedTotalSpace);
 
-                    disk.UsedSpace = disk.TotalSpace - disk.FreeSpace;
+                        disk.UsedSpace = disk.TotalSpace - disk.FreeSpace;
 
-                    // var HDPercentageUsed = 100 - (100 * disk.FreeSpace / disk.TotalSpace);
-                    // disk.PercentageUsed = Convert.ToInt32(HDPercentageUsed);
-                    diskinfo.Add(disk);
+                        var HDPercentageUsed = 100 - (100 * disk.FreeSpace / disk.TotalSpace);
+                        disk.PercentageUsed = Convert.ToInt32(HDPercentageUsed);
+                        diskinfo.Add(disk);
+                    }
                 }
 
-           
+                catch (DivideByZeroException ex)
+                {
+
+                    ExceptionLogger.SendErrorToText(ex);
+                }
+
+            }
             return diskinfo;
         }
       
