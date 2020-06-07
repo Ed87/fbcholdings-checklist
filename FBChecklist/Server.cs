@@ -19,6 +19,7 @@ namespace FBChecklist
         {
             this.Disks = new HashSet<Disk>();
             this.Services = new HashSet<Service>();
+            this.ServiceMonitors = new HashSet<ServiceMonitor>();
         }
     
         public int ServerId { get; set; }
@@ -36,5 +37,7 @@ namespace FBChecklist
         public virtual ICollection<Disk> Disks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Service> Services { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceMonitor> ServiceMonitors { get; set; }
     }
 }

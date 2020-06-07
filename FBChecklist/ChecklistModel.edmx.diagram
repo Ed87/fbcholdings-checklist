@@ -17,10 +17,15 @@
         <EntityTypeShape EntityType="Models.WebLogic" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="Models.Health" Width="1.5" PointX="1.125" PointY="8.5" />
         <AssociationConnector Association="Models.FK_WebLogic_Health" />
-        <EntityTypeShape EntityType="Models.Disk" Width="1.5" PointX="5.625" PointY="0.75" />
+        <EntityTypeShape EntityType="Models.Disk" Width="1.5" PointX="11.25" PointY="0.875" />
         <AssociationConnector Association="Models.FK_Disk_App" />
         <AssociationConnector Association="Models.FK_Disk_Server" />
         <AssociationConnector Association="Models.FK_Service_Server" />
+        <AssociationConnector Association="Models.FK_Service_Application" />
+        <EntityTypeShape EntityType="Models.ServiceMonitor" Width="1.5" PointX="9.625" PointY="2.625" />
+        <AssociationConnector Association="Models.FK_ServiceTracker_Application1" />
+        <AssociationConnector Association="Models.FK_ServiceTracker_Server1" />
+        <AssociationConnector Association="Models.FK_ServiceTracker_Service1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

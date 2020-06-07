@@ -1,8 +1,10 @@
 ﻿using FBChecklist.Services;
 using FBChecklist.ViewModels;
+using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace FBChecklist.Controllers
@@ -15,7 +17,6 @@ namespace FBChecklist.Controllers
 
         public ServicesController(ServicesRepository servicesRepository)
         {
-
             this.servicesRepository = servicesRepository;
         }
 
@@ -26,21 +27,32 @@ namespace FBChecklist.Controllers
 
 
 
-
         // GET: Services
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Services.ToListAsync());
+            //return View(db.Services.ToList());
+            var services = db.Services.Include(s => s.Server).Include(s => s.Application);
+            return View(services.ToList());
+        }
+
+
+        // GET: ServicesStatus
+        public ActionResult ServiceStatus()
+        {
+            DateTime date = DateTime.Today;
+            var services = db.ServiceMonitors.Include(d => d.Application).Include(d => d.Server).Include(d =>d.Service)
+                            .Where(d => EntityFunctions.TruncateTime(d.RunDate) == date);
+            return View(services.ToList());
         }
 
         // GET: Services/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
+            Service service = db.Services.Find(id);
             if (service == null)
             {
                 return HttpNotFound();
@@ -52,22 +64,28 @@ namespace FBChecklist.Controllers
         public ActionResult Create()
         {
             var model = new ServicesViewModel();
-            servicesRepository.GetServers(model);
+            // servicesRepository.GetServers(model);
+            servicesRepository.GetApps(model);
             return View(model);
         }
 
-        // POST: Services/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ServiceId,ServerId,ServiceName,ShortName,CreatedBy,CreatedOn")] ServicesViewModel model)
+        public ActionResult Create([Bind(Include = "ServiceId,ServiceName,CreatedBy,CreatedOn,ServerId,ShortName,ApplicationId")] ServicesViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                servicesRepository.GetServers(model);
+                // servicesRepository.GetServers(model);
+                servicesRepository.GetApps(model);
                 return View(model);
             }
+
+            var selectedValue = Request.Form["ApplicationId"].ToString();
+            var sv = Convert.ToInt32(selectedValue);
+            Session["SelectedApp"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+
             var service = new Service();
             model.UpdateModel(service);
             servicesRepository.AddService(service);
@@ -75,44 +93,46 @@ namespace FBChecklist.Controllers
         }
 
         // GET: Services/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
+            Service service = db.Services.Find(id);
             if (service == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.ServerId = new SelectList(db.Servers, "ServerId", "ServerIp", service.ServerId);
+            ViewBag.ApplicationId = new SelectList(db.Applications, "ApplicationId", "ApplicationName", service.ApplicationId);
             return View(service);
         }
 
-        // POST: Services/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Url,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,IsActive")] Service service)
+        public ActionResult Edit([Bind(Include = "ServiceId,ServiceName,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,ServerId,ShortName,ApplicationId")] Service service)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(service).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ServerId = new SelectList(db.Servers, "ServerId", "ServerIp", service.ServerId);
+            ViewBag.ApplicationId = new SelectList(db.Applications, "ApplicationId", "ApplicationName", service.ApplicationId);
             return View(service);
         }
 
         // GET: Services/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
+            Service service = db.Services.Find(id);
             if (service == null)
             {
                 return HttpNotFound();
@@ -123,13 +143,46 @@ namespace FBChecklist.Controllers
         // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Service service = await db.Services.FindAsync(id);
+            Service service = db.Services.Find(id);
             db.Services.Remove(service);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult QueryService()
+        {
+            var model = new ServiceMonitorViewModel();
+            servicesRepository.GetApps(model);
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult QueryService([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                servicesRepository.GetApps(model);
+                return View(model);
+            }
+
+            var selectedValue = Request.Form["ApplicationId"].ToString();
+            var sv = Convert.ToInt32(selectedValue);
+            Session["SelectedApplication"] = sv;
+
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("Index");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

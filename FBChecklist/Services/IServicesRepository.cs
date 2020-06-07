@@ -2,11 +2,15 @@
 
 namespace FBChecklist.Services
 {
-    interface IServicesRepository<TEntity>
+    interface IServicesRepository
     {
-        void AddService(TEntity entity);
+        void AddService(Service entity);
 
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<Service> GetAll();
+
+       
+
+        void AddServiceMonitor(ServiceMonitor entity);
 
     }
 }

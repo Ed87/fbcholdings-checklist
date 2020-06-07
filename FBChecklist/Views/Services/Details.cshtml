@@ -20,14 +20,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Url)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Url)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.CreatedBy)
         </dt>
 
@@ -60,11 +52,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
+            @Html.DisplayNameFor(model => model.ShortName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsActive)
+            @Html.DisplayFor(model => model.ShortName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Server.ServerIp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Server.ServerIp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.ApplicationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.ApplicationName)
         </dd>
 
     </dl>

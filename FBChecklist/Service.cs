@@ -14,6 +14,12 @@ namespace FBChecklist
     
     public partial class Service
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Service()
+        {
+            this.ServiceMonitors = new HashSet<ServiceMonitor>();
+        }
+    
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
         public string CreatedBy { get; set; }
@@ -22,7 +28,11 @@ namespace FBChecklist
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<int> ServerId { get; set; }
         public string ShortName { get; set; }
+        public Nullable<int> ApplicationId { get; set; }
     
         public virtual Server Server { get; set; }
+        public virtual Application Application { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceMonitor> ServiceMonitors { get; set; }
     }
 }

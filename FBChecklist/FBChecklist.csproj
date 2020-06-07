@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Models\Links2.cs" />
     <Compile Include="Models\Root.cs" />
+    <Compile Include="Models\ServiceDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
@@ -194,6 +195,9 @@
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Service.cs">
+      <DependentUpon>ChecklistModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceMonitor.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Services\DisksService.cs" />
@@ -213,6 +217,7 @@
     <Compile Include="ViewModels\JobViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerViewModel.cs" />
+    <Compile Include="ViewModels\ServiceMonitorViewModel.cs" />
     <Compile Include="ViewModels\ServicesViewModel.cs" />
     <Compile Include="WebLogic.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
@@ -423,11 +428,6 @@
     <Content Include="Views\Servers\Edit.cshtml" />
     <Content Include="Views\Servers\Index.cshtml" />
     <Content Include="Views\Servers\Create.cshtml" />
-    <Content Include="Views\Services\Create.cshtml" />
-    <Content Include="Views\Services\Delete.cshtml" />
-    <Content Include="Views\Services\Details.cshtml" />
-    <Content Include="Views\Services\Edit.cshtml" />
-    <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Jobs\Create.cshtml" />
     <Content Include="Views\Jobs\Delete.cshtml" />
     <Content Include="Views\Jobs\Details.cshtml" />
@@ -447,6 +447,13 @@
     <Content Include="Views\Disks\Edit.cshtml" />
     <Content Include="Views\Disks\Index.cshtml" />
     <Content Include="Views\Disks\QueryDiskInformation.cshtml" />
+    <Content Include="Views\Services\Create.cshtml" />
+    <Content Include="Views\Services\Delete.cshtml" />
+    <Content Include="Views\Services\Details.cshtml" />
+    <Content Include="Views\Services\Edit.cshtml" />
+    <Content Include="Views\Services\Index.cshtml" />
+    <Content Include="Views\Services\QueryService.cshtml" />
+    <Content Include="Views\Services\ServiceStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

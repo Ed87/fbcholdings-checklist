@@ -16,6 +16,7 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="Url" Type="nvarchar" MaxLength="100" />
+          <Property Name="HasServices" Type="int" />
         </EntityType>
         <EntityType Name="Credential">
           <Key>
@@ -120,13 +121,27 @@
             <PropertyRef Name="ServiceId" />
           </Key>
           <Property Name="ServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="ServerId" Type="int" />
-          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ApplicationId" Type="int" />
+        </EntityType>
+        <EntityType Name="ServiceMonitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" />
+          <Property Name="ServiceId" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="RunDate" Type="datetime" />
+          <Property Name="ServerId" Type="int" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="WebLogic">
           <Key>
@@ -154,6 +169,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Service_Application">
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Service_Server">
           <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
           <End Role="Service" Type="Self.Service" Multiplicity="*" />
@@ -163,6 +190,42 @@
             </Principal>
             <Dependent Role="Service">
               <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceTracker_Application">
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="ServiceMonitor" Type="Self.ServiceMonitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="ServiceMonitor">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceTracker_Server">
+          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
+          <End Role="ServiceMonitor" Type="Self.ServiceMonitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="ServiceMonitor">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceTracker_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="ServiceMonitor" Type="Self.ServiceMonitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="ServiceMonitor">
+              <PropertyRef Name="ServiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -189,14 +252,31 @@
           <EntitySet Name="Scheduler" EntityType="Self.Scheduler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Server" EntityType="Self.Server" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceMonitor" EntityType="Self.ServiceMonitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Service_Application" Association="Self.FK_Service_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
           <AssociationSet Name="FK_Service_Server" Association="Self.FK_Service_Server">
             <End Role="Server" EntitySet="Server" />
             <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceTracker_Application" Association="Self.FK_ServiceTracker_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="ServiceMonitor" EntitySet="ServiceMonitor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceTracker_Server" Association="Self.FK_ServiceTracker_Server">
+            <End Role="Server" EntitySet="Server" />
+            <End Role="ServiceMonitor" EntitySet="ServiceMonitor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceTracker_Service" Association="Self.FK_ServiceTracker_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServiceMonitor" EntitySet="ServiceMonitor" />
           </AssociationSet>
           <AssociationSet Name="FK_WebLogic_Health" Association="Self.FK_WebLogic_Health">
             <End Role="Health" EntitySet="Health" />
@@ -223,6 +303,7 @@
           <NavigationProperty Name="Disks" Relationship="Models.FK_Disk_Server" FromRole="Server" ToRole="Disk" />
           <NavigationProperty Name="Services" Relationship="Models.FK_Service_Server" FromRole="Server" ToRole="Service" />
           <Property Name="HasClusteredDisks" Type="Int32" />
+          <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Server1" FromRole="Server" ToRole="ServiceMonitor" />
         </EntityType>
         <EntityContainer Name="AppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Servers" EntityType="Self.Server" />
@@ -256,6 +337,23 @@
             <End Role="Server" EntitySet="Servers" />
             <End Role="Service" EntitySet="Services" />
           </AssociationSet>
+          <AssociationSet Name="FK_Service_Application" Association="Models.FK_Service_Application">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Service" EntitySet="Services" />
+          </AssociationSet>
+          <EntitySet Name="ServiceMonitors" EntityType="Models.ServiceMonitor" />
+          <AssociationSet Name="FK_ServiceTracker_Application1" Association="Models.FK_ServiceTracker_Application1">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="ServiceMonitor" EntitySet="ServiceMonitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceTracker_Server1" Association="Models.FK_ServiceTracker_Server1">
+            <End Role="Server" EntitySet="Servers" />
+            <End Role="ServiceMonitor" EntitySet="ServiceMonitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceTracker_Service1" Association="Models.FK_ServiceTracker_Service1">
+            <End Role="Service" EntitySet="Services" />
+            <End Role="ServiceMonitor" EntitySet="ServiceMonitors" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -269,20 +367,26 @@
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Disks" Relationship="Models.FK_Disk_App" FromRole="Application" ToRole="Disk" />
+          <NavigationProperty Name="Services" Relationship="Models.FK_Service_Application" FromRole="Application" ToRole="Service" />
+          <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Application1" FromRole="Application" ToRole="ServiceMonitor" />
+          <Property Name="HasServices" Type="Int32" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="ServiceId" />
           </Key>
           <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="ServerId" Type="Int32" />
           <NavigationProperty Name="Server" Relationship="Models.FK_Service_Server" FromRole="Service" ToRole="Server" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <NavigationProperty Name="Application" Relationship="Models.FK_Service_Application" FromRole="Service" ToRole="Application" />
+          <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Service1" FromRole="Service" ToRole="ServiceMonitor" />
         </EntityType>
         <EntityType Name="Credential">
           <Key>
@@ -447,6 +551,70 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Service_Application">
+          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
+          <End Type="Models.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ServiceMonitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <Property Name="ServiceId" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
+          <Property Name="ServerId" Type="Int32" />
+          <NavigationProperty Name="Application" Relationship="Models.FK_ServiceTracker_Application1" FromRole="ServiceMonitor" ToRole="Application" />
+          <NavigationProperty Name="Server" Relationship="Models.FK_ServiceTracker_Server1" FromRole="ServiceMonitor" ToRole="Server" />
+          <NavigationProperty Name="Service" Relationship="Models.FK_ServiceTracker_Service1" FromRole="ServiceMonitor" ToRole="Service" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_ServiceTracker_Application1">
+          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
+          <End Type="Models.ServiceMonitor" Role="ServiceMonitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="ServiceMonitor">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceTracker_Server1">
+          <End Type="Models.Server" Role="Server" Multiplicity="0..1" />
+          <End Type="Models.ServiceMonitor" Role="ServiceMonitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="ServiceMonitor">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceTracker_Service1">
+          <End Type="Models.Service" Role="Service" Multiplicity="0..1" />
+          <End Type="Models.ServiceMonitor" Role="ServiceMonitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ServiceId" />
+            </Principal>
+            <Dependent Role="ServiceMonitor">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -472,6 +640,7 @@
           <EntitySetMapping Name="Applications">
             <EntityTypeMapping TypeName="Models.Application">
               <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="HasServices" ColumnName="HasServices" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -485,6 +654,7 @@
           <EntitySetMapping Name="Services">
             <EntityTypeMapping TypeName="Models.Service">
               <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
@@ -598,6 +768,20 @@
                 <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="DiskId" ColumnName="DiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceMonitors">
+            <EntityTypeMapping TypeName="Models.ServiceMonitor">
+              <MappingFragment StoreEntitySet="ServiceMonitor">
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

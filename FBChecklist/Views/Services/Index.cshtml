@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<FBChecklist.Service>
-
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout2.cshtml";
@@ -13,7 +12,7 @@
                 <a href="#">Infrastructure</a>
             </li>
 
-            <li class="active">View Servers</li>
+            <li class="active">View Services</li>
         </ul><!-- /.breadcrumb -->
 
         <div class="nav-search" id="nav-search">
@@ -93,7 +92,7 @@
             </div><!-- /.ace-settings-box -->
         </div><!-- /.ace-settings-container -->
         <div class="page-header">
-            <h1>Servers</h1>
+            <h1>Services</h1>
         </div>
         <p>
 
@@ -117,16 +116,18 @@
                                                     </div>
 
                                                     <div class="table-header">
-                                                        Results for "Servers"
+                                                        Results for "Services"
                                                     </div>
 
                                                     <table id="simple-table" class="table  table-bordered table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>Process Name</th>
                                                                 <th>Service Name</th>
+                                                                <th>Process Name</th>
+                                                                <th>Application</th>
+                                                                <th>Server/th>
                                                                 <th>Created On</th>
-                                                                <th>Running On</th>
+
                                                                 @*<th>Action</th>*@
                                                             </tr>
                                                         </thead>
@@ -145,8 +146,10 @@
                                                                     <tr>
                                                                         <td>@Html.DisplayFor(modelItem => item.ServiceName) </td>
                                                                         <td>@Html.DisplayFor(modelItem => item.ShortName) </td>
-                                                                        <td>@Html.DisplayFor(modelItem => item.CreatedOn) </td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Application.ApplicationName)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Server.ServerIp)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.CreatedOn) </td>
+
                                                                         @*<td> <span class="label label-success arrowed-in arrowed-in-right">@Html.DisplayFor(modelItem => item.Status)</span></td>*@
                                                                         <td>
 
@@ -189,3 +192,4 @@
         });
     </script>
 }
+

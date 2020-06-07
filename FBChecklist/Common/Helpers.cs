@@ -123,6 +123,9 @@ namespace FBChecklist.Common
             public static int IsAct = 2;
             public static int ActiveDirectory = 22;
 
+            //FileFormats
+            public static int HasServices = 1;
+
             //ActionTypes
             public static string DeleteAction = "DELETE";
             public static string CreateAction = "CREATE";
@@ -201,7 +204,7 @@ namespace FBChecklist.Common
 
 
         //Add System.ServiceProcess to access this
-        public static bool ServiceIsRunning(string ServiceName)
+        public static bool IsServiceRunning(string ServiceName)
         {           
             ServiceController sc = new ServiceController();
             sc.ServiceName = ServiceName;

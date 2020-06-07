@@ -1,11 +1,10 @@
-﻿@model FBChecklist.ViewModels.ServicesViewModel
-
+﻿@model FBChecklist.ViewModels.ServiceMonitorViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "QueryService";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-@using (Html.BeginForm("Create", "Services", FormMethod.Post))
+@using (Html.BeginForm("QueryService", "Services", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="main-content-inner">
@@ -16,7 +15,7 @@
                     <a href="#">Infrastructure</a>
                 </li>
 
-                <li class="active">Add Service</li>
+                <li class="active">Check Services</li>
             </ul><!-- /.breadcrumb -->
 
             <div class="nav-search" id="nav-search">
@@ -96,7 +95,7 @@
                     </div><!-- /.pull-left -->
                 </div><!-- /.ace-settings-box -->
             </div><!-- /.ace-settings-container -->
-            <h4 class="box-title">Add Service</h4>
+            <h4 class="box-title">Check Application Services</h4>
             <div class="hr hr-16 hr-dotted"></div>
             <div class="text-success">@ViewBag.SuccessMessage</div>
             <div class="error">@ViewBag.ErrorMessage</div>
@@ -123,40 +122,7 @@
                                                                     </span>
                                                                 </div>
                                                             </div>
-                                                            @*<div class="space-4"></div>
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Server</label>
-
-                                                                    <div class="col-sm-9">
-                                                                        <span class="input-icon">
-                                                                            @Html.DropDownListFor(x => Model.ServerId, new SelectList(Model.Servers, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Country" })
-                                                                            @Html.ValidationMessageFor(x => x.ServerId, "", new { @class = "text-danger" })
-                                                                        </span>
-                                                                    </div>
-                                                                </div>*@
-                                                            <div class="form-group">
-                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Service Name</label>
-
-                                                                <div class="col-sm-9">
-                                                                    <span class="input-icon">
-                                                                        @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
-                                                                        @Html.ValidationMessageFor(model => model.ServiceName, "", new { @class = "text-danger" })
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="space-4"></div>
-                                                            <div class="form-group">
-                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Short Name</label>
-
-                                                                <div class="col-sm-9">
-                                                                    <span class="input-icon">
-                                                                        @Html.EditorFor(model => model.ShortName, new { htmlAttributes = new { @class = "form-control" } })
-                                                                        @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-
+                                                          
                                                             <div class="">
                                                                 <div class="col-md-offset-3 col-md-9">
                                                                     <input type="submit" value="Save" class="btn btn-sm btn-success" />
