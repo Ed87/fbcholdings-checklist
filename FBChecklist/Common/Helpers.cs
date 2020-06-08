@@ -10,6 +10,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Mvc;
 using System.ServiceProcess;
+using System.Management;
+using static FBChecklist.Common.ServicesManager;
 
 namespace FBChecklist.Common
 {
@@ -201,6 +203,46 @@ namespace FBChecklist.Common
             }
         }
 
+        public static ServiceState GetServiceState(string svcName)
+        {
+            ServiceState toReturn = ServiceState.Stopped;
+            string _state = string.Empty;
+            string objPath = string.Format("Win32_Service.Name='{0}'", svcName);
+            using (ManagementObject service = new ManagementObject(new ManagementPath(objPath)))
+            {
+                try
+                {
+                    _state = service.Properties["State"].Value.ToString().Trim();
+                    switch (_state)
+                    {
+                        case "Running":
+                            toReturn = ServiceState.Running;
+                            break;
+                        case "Stopped":
+                            toReturn = ServiceState.Stopped;
+                            break;
+                        case "Paused":
+                            toReturn = ServiceState.Paused;
+                            break;
+                        case "Start Pending":
+                            toReturn = ServiceState.StartPending;
+                            break;
+                        case "Stop Pending":
+                            toReturn = ServiceState.StopPending;
+                            break;
+                        case "Continue Pending":
+                            toReturn = ServiceState.ContinuePending;
+                            break;
+                        case "Pause Pending":
+                            toReturn = ServiceState.PausePending;
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                { throw ex; }
+            }
+            return toReturn;
+        }
 
 
         //Add System.ServiceProcess to access this

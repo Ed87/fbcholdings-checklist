@@ -149,7 +149,7 @@ namespace FBChecklist.Services
 
                     if (Helpers.IsServiceRunning(service))
                     {
-                        svc.ServiceName= service;
+                        svc.ServiceName = service;
                         svc.Status = "Started";
                         foreach (var svcId in serviceIds)
                         {
