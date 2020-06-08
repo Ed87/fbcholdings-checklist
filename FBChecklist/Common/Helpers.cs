@@ -203,12 +203,31 @@ namespace FBChecklist.Common
             }
         }
 
-        public static ServiceState GetServiceState(string svcName)
+        public static ServiceState GetServiceState(string serviceName)
         {
+            var serverIP = Convert.ToString(System.Web.HttpContext.Current.Session["ServerIP"]);
+
+            ConnectionOptions options = new ConnectionOptions
+            {
+
+                Username = Convert.ToString(System.Web.HttpContext.Current.Session["Username"]),
+                Password = Convert.ToString(System.Web.HttpContext.Current.Session["Password"]),
+                
+            };
+
+            //root - root of the tree, cimv2 - version           
+            ManagementScope scope = new ManagementScope("\\\\" + serverIP + "\\root\\CIMV2", options);
+            scope.Connect();
+
             ServiceState toReturn = ServiceState.Stopped;
             string _state = string.Empty;
-            string objPath = string.Format("Win32_Service.Name='{0}'", svcName);
-            using (ManagementObject service = new ManagementObject(new ManagementPath(objPath)))
+            SelectQuery query = new SelectQuery("select * from Win32_Service where name = '" + serviceName + "'");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
+            ManagementObjectCollection queryCollection = searcher.Get();
+
+
+
+            foreach (ManagementObject service in queryCollection)
             {
                 try
                 {
@@ -243,7 +262,6 @@ namespace FBChecklist.Common
             }
             return toReturn;
         }
-
 
         //Add System.ServiceProcess to access this
         public static bool IsServiceRunning(string ServiceName)

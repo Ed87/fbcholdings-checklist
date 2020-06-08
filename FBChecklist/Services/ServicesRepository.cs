@@ -53,6 +53,31 @@ namespace FBChecklist.Services
             return serverIp.ToString();
         }
 
+        public string GetAuthority(int AppId)
+        {
+            var authority = (from c in appEntities.Credentials
+                             where c.ApplicationId == AppId
+                             select c.Reference).FirstOrDefault();
+            return authority.ToString();
+        }
+
+
+        public string GetSuperUserPassword(int AppId)
+        {
+            var password = (from c in appEntities.Credentials
+                            where c.ApplicationId == AppId
+                            select c.Password).FirstOrDefault();
+            return password.ToString();
+        }
+
+        public string GetSuperUsername(int AppId)
+        {
+            var username = (from c in appEntities.Credentials
+                            where c.ApplicationId == AppId
+                            select c.Username).FirstOrDefault();
+            return username.ToString();
+        }
+
 
 
         public void AddServiceMonitor(ServiceMonitor entity)
@@ -145,7 +170,7 @@ namespace FBChecklist.Services
 
             List<string> services = (List<string>)HttpContext.Current.Session["Services"];
 
-            var serverIP = Convert.ToInt32(HttpContext.Current.Session["ServiceIds"]);
+            var serverIP = Convert.ToInt32(HttpContext.Current.Session["ServiceIP"]);
                       
             try
             {
@@ -158,29 +183,16 @@ namespace FBChecklist.Services
 
                     var svc = new ServiceMonitor();
 
-                    if (Helpers.IsServiceRunning(service))
+                    svc.Status =Helpers.GetServiceState(service).ToString();
+                    svc.ServiceName = service;  
+                    
+                    foreach (var svcId in serviceIds)
                     {
-                        svc.ServiceName = service;
-                        svc.Status = "Started";
-                        foreach (var svcId in serviceIds)
-                        {
-                            svc.ServiceId = svcId;
-                        }
+                        svc.ServiceId = svcId;
                     }
-
-                    else
-                    {
-                        svc.ServiceName = service;
-                        svc.Status = "Stopped";
-                        foreach (var svcId in serviceIds)
-                        {
-                            svc.ServiceId = svcId;
-                        }
-                    }
-
+                  
                     serviceinfo.Add(svc);
                 }
-
 
                 }
 
