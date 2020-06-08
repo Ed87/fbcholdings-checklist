@@ -44,6 +44,17 @@ namespace FBChecklist.Services
             return serverId.ToString();
         }
 
+        public string GetServerIp(int AppId)
+        {
+
+            var serverIp = (from c in appEntities.Servers
+                            where c.ApplicationId == AppId
+                            select c.ServerIp).FirstOrDefault();
+            return serverIp.ToString();
+        }
+
+
+
         public void AddServiceMonitor(ServiceMonitor entity)
         {
             var AppId = Convert.ToInt32(HttpContext.Current.Session["AppId"]);

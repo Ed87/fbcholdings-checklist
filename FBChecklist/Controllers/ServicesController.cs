@@ -174,7 +174,7 @@ namespace FBChecklist.Controllers
             Session["SelectedApplication"] = sv;
 
             Session["ServerId"] = servicesRepository.GetServerId(sv);
-
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
             Session["Services"] = servicesRepository.GetApplicationServices(sv);
 
             var servicemonitor = new ServiceMonitor();

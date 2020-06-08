@@ -155,6 +155,7 @@
       <DependentUpon>ChecklistModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\ServicesManager.cs" />
     <Compile Include="Controllers\DisksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
