@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="48305c0b803349709d971a751c792855" Name="Diagram1">
+      <Diagram DiagramId="48305c0b803349709d971a751c792855" Name="Diagram1" ZoomLevel="69">
         <EntityTypeShape EntityType="Models.Server" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.Application" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="Models.Service" Width="1.5" PointX="3.375" PointY="3.75" />
@@ -26,6 +26,8 @@
         <AssociationConnector Association="Models.FK_ServiceTracker_Application1" />
         <AssociationConnector Association="Models.FK_ServiceTracker_Server1" />
         <AssociationConnector Association="Models.FK_ServiceTracker_Service1" />
+        <EntityTypeShape EntityType="Models.Solaris" Width="1.5" PointX="5.625" PointY="8" />
+        <AssociationConnector Association="Models.FK_Solaris_Application" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
