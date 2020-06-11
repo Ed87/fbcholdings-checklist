@@ -143,20 +143,6 @@
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="Solaris">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Filesystem" Type="nvarchar" MaxLength="100" />
-          <Property Name="Blocks" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Used" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Available" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Capacity" Type="nvarchar" MaxLength="50" />
-          <Property Name="Mount" Type="nvarchar" MaxLength="100" />
-          <Property Name="RunDate" Type="datetime" />
-          <Property Name="ApplicationId" Type="int" />
-        </EntityType>
         <EntityType Name="WebLogic">
           <Key>
             <PropertyRef Name="Id" />
@@ -243,18 +229,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Solaris_Application">
-          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
-          <End Role="Solaris" Type="Self.Solaris" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Application">
-              <PropertyRef Name="ApplicationId" />
-            </Principal>
-            <Dependent Role="Solaris">
-              <PropertyRef Name="ApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WebLogic_Health">
           <End Role="Health" Type="Self.Health" Multiplicity="0..1" />
           <End Role="WebLogic" Type="Self.WebLogic" Multiplicity="*" />
@@ -279,7 +253,6 @@
           <EntitySet Name="Server" EntityType="Self.Server" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceMonitor" EntityType="Self.ServiceMonitor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Solaris" EntityType="Self.Solaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
@@ -304,10 +277,6 @@
           <AssociationSet Name="FK_ServiceTracker_Service" Association="Self.FK_ServiceTracker_Service">
             <End Role="Service" EntitySet="Service" />
             <End Role="ServiceMonitor" EntitySet="ServiceMonitor" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solaris_Application" Association="Self.FK_Solaris_Application">
-            <End Role="Application" EntitySet="Application" />
-            <End Role="Solaris" EntitySet="Solaris" />
           </AssociationSet>
           <AssociationSet Name="FK_WebLogic_Health" Association="Self.FK_WebLogic_Health">
             <End Role="Health" EntitySet="Health" />
@@ -385,11 +354,6 @@
             <End Role="Service" EntitySet="Services" />
             <End Role="ServiceMonitor" EntitySet="ServiceMonitors" />
           </AssociationSet>
-          <EntitySet Name="Solaris" EntityType="Models.Solari" />
-          <AssociationSet Name="FK_Solaris_Application" Association="Models.FK_Solaris_Application">
-            <End Role="Application" EntitySet="Applications" />
-            <End Role="Solari" EntitySet="Solaris" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -406,7 +370,6 @@
           <NavigationProperty Name="Services" Relationship="Models.FK_Service_Application" FromRole="Application" ToRole="Service" />
           <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Application1" FromRole="Application" ToRole="ServiceMonitor" />
           <Property Name="HasServices" Type="Int32" />
-          <NavigationProperty Name="Solaris" Relationship="Models.FK_Solaris_Application" FromRole="Application" ToRole="Solari" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -652,29 +615,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Solari">
-          <Property Name="Filesystem" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Blocks" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Used" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Available" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Capacity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RunDate" Type="DateTime" Precision="3" />
-          <Property Name="ApplicationId" Type="Int32" />
-          <NavigationProperty Name="Application" Relationship="Models.FK_Solaris_Application" FromRole="Solari" ToRole="Application" />
-        </EntityType>
-        <Association Name="FK_Solaris_Application">
-          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
-          <End Type="Models.Solari" Role="Solari" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Application">
-              <PropertyRef Name="ApplicationId" />
-            </Principal>
-            <Dependent Role="Solari">
-              <PropertyRef Name="ApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -842,20 +782,6 @@
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Solaris">
-            <EntityTypeMapping TypeName="Models.Solari">
-              <MappingFragment StoreEntitySet="Solaris">
-                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
-                <ScalarProperty Name="Mount" ColumnName="Mount" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
-                <ScalarProperty Name="Available" ColumnName="Available" />
-                <ScalarProperty Name="Used" ColumnName="Used" />
-                <ScalarProperty Name="Blocks" ColumnName="Blocks" />
-                <ScalarProperty Name="Filesystem" ColumnName="Filesystem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
