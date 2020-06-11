@@ -161,6 +161,7 @@
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
+    <Compile Include="Controllers\SolarisController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebLogicController.cs" />
     <Compile Include="Credential.cs">
@@ -209,10 +210,15 @@
     <Compile Include="Services\IJobsService.cs" />
     <Compile Include="Services\IServersService.cs" />
     <Compile Include="Services\IServicesRepository.cs" />
+    <Compile Include="Services\ISolarisService.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\ServersService.cs" />
     <Compile Include="Services\ServicesRepository.cs" />
+    <Compile Include="Services\SolarisService.cs" />
     <Compile Include="Services\WebLogicService.cs" />
+    <Compile Include="Solaris.cs">
+      <DependentUpon>ChecklistModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\DiskViewModel.cs" />
     <Compile Include="ViewModels\DomainControllerViewModel.cs" />
     <Compile Include="ViewModels\JobViewModel.cs" />
@@ -455,6 +461,11 @@
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Services\QueryService.cshtml" />
     <Content Include="Views\Services\ServiceStatus.cshtml" />
+    <Content Include="Views\Solaris\Create.cshtml" />
+    <Content Include="Views\Solaris\Delete.cshtml" />
+    <Content Include="Views\Solaris\Details.cshtml" />
+    <Content Include="Views\Solaris\Edit.cshtml" />
+    <Content Include="Views\Solaris\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,83 @@
+﻿@model FBChecklist.Solaris
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Solaris</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Filesystem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Filesystem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Blocks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blocks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Used)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Used)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Available)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Available)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RunDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RunDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.ApplicationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.ApplicationName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
