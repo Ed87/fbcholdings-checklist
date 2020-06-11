@@ -7,12 +7,27 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FBChecklist;
+using FBChecklist.Services;
+using FBChecklist.ViewModels;
 
 namespace FBChecklist.Controllers
 {
     public class SolarisController : Controller
     {
         private AppEntities db = new AppEntities();
+        private SolarisService solarisService;
+
+
+        public SolarisController(SolarisService solarisService)
+        {
+            this.solarisService = solarisService;
+
+        }
+        public SolarisController() : this(new SolarisService())
+        {
+            //the framework calls this
+        }
+
 
         // GET: Solaris
         public ActionResult Index()
@@ -43,9 +58,7 @@ namespace FBChecklist.Controllers
             return View();
         }
 
-        // POST: Solaris/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Filesystem,Blocks,Used,Available,Capacity,Mount,RunDate,ApplicationId")] Solaris solaris)
@@ -77,9 +90,7 @@ namespace FBChecklist.Controllers
             return View(solaris);
         }
 
-        // POST: Solaris/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Filesystem,Blocks,Used,Available,Capacity,Mount,RunDate,ApplicationId")] Solaris solaris)
@@ -119,6 +130,42 @@ namespace FBChecklist.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        // GET: Disks/QueryDiskInformation
+        public ActionResult QueryDiskInformation()
+        {
+            var model = new SolarisViewModel();
+            solarisService.GetApps(model);
+            return View(model);
+
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult QueryDiskInformation([Bind(Include = "ApplicationId,Filesystem,Blocks,Mount,Used,Available,Capacity,RunDate")] SolarisViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                solarisService.GetApps(model);
+                return View(model);
+            }
+
+            //Get DropDown selected value
+            var selectedValue = Request.Form["ApplicationId"].ToString();
+            var sv = Convert.ToInt32(selectedValue);
+            Session["SelectedApp"] = sv;
+          
+            Session["Username"] = solarisService.GetSuperUsername(sv);
+            Session["Password"] = solarisService.GetSuperUserPassword(sv);
+            Session["ServerIP"] = solarisService.GetServerIp(sv);
+
+            var disk = new Solaris();
+            solarisService.SaveDiskInfo(disk);
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {
