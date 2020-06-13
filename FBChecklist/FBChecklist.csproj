@@ -283,6 +283,7 @@
     <Content Include="assets2\images\email\email2.png" />
     <Content Include="assets2\images\email\email3.png" />
     <Content Include="assets2\images\email\email4.png" />
+    <Content Include="assets2\images\gallery\404.jpg" />
     <Content Include="assets2\images\gallery\FBC.JPG" />
     <Content Include="assets2\images\gallery\fbclogos.png" />
     <Content Include="assets2\images\gallery\image-1.jpg" />
@@ -474,6 +475,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

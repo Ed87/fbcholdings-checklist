@@ -11,8 +11,8 @@
         <div class="widget-body">
             <div class="widget-main">
                 <h4 class="header blue lighter bigger">
-                    <i class="ace-icon fa fa-coffee green"></i>
-                    System Login
+                 
+                     Login
                 </h4>
 
                 <div class="space-6"></div>
@@ -25,7 +25,7 @@
                             @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control", @placeholder = "UserId" } })
                             @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
                             @*<input type="text" class="form-control" placeholder="UserId" />*@
-                        <i class="ace-icon fa fa-user"></i>
+                        @*<i class="ace-icon fa fa-user"></i>*@
                         @*</span>*@
 
                         <label class="block clearfix">
@@ -49,10 +49,10 @@
                         <div class="space"></div>
 
                         <div class="clearfix">
-                            <label class="inline">
+                            @*<label class="inline">
                                 <input type="checkbox" class="ace" />
                                 <span class="lbl"> Remember Me</span>
-                            </label>
+                            </label>*@
 
                             <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
                                 <i class="ace-icon fa fa-key"></i>
@@ -64,11 +64,11 @@
                     </fieldset>
                 </form>
 
-                <div class="social-or-login center">
+                @*<div class="social-or-login center">
                     <span class="bigger-110">Or Login Using</span>
-                </div>
+                </div>*@
 
-                <div class="space-6"></div>
+                @*<div class="space-6"></div>
 
                 <div class="social-login center">
 
@@ -80,10 +80,10 @@
                     <a class="btn btn-danger">
                         <i class="ace-icon fa fa-google-plus"></i>
                     </a>
-                </div>
+                </div>*@
             </div><!-- /.widget-main -->
 
-            <div class="toolbar clearfix">
+            @*<div class="toolbar clearfix">
                 <div>
                     <a href="#" data-target="#forgot-box" class="forgot-password-link">
                         <i class="ace-icon fa fa-arrow-left"></i>
@@ -97,7 +97,7 @@
                         <i class="ace-icon fa fa-arrow-right"></i>
                     </a>
                 </div>
-            </div>
+            </div>*@
         </div><!-- /.widget-body -->
     </div><!-- /.login-box -->
 }

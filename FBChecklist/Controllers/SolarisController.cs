@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using FBChecklist.Services;
+using FBChecklist.ViewModels;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using FBChecklist;
-using FBChecklist.Services;
-using FBChecklist.ViewModels;
 
 namespace FBChecklist.Controllers
 {
