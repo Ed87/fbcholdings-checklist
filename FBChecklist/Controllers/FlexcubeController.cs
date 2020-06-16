@@ -30,7 +30,21 @@ namespace FBChecklist.Controllers
         }
 
         public ActionResult CheckTimeLevel()
-        {        
+        {
+            //Fetch Connection String from Web.config    
+            var FCUBS = ConfigurationManager.ConnectionStrings[1];
+
+            var writable = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+            writable.SetValue(FCUBS, false);
+
+            //Replace Conn string 
+            var username = disksService.GetSuperUsername(Helpers.parameters.Fcubs);
+            var password = disksService.GetSuperUserPassword(Helpers.parameters.Fcubs);
+            var database = disksService.GetAuthority(Helpers.parameters.Fcubs);
+
+            FCUBS.ConnectionString = "user id=" + username + ";password=" + password + ";data source=" + database + "";
+            var connstring = FCUBS.ConnectionString;
+
 
             return View();
         }
