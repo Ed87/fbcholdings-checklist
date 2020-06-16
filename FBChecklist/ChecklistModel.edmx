@@ -18,11 +18,22 @@
           <Property Name="Url" Type="nvarchar" MaxLength="100" />
           <Property Name="HasServices" Type="int" />
         </EntityType>
+        <EntityType Name="BranchStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BranchCode" Type="int" />
+          <Property Name="TimeLevel" Type="int" />
+          <Property Name="EOCStage" Type="nvarchar" MaxLength="50" />
+          <Property Name="RunDate" Type="datetime" />
+          <Property Name="ApplicationId" Type="int" />
+        </EntityType>
         <EntityType Name="Credential">
           <Key>
             <PropertyRef Name="CredentialId" />
           </Key>
-          <Property Name="CredentialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CredentialId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ApplicationId" Type="int" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
@@ -120,7 +131,7 @@
           <Key>
             <PropertyRef Name="ServiceId" />
           </Key>
-          <Property Name="ServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ServiceName" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -269,6 +280,7 @@
         </Association>
         <EntityContainer Name="ModelsStoreContainer">
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BranchStatus" EntityType="Self.BranchStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Disk" EntityType="Self.Disk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DomainController" EntityType="Self.DomainController" Schema="dbo" store:Type="Tables" />
@@ -390,6 +402,7 @@
             <End Role="Application" EntitySet="Applications" />
             <End Role="Solaris" EntitySet="Solaris" />
           </AssociationSet>
+          <EntitySet Name="BranchStatus" EntityType="Models.BranchStatus" />
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -679,6 +692,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BranchStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchCode" Type="Int32" />
+          <Property Name="TimeLevel" Type="Int32" />
+          <Property Name="EOCStage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
+          <Property Name="ApplicationId" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -860,6 +884,18 @@
                 <ScalarProperty Name="Used" ColumnName="Used" />
                 <ScalarProperty Name="Blocks" ColumnName="Blocks" />
                 <ScalarProperty Name="Filesystem" ColumnName="Filesystem" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BranchStatus">
+            <EntityTypeMapping TypeName="Models.BranchStatus">
+              <MappingFragment StoreEntitySet="BranchStatus">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+                <ScalarProperty Name="EOCStage" ColumnName="EOCStage" />
+                <ScalarProperty Name="TimeLevel" ColumnName="TimeLevel" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

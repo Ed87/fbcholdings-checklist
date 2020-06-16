@@ -124,6 +124,7 @@ namespace FBChecklist.Common
             public static int Xml = 5;
             public static int IsAct = 2;
             public static int ActiveDirectory = 22;
+           
 
             //FileFormats
             public static int HasServices = 1;

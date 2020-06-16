@@ -28,6 +28,7 @@
         <AssociationConnector Association="Models.FK_ServiceTracker_Service1" />
         <EntityTypeShape EntityType="Models.Solaris" Width="1.5" PointX="5.625" PointY="8" />
         <AssociationConnector Association="Models.FK_Solaris_Application" />
+        <EntityTypeShape EntityType="Models.BranchStatus" Width="1.5" PointX="8.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -52,6 +52,9 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.19.7.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
@@ -142,6 +145,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BranchStatus.cs">
+      <DependentUpon>ChecklistModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ChecklistModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -160,6 +166,7 @@
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\ServicesManager.cs" />
     <Compile Include="Controllers\DisksController.cs" />
+    <Compile Include="Controllers\FlexcubeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
@@ -472,6 +479,8 @@
     <Content Include="Views\Solaris\Edit.cshtml" />
     <Content Include="Views\Solaris\Index.cshtml" />
     <Content Include="Views\Solaris\QueryDiskInformation.cshtml" />
+    <Content Include="Views\Flexcube\CheckTimeLevel.cshtml" />
+    <Content Include="Views\Flexcube\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
