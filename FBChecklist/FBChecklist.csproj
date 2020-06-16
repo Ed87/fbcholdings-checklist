@@ -166,7 +166,6 @@
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\ServicesManager.cs" />
     <Compile Include="Controllers\DisksController.cs" />
-    <Compile Include="Controllers\FlexcubeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
@@ -479,8 +478,6 @@
     <Content Include="Views\Solaris\Edit.cshtml" />
     <Content Include="Views\Solaris\Index.cshtml" />
     <Content Include="Views\Solaris\QueryDiskInformation.cshtml" />
-    <Content Include="Views\Flexcube\CheckTimeLevel.cshtml" />
-    <Content Include="Views\Flexcube\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
