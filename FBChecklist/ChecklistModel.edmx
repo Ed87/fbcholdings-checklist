@@ -182,6 +182,18 @@
           <Property Name="heapSizeCurrent" Type="decimal" Precision="10" Scale="0" />
           <Property Name="StateId" Type="int" />
         </EntityType>
+        <Association Name="FK_BranchStatus_Application">
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="BranchStatus" Type="Self.BranchStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="BranchStatus">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Jobs_FrequencyId">
           <End Role="Frequency" Type="Self.Frequency" Multiplicity="0..1" />
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
@@ -293,6 +305,10 @@
           <EntitySet Name="ServiceMonitor" EntityType="Self.ServiceMonitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Solaris" EntityType="Self.Solaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BranchStatus_Application" Association="Self.FK_BranchStatus_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="BranchStatus" EntitySet="BranchStatus" />
+          </AssociationSet>
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
@@ -403,6 +419,10 @@
             <End Role="Solaris" EntitySet="Solaris" />
           </AssociationSet>
           <EntitySet Name="BranchStatus" EntityType="Models.BranchStatus" />
+          <AssociationSet Name="FK_BranchStatus_Application" Association="Models.FK_BranchStatus_Application">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="BranchStatus" EntitySet="BranchStatus" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -420,6 +440,7 @@
           <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Application1" FromRole="Application" ToRole="ServiceMonitor" />
           <Property Name="HasServices" Type="Int32" />
           <NavigationProperty Name="Solaris" Relationship="Models.FK_Solaris_Application" FromRole="Application" ToRole="Solaris" />
+          <NavigationProperty Name="BranchStatus" Relationship="Models.FK_BranchStatus_Application" FromRole="Application" ToRole="BranchStatus" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -702,7 +723,20 @@
           <Property Name="EOCStage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RunDate" Type="DateTime" Precision="3" />
           <Property Name="ApplicationId" Type="Int32" />
+          <NavigationProperty Name="Application" Relationship="Models.FK_BranchStatus_Application" FromRole="BranchStatus" ToRole="Application" />
         </EntityType>
+        <Association Name="FK_BranchStatus_Application">
+          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
+          <End Type="Models.BranchStatus" Role="BranchStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="BranchStatus">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

@@ -291,7 +291,7 @@ namespace FBChecklist.Common
             return sizeInGigabytes;
         }
 
-       // public static string DatabaseConnect2 = ConfigurationManager.ConnectionStrings["MIHR"].ConnectionString;
+        public static string DatabaseConnect = ConfigurationManager.ConnectionStrings["ChecklistNonEFConnection"].ConnectionString;
         public static bool CheckConnection()
         {
             String address = "208.69.34.231";

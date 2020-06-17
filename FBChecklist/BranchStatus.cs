@@ -20,5 +20,7 @@ namespace FBChecklist
         public string EOCStage { get; set; }
         public Nullable<System.DateTime> RunDate { get; set; }
         public Nullable<int> ApplicationId { get; set; }
+    
+        public virtual Application Application { get; set; }
     }
 }

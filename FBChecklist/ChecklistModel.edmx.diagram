@@ -29,6 +29,7 @@
         <EntityTypeShape EntityType="Models.Solaris" Width="1.5" PointX="5.625" PointY="8" />
         <AssociationConnector Association="Models.FK_Solaris_Application" />
         <EntityTypeShape EntityType="Models.BranchStatus" Width="1.5" PointX="8.375" PointY="6.75" />
+        <AssociationConnector Association="Models.FK_BranchStatus_Application" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

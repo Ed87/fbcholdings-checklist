@@ -1,10 +1,13 @@
 ﻿using FBChecklist.Common;
 using FBChecklist.Exceptions;
+using FBChecklist.Models;
 using FBChecklist.Services;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -45,73 +48,60 @@ namespace FBChecklist.Controllers
             FCUBS.ConnectionString = "user id=" + username + ";password=" + password + ";data source=" + database + "";
             var connstring = FCUBS.ConnectionString;
 
-
-            return View();
-        }
+            List<Branch> branches = new List<Branch>();
 
 
-
-        // GET: Flexcube
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Flexcube/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Flexcube/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Flexcube/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
             try
             {
-                // TODO: Add insert logic here
+                using (OracleConnection connp = new OracleConnection(connstring))
+                {
+                    connp.Open();
+                    OracleCommand cmd1 = new OracleCommand("select * from STTM_CORE_BRANCH_STATUS", connp);
 
-                return RedirectToAction("Index");
+                    OracleDataReader dr1 = cmd1.ExecuteReader();
+
+                  
+                        while (dr1.Read() && dr1.HasRows)
+                        {
+                            var model = new Branch();
+
+                            model.TimeLevel = Convert.ToInt32(dr1["TIME_LEVEL"]);
+                            model.EOCStage = Convert.ToString(dr1["EOC_STAGE"]);
+                            model.BranchCode = Convert.ToInt32(dr1["BRANCH_CODE"]);
+                            branches.Add(model);
+
+                            foreach (var branch in branches)
+                            {
+                                using (SqlConnection conn = new SqlConnection(Helpers.DatabaseConnect))
+                                {
+                                    
+                                    conn.Open();
+                                    SqlCommand cmdp = new SqlCommand("SaveBranchStatus", conn);
+                                    cmdp.CommandType = CommandType.StoredProcedure;
+                                    cmdp.Parameters.AddWithValue("@BranchCode", branch.BranchCode);
+                                    cmdp.Parameters.AddWithValue("@TimeLevel", branch.TimeLevel);
+                                    cmdp.Parameters.AddWithValue("@EOCStage", branch.EOCStage);
+                                    cmdp.Parameters.AddWithValue("@RunDate", DateTime.Now);
+                                    cmdp.Parameters.AddWithValue("@ApplicationId", Helpers.parameters.Fcubs);
+                                    cmdp.ExecuteNonQuery();
+                                    conn.Close();
+                                }
+                            }
+                        }
+
+                    connp.Close();
+                }
             }
-            catch
+
+            catch (Exception ex)
             {
-                return View();
+                ExceptionLogger.SendErrorToText(ex);
             }
+
+            return View(branches);
         }
 
-        // GET: Flexcube/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: Flexcube/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Flexcube/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Flexcube/Delete/5
         [HttpPost]

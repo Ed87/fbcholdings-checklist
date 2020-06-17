@@ -196,6 +196,7 @@
     <Compile Include="Job.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Links2.cs" />
     <Compile Include="Models\Root.cs" />
     <Compile Include="Models\ServiceDTO.cs" />
@@ -479,11 +480,12 @@
     <Content Include="Views\Solaris\Edit.cshtml" />
     <Content Include="Views\Solaris\Index.cshtml" />
     <Content Include="Views\Solaris\QueryDiskInformation.cshtml" />
+    <Content Include="Views\Flexcube\CheckTimeLevel.cshtml" />
+    <Content Include="Views\Flexcube\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Reports\" />
-    <Folder Include="Views\Flexcube\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
