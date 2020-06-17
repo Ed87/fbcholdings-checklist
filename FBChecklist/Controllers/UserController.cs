@@ -39,21 +39,19 @@ namespace FBChecklist.Controllers
             return View(model);
         }
 
-        // POST: User/Delete/5
+        // POST: User/Login
         [HttpPost]
         public ActionResult Login(DomainControllerViewModel model)
         {
             try
             {
-
-                PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "yyy.corp");
-
-                // find a user
+                PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domainControllerService.GetDomain());
+         
                 UserPrincipal user = UserPrincipal.FindByIdentity(ctx, model.Username);
 
                 if (user != null)
                 {
-                    // check user lockout state
+                    
                     if (user.IsAccountLockedOut())
                     {
                         ViewBag.Message = "Your account is locked out";
@@ -63,15 +61,15 @@ namespace FBChecklist.Controllers
                         bool authentic = false;
                         try
                         {
-
-                            DirectoryEntry entry = new DirectoryEntry("LDAP://XX.XX.XX.XX:111/OU=YYY,DC=yyy,DC=corp", model.Username, model.Password);
-                            DirectoryEntry ldapConnection = new DirectoryEntry("yyy.corp");
+                            var dentry = domainControllerService.GetDirectoryEntry();
+                            DirectoryEntry entry = new DirectoryEntry(dentry, model.Username, model.Password);
+                            DirectoryEntry ldapConnection = new DirectoryEntry(domainControllerService.GetDomain());
                             ldapConnection.Path = "LDAP://";
-                            ldapConnection.Username = "yyy";
-                            ldapConnection.Password = "xxx";
+                            ldapConnection.Username = domainControllerService.GetUsername();
+                            ldapConnection.Password = domainControllerService.GetPassword();
                             ldapConnection.AuthenticationType = AuthenticationTypes.Secure;
 
-                            //Login with user
+                            
                             object nativeObject = entry.NativeObject;
                             authentic = true;
 

@@ -9,42 +9,33 @@ namespace FBChecklist.Services
 
         public string GetDirectoryEntry()
         {
-         var dentry= (from j in appEntities.DomainControllers                            
-                             select new
-                             {
-                                j.LDAP
-                             });
-            return dentry.ToString();
+            var ldap = (from c in appEntities.DomainControllers
+                        select c.LDAP).FirstOrDefault();
+            return ldap.ToString();
         }
 
         public string GetDomain()
         {
-            var domain = (from j in appEntities.DomainControllers
-                          select new
-                          {
-                              j.Domain
-                          });
+            var domain = (from c in appEntities.DomainControllers
+                          select c.Domain).FirstOrDefault();
             return domain.ToString();
+
         }
 
         public string GetPassword()
         {
-            var password = (from j in appEntities.DomainControllers
-                          select new
-                          {
-                              j.Password
-                          });
+            var password = (from c in appEntities.DomainControllers
+                            select c.Password).FirstOrDefault();
             return password.ToString();
+
         }
 
         public string GetUsername()
         {
-            var username = (from j in appEntities.DomainControllers
-                            select new
-                            {
-                                j.Username
-                            });
+            var username = (from c in appEntities.DomainControllers
+                            select c.Username).FirstOrDefault();
             return username.ToString();
+
         }
     }
 }
