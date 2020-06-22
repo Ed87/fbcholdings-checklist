@@ -193,6 +193,7 @@
           <Property Name="heapFreeCurrent" Type="decimal" Precision="10" Scale="0" />
           <Property Name="heapSizeCurrent" Type="decimal" Precision="10" Scale="0" />
           <Property Name="StateId" Type="int" />
+          <Property Name="RunDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_BranchStatus_Application">
           <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
@@ -579,6 +580,7 @@
           <Property Name="heapSizeCurrent" Type="Decimal" Precision="10" Scale="0" />
           <Property Name="StateId" Type="Int32" />
           <NavigationProperty Name="Health1" Relationship="Models.FK_WebLogic_Health" FromRole="WebLogic" ToRole="Health" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Health">
           <Key>
@@ -913,6 +915,7 @@
           <EntitySetMapping Name="WebLogics">
             <EntityTypeMapping TypeName="Models.WebLogic">
               <MappingFragment StoreEntitySet="WebLogic">
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="heapSizeCurrent" ColumnName="heapSizeCurrent" />
                 <ScalarProperty Name="heapFreeCurrent" ColumnName="heapFreeCurrent" />

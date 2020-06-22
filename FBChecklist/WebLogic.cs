@@ -23,6 +23,7 @@ namespace FBChecklist
         public Nullable<decimal> heapFreeCurrent { get; set; }
         public Nullable<decimal> heapSizeCurrent { get; set; }
         public Nullable<int> StateId { get; set; }
+        public Nullable<System.DateTime> RunDate { get; set; }
     
         public virtual Health Health1 { get; set; }
     }
