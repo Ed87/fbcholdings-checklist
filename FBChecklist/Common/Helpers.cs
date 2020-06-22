@@ -292,6 +292,7 @@ namespace FBChecklist.Common
         }
 
         public static string DatabaseConnect = ConfigurationManager.ConnectionStrings["ChecklistNonEFConnection"].ConnectionString;
+      
         public static bool CheckConnection()
         {
             String address = "208.69.34.231";

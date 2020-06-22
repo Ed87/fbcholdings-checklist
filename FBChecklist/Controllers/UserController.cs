@@ -68,8 +68,7 @@ namespace FBChecklist.Controllers
                             ldapConnection.Username = domainControllerService.GetUsername();
                             ldapConnection.Password = domainControllerService.GetPassword();
                             ldapConnection.AuthenticationType = AuthenticationTypes.Secure;
-
-                            
+                        
                             object nativeObject = entry.NativeObject;
                             authentic = true;
 

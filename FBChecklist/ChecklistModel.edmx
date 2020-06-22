@@ -33,7 +33,7 @@
           <Key>
             <PropertyRef Name="CredentialId" />
           </Key>
-          <Property Name="CredentialId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CredentialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ApplicationId" Type="int" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
@@ -42,6 +42,18 @@
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="Reference" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Dashboard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" />
+          <Property Name="TaskId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="RunDate" Type="datetime" />
+          <Property Name="CheckedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="Percentage" Type="int" />
         </EntityType>
         <EntityType Name="Disk">
           <Key>
@@ -194,6 +206,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Dashboard_Application">
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="Dashboard" Type="Self.Dashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Dashboard">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Jobs_FrequencyId">
           <End Role="Frequency" Type="Self.Frequency" Multiplicity="0..1" />
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
@@ -294,6 +318,7 @@
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BranchStatus" EntityType="Self.BranchStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dashboard" EntityType="Self.Dashboard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Disk" EntityType="Self.Disk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DomainController" EntityType="Self.DomainController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Frequency" EntityType="Self.Frequency" Schema="dbo" store:Type="Tables" />
@@ -308,6 +333,10 @@
           <AssociationSet Name="FK_BranchStatus_Application" Association="Self.FK_BranchStatus_Application">
             <End Role="Application" EntitySet="Application" />
             <End Role="BranchStatus" EntitySet="BranchStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dashboard_Application" Association="Self.FK_Dashboard_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="Dashboard" EntitySet="Dashboard" />
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
@@ -423,6 +452,11 @@
             <End Role="Application" EntitySet="Applications" />
             <End Role="BranchStatus" EntitySet="BranchStatus" />
           </AssociationSet>
+          <EntitySet Name="Dashboard" EntityType="Models.Dashboard" />
+          <AssociationSet Name="FK_Dashboard_Application" Association="Models.FK_Dashboard_Application">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Dashboard" EntitySet="Dashboard" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -441,6 +475,7 @@
           <Property Name="HasServices" Type="Int32" />
           <NavigationProperty Name="Solaris" Relationship="Models.FK_Solaris_Application" FromRole="Application" ToRole="Solaris" />
           <NavigationProperty Name="BranchStatus" Relationship="Models.FK_BranchStatus_Application" FromRole="Application" ToRole="BranchStatus" />
+          <NavigationProperty Name="Dashboard" Relationship="Models.FK_Dashboard_Application" FromRole="Application" ToRole="Dashboard" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -737,6 +772,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Dashboard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <Property Name="TaskId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
+          <Property Name="CheckedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Percentage" Type="Int32" />
+          <NavigationProperty Name="Application" Relationship="Models.FK_Dashboard_Application" FromRole="Dashboard" ToRole="Application" />
+        </EntityType>
+        <Association Name="FK_Dashboard_Application">
+          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
+          <End Type="Models.Dashboard" Role="Dashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Dashboard">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -930,6 +990,19 @@
                 <ScalarProperty Name="EOCStage" ColumnName="EOCStage" />
                 <ScalarProperty Name="TimeLevel" ColumnName="TimeLevel" />
                 <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dashboard">
+            <EntityTypeMapping TypeName="Models.Dashboard">
+              <MappingFragment StoreEntitySet="Dashboard">
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="CheckedBy" ColumnName="CheckedBy" />
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

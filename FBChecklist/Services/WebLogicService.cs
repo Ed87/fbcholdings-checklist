@@ -63,6 +63,7 @@ namespace FBChecklist.Services
                         {
                            
                             model.Add(item);
+                           
                         }
                     }
                     else
@@ -80,6 +81,15 @@ namespace FBChecklist.Services
             return model;
         }
 
+        public void SaveWebLogicStatistics(WebLogic entity)
+        {
+            var query = GetServerStatistics();
 
+            query.Wait();
+
+            var student = query.Result;
+
+            
+        }
     }
 }
