@@ -63,7 +63,9 @@ namespace FBChecklist.Services
                         {
                            
                             model.Add(item);
-                           
+                            item.RunDate = DateTime.Now;
+                            appEntities.WebLogics.Add(item);
+                            appEntities.SaveChanges();
                         }
                     }
                     else
