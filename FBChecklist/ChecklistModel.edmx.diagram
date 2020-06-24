@@ -32,6 +32,9 @@
         <AssociationConnector Association="Models.FK_BranchStatus_Application" />
         <EntityTypeShape EntityType="Models.Dashboard" Width="1.5" PointX="5.625" PointY="12.375" />
         <AssociationConnector Association="Models.FK_Dashboard_Application" />
+        <EntityTypeShape EntityType="Models.BizTalk" Width="1.5" PointX="5.625" PointY="0.75" />
+        <AssociationConnector Association="Models.FK_BizTalk_Application" />
+        <AssociationConnector Association="Models.FK_BizTalk_Server" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,6 +17,27 @@
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="Url" Type="nvarchar" MaxLength="100" />
           <Property Name="HasServices" Type="int" />
+          <Property Name="Task1" Type="varchar" MaxLength="500" />
+          <Property Name="Task2" Type="varchar" MaxLength="500" />
+          <Property Name="Task3" Type="varchar" MaxLength="500" />
+          <Property Name="Task4" Type="varchar" MaxLength="500" />
+          <Property Name="Task5" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="BizTalk">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" />
+          <Property Name="ServerId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Uri" Type="nvarchar" MaxLength="50" />
+          <Property Name="TransportType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReceivePort" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReceiveHandler" Type="nvarchar" MaxLength="50" />
+          <Property Name="Application" Type="nvarchar" MaxLength="50" />
+          <Property Name="RunDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="BranchStatus">
           <Key>
@@ -195,6 +216,30 @@
           <Property Name="StateId" Type="int" />
           <Property Name="RunDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK_BizTalk_Application">
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="BizTalk" Type="Self.BizTalk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="BizTalk">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BizTalk_Server">
+          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
+          <End Role="BizTalk" Type="Self.BizTalk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="BizTalk">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BranchStatus_Application">
           <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
           <End Role="BranchStatus" Type="Self.BranchStatus" Multiplicity="*" />
@@ -317,6 +362,7 @@
         </Association>
         <EntityContainer Name="ModelsStoreContainer">
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BizTalk" EntityType="Self.BizTalk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BranchStatus" EntityType="Self.BranchStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dashboard" EntityType="Self.Dashboard" Schema="dbo" store:Type="Tables" />
@@ -331,6 +377,14 @@
           <EntitySet Name="ServiceMonitor" EntityType="Self.ServiceMonitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Solaris" EntityType="Self.Solaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebLogic" EntityType="Self.WebLogic" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BizTalk_Application" Association="Self.FK_BizTalk_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="BizTalk" EntitySet="BizTalk" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BizTalk_Server" Association="Self.FK_BizTalk_Server">
+            <End Role="Server" EntitySet="Server" />
+            <End Role="BizTalk" EntitySet="BizTalk" />
+          </AssociationSet>
           <AssociationSet Name="FK_BranchStatus_Application" Association="Self.FK_BranchStatus_Application">
             <End Role="Application" EntitySet="Application" />
             <End Role="BranchStatus" EntitySet="BranchStatus" />
@@ -393,6 +447,7 @@
           <NavigationProperty Name="Services" Relationship="Models.FK_Service_Server" FromRole="Server" ToRole="Service" />
           <Property Name="HasClusteredDisks" Type="Int32" />
           <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Server1" FromRole="Server" ToRole="ServiceMonitor" />
+          <NavigationProperty Name="BizTalk" Relationship="Models.FK_BizTalk_Server" FromRole="Server" ToRole="BizTalk" />
         </EntityType>
         <EntityContainer Name="AppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Servers" EntityType="Self.Server" />
@@ -458,6 +513,15 @@
             <End Role="Application" EntitySet="Applications" />
             <End Role="Dashboard" EntitySet="Dashboard" />
           </AssociationSet>
+          <EntitySet Name="BizTalk" EntityType="Models.BizTalk" />
+          <AssociationSet Name="FK_BizTalk_Application" Association="Models.FK_BizTalk_Application">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="BizTalk" EntitySet="BizTalk" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BizTalk_Server" Association="Models.FK_BizTalk_Server">
+            <End Role="Server" EntitySet="Servers" />
+            <End Role="BizTalk" EntitySet="BizTalk" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
           <Key>
@@ -477,6 +541,12 @@
           <NavigationProperty Name="Solaris" Relationship="Models.FK_Solaris_Application" FromRole="Application" ToRole="Solaris" />
           <NavigationProperty Name="BranchStatus" Relationship="Models.FK_BranchStatus_Application" FromRole="Application" ToRole="BranchStatus" />
           <NavigationProperty Name="Dashboard" Relationship="Models.FK_Dashboard_Application" FromRole="Application" ToRole="Dashboard" />
+          <Property Name="Task1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Task2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Task3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Task4" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Task5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BizTalk" Relationship="Models.FK_BizTalk_Application" FromRole="Application" ToRole="BizTalk" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -799,6 +869,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BizTalk">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <Property Name="ServerId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Uri" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransportType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReceivePort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiveHandler" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Application" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RunDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Application1" Relationship="Models.FK_BizTalk_Application" FromRole="BizTalk" ToRole="Application" />
+          <NavigationProperty Name="Server" Relationship="Models.FK_BizTalk_Server" FromRole="BizTalk" ToRole="Server" />
+        </EntityType>
+        <Association Name="FK_BizTalk_Application">
+          <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
+          <End Type="Models.BizTalk" Role="BizTalk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="BizTalk">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BizTalk_Server">
+          <End Type="Models.Server" Role="Server" Multiplicity="0..1" />
+          <End Type="Models.BizTalk" Role="BizTalk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="BizTalk">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -824,6 +936,11 @@
           <EntitySetMapping Name="Applications">
             <EntityTypeMapping TypeName="Models.Application">
               <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="Task5" ColumnName="Task5" />
+                <ScalarProperty Name="Task4" ColumnName="Task4" />
+                <ScalarProperty Name="Task3" ColumnName="Task3" />
+                <ScalarProperty Name="Task2" ColumnName="Task2" />
+                <ScalarProperty Name="Task1" ColumnName="Task1" />
                 <ScalarProperty Name="HasServices" ColumnName="HasServices" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
@@ -1005,6 +1122,23 @@
                 <ScalarProperty Name="RunDate" ColumnName="RunDate" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BizTalk">
+            <EntityTypeMapping TypeName="Models.BizTalk">
+              <MappingFragment StoreEntitySet="BizTalk">
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="ReceiveHandler" ColumnName="ReceiveHandler" />
+                <ScalarProperty Name="ReceivePort" ColumnName="ReceivePort" />
+                <ScalarProperty Name="TransportType" ColumnName="TransportType" />
+                <ScalarProperty Name="Uri" ColumnName="Uri" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

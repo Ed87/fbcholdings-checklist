@@ -40,5 +40,6 @@ namespace FBChecklist
         public virtual DbSet<Solaris> Solaris { get; set; }
         public virtual DbSet<BranchStatus> BranchStatus { get; set; }
         public virtual DbSet<Dashboard> Dashboard { get; set; }
+        public virtual DbSet<BizTalk> BizTalk { get; set; }
     }
 }

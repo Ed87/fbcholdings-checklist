@@ -23,6 +23,7 @@ namespace FBChecklist
             this.Solaris = new HashSet<Solaris>();
             this.BranchStatus = new HashSet<BranchStatus>();
             this.Dashboard = new HashSet<Dashboard>();
+            this.BizTalk = new HashSet<BizTalk>();
         }
     
         public int ApplicationId { get; set; }
@@ -33,6 +34,11 @@ namespace FBChecklist
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public string Url { get; set; }
         public Nullable<int> HasServices { get; set; }
+        public string Task1 { get; set; }
+        public string Task2 { get; set; }
+        public string Task3 { get; set; }
+        public string Task4 { get; set; }
+        public string Task5 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Disk> Disks { get; set; }
@@ -46,5 +52,7 @@ namespace FBChecklist
         public virtual ICollection<BranchStatus> BranchStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dashboard> Dashboard { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BizTalk> BizTalk { get; set; }
     }
 }
