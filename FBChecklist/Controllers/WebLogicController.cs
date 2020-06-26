@@ -18,15 +18,17 @@ namespace FBChecklist.Controllers
 
 
         private WebLogicService webLogicService;
+        private BizTalkService bizTalkService;
 
 
-        public WebLogicController(WebLogicService webLogicService)
+        public WebLogicController(WebLogicService webLogicService, BizTalkService bizTalkService)
         {
 
             this.webLogicService = webLogicService;
+            this.bizTalkService = bizTalkService;
         }
 
-        public WebLogicController() : this(new WebLogicService())
+        public WebLogicController() : this(new WebLogicService(), new BizTalkService())
         {
             //the framework calls this
         }
@@ -40,7 +42,13 @@ namespace FBChecklist.Controllers
             return View(await webLogicService.GetServerStatistics());
         }
 
-
+        public ActionResult BizTalk()
+        {
+            BizTalk model = new BizTalk();
+            bizTalkService.SaveStatistics(model);
+           
+            return View();
+        }
 
         // GET: WebLogic/Details/5
         public async Task<ActionResult> Details(int? id)

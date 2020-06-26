@@ -23,8 +23,8 @@ namespace FBChecklist
         public string TransportType { get; set; }
         public string ReceivePort { get; set; }
         public string ReceiveHandler { get; set; }
-        public string Application { get; set; }
-        public string RunDate { get; set; }
+        public string InstanceName { get; set; }
+        public Nullable<System.DateTime> RunDate { get; set; }
     
         public virtual Application Application1 { get; set; }
         public virtual Server Server { get; set; }

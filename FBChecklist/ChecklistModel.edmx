@@ -36,8 +36,8 @@
           <Property Name="TransportType" Type="nvarchar" MaxLength="50" />
           <Property Name="ReceivePort" Type="nvarchar" MaxLength="50" />
           <Property Name="ReceiveHandler" Type="nvarchar" MaxLength="50" />
-          <Property Name="Application" Type="nvarchar" MaxLength="50" />
-          <Property Name="RunDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="InstanceName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RunDate" Type="datetime" />
         </EntityType>
         <EntityType Name="BranchStatus">
           <Key>
@@ -882,10 +882,10 @@
           <Property Name="TransportType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ReceivePort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ReceiveHandler" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Application" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RunDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Application1" Relationship="Models.FK_BizTalk_Application" FromRole="BizTalk" ToRole="Application" />
           <NavigationProperty Name="Server" Relationship="Models.FK_BizTalk_Server" FromRole="BizTalk" ToRole="Server" />
+          <Property Name="InstanceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_BizTalk_Application">
           <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
@@ -1131,7 +1131,7 @@
             <EntityTypeMapping TypeName="Models.BizTalk">
               <MappingFragment StoreEntitySet="BizTalk">
                 <ScalarProperty Name="RunDate" ColumnName="RunDate" />
-                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="InstanceName" ColumnName="InstanceName" />
                 <ScalarProperty Name="ReceiveHandler" ColumnName="ReceiveHandler" />
                 <ScalarProperty Name="ReceivePort" ColumnName="ReceivePort" />
                 <ScalarProperty Name="TransportType" ColumnName="TransportType" />

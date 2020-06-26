@@ -1,0 +1,99 @@
+﻿@model FBChecklist.BizTalk
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BizTalk</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Uri)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uri)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransportType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransportType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceivePort)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceivePort)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiveHandler)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiveHandler)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InstanceName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InstanceName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RunDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RunDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application1.ApplicationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application1.ApplicationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Server.ServerIp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Server.ServerIp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

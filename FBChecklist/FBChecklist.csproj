@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\ServicesManager.cs" />
+    <Compile Include="Controllers\BizTalksController.cs" />
     <Compile Include="Controllers\DisksController.cs" />
     <Compile Include="Controllers\FlexcubeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -228,9 +229,11 @@
     <Compile Include="ServiceMonitor.cs">
       <DependentUpon>ChecklistModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\BizTalkService.cs" />
     <Compile Include="Services\DisksService.cs" />
     <Compile Include="Services\DomainControllerService.cs" />
     <Compile Include="Services\IAsyncWebLogicService.cs" />
+    <Compile Include="Services\IBizTalkService.cs" />
     <Compile Include="Services\IDisksService.cs" />
     <Compile Include="Services\IDomainControllerService.cs" />
     <Compile Include="Services\IJobsService.cs" />
@@ -497,6 +500,11 @@
     <Content Include="Views\Solaris\QueryDiskInformation.cshtml" />
     <Content Include="Views\Flexcube\CheckTimeLevel.cshtml" />
     <Content Include="Views\Flexcube\Create.cshtml" />
+    <Content Include="Views\BizTalks\Create.cshtml" />
+    <Content Include="Views\BizTalks\Delete.cshtml" />
+    <Content Include="Views\BizTalks\Details.cshtml" />
+    <Content Include="Views\BizTalks\Edit.cshtml" />
+    <Content Include="Views\BizTalks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
