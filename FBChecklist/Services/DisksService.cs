@@ -122,7 +122,8 @@ namespace FBChecklist.Services
                  entity.UsedSpace = di.UsedSpace;
                  entity.PercentageUsed = di.PercentageUsed;
                  entity.RunDate = DateTime.Now;
-                 entity.Memory = di.Memory;                
+                 entity.Memory = di.Memory;
+                 entity.CPU = di.CPU;
                  entity.ServerId = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerId"]);
                  entity.ApplicationId = Convert.ToInt32(System.Web.HttpContext.Current.Session["SelectedApp"]);
                  appEntities.Disks.Add(entity);
@@ -198,6 +199,9 @@ namespace FBChecklist.Services
                 ManagementObjectSearcher searcher2 = new ManagementObjectSearcher(scope, query2);
                 ManagementObjectCollection queryCollection2 = searcher2.Get();
 
+                SelectQuery query3 = new SelectQuery("SELECT * FROM Win32_PerfFormattedData_PerfOS_Processor WHERE Name=\"_Total\"");
+                ManagementObjectSearcher searcher3 = new ManagementObjectSearcher(scope, query3);
+                ManagementObjectCollection queryCollection3 = searcher3.Get();
 
                 try
                 {
@@ -213,6 +217,7 @@ namespace FBChecklist.Services
                         if(string.IsNullOrEmpty(disk.DiskName))
                         {
                             disk.Memory = "0.00";
+                            disk.CPU = "0.00";
                         }
                         else if (!string.IsNullOrEmpty(disk.DiskName))
                         {
@@ -223,7 +228,19 @@ namespace FBChecklist.Services
                                 double total = Double.Parse(mom["TotalVisibleMemorySize"].ToString());
                                 memory.Memory = Convert.ToString(Math.Round(((total - free) / total * 100), 1));
                                 disk.Memory = memory.Memory;
-                                //diskinfo.Add(memory);
+                                
+                            }
+
+
+                            foreach (ManagementObject cpuobj in queryCollection3)
+                            {
+                                Disk cpu = new Disk();
+                                var cpuUtilization = cpuobj["PercentIdleTime"].ToString();
+                                cpu.CPU = cpuUtilization;
+                                var cpuabs = Convert.ToInt32(cpu.CPU);
+                                var absoluteCpuUtilzation = 100 - cpuabs;
+                                disk.CPU = Convert.ToString(absoluteCpuUtilzation);
+                               
                             }
                         }
                        
