@@ -122,7 +122,7 @@ namespace FBChecklist.Services
                  entity.UsedSpace = di.UsedSpace;
                  entity.PercentageUsed = di.PercentageUsed;
                  entity.RunDate = DateTime.Now;
-                 //entity.CPU = di.CPU;                
+                 entity.Memory = di.Memory;                
                  entity.ServerId = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerId"]);
                  entity.ApplicationId = Convert.ToInt32(System.Web.HttpContext.Current.Session["SelectedApp"]);
                  appEntities.Disks.Add(entity);
@@ -190,19 +190,43 @@ namespace FBChecklist.Services
                 ManagementScope scope = new ManagementScope("\\\\" + serverIP + "\\root\\CIMV2", options);
                 scope.Connect();
 
-                SelectQuery query = new SelectQuery("Select * from Win32_LogicalDisk");
+                SelectQuery query = new SelectQuery("Select * from Win32_LogicalDisk");              
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
                 ManagementObjectCollection queryCollection = searcher.Get();
 
+                SelectQuery query2 = new SelectQuery("SELECT * FROM Win32_OperatingSystem");
+                ManagementObjectSearcher searcher2 = new ManagementObjectSearcher(scope, query2);
+                ManagementObjectCollection queryCollection2 = searcher2.Get();
+
+
                 try
                 {
+                   
 
+                   
                     foreach (ManagementObject mo in queryCollection)
                     {
-
                        
                         Disk disk = new Disk();
                         disk.DiskName = mo["Name"].ToString();
+
+                        if(string.IsNullOrEmpty(disk.DiskName))
+                        {
+                            disk.Memory = "0.00";
+                        }
+                        else if (!string.IsNullOrEmpty(disk.DiskName))
+                        {
+                            foreach (ManagementObject mom in queryCollection2)
+                            {
+                                Disk memory = new Disk();
+                                double free = Double.Parse(mom["FreePhysicalMemory"].ToString());
+                                double total = Double.Parse(mom["TotalVisibleMemorySize"].ToString());
+                                memory.Memory = Convert.ToString(Math.Round(((total - free) / total * 100), 1));
+                                disk.Memory = memory.Memory;
+                                //diskinfo.Add(memory);
+                            }
+                        }
+                       
                         disk.DeviceId = mo["DeviceID"].ToString();
                         disk.SystemName = mo["SystemName"].ToString();
 
@@ -219,8 +243,11 @@ namespace FBChecklist.Services
 
                         var HDPercentageUsed = 100 - (100 * disk.FreeSpace / disk.TotalSpace);
                         disk.PercentageUsed = Convert.ToInt32(HDPercentageUsed);
+                      
                         diskinfo.Add(disk);
                     }
+
+                   
                 }
 
                 catch (DivideByZeroException ex)
