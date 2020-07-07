@@ -75,6 +75,7 @@
           <Property Name="RunDate" Type="datetime" />
           <Property Name="CheckedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="Percentage" Type="int" />
+          <Property Name="ServerId" Type="int" />
         </EntityType>
         <EntityType Name="Disk">
           <Key>
@@ -200,12 +201,13 @@
           <Property Name="Mount" Type="nvarchar" MaxLength="100" />
           <Property Name="RunDate" Type="datetime" />
           <Property Name="ApplicationId" Type="int" />
+          <Property Name="ServerId" Type="int" />
         </EntityType>
         <EntityType Name="WebLogic">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="state" Type="nvarchar" MaxLength="50" />
           <Property Name="activeThreadCount" Type="int" />
@@ -215,6 +217,8 @@
           <Property Name="heapSizeCurrent" Type="decimal" Precision="10" Scale="0" />
           <Property Name="StateId" Type="int" />
           <Property Name="RunDate" Type="datetime" />
+          <Property Name="ServerId" Type="int" />
+          <Property Name="ApplicationId" Type="int" />
         </EntityType>
         <Association Name="FK_BizTalk_Application">
           <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
@@ -261,6 +265,18 @@
             </Principal>
             <Dependent Role="Dashboard">
               <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dashboard_Server">
+          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
+          <End Role="Dashboard" Type="Self.Dashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Dashboard">
+              <PropertyRef Name="ServerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -348,6 +364,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Solaris_Server">
+          <End Role="Server" Type="Self.Server" Multiplicity="0..1" />
+          <End Role="Solaris" Type="Self.Solaris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Solaris">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WebLogic_Health">
           <End Role="Health" Type="Self.Health" Multiplicity="0..1" />
           <End Role="WebLogic" Type="Self.WebLogic" Multiplicity="*" />
@@ -393,6 +421,10 @@
             <End Role="Application" EntitySet="Application" />
             <End Role="Dashboard" EntitySet="Dashboard" />
           </AssociationSet>
+          <AssociationSet Name="FK_Dashboard_Server" Association="Self.FK_Dashboard_Server">
+            <End Role="Server" EntitySet="Server" />
+            <End Role="Dashboard" EntitySet="Dashboard" />
+          </AssociationSet>
           <AssociationSet Name="FK_Jobs_FrequencyId" Association="Self.FK_Jobs_FrequencyId">
             <End Role="Frequency" EntitySet="Frequency" />
             <End Role="Jobs" EntitySet="Jobs" />
@@ -419,6 +451,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Solaris_Application" Association="Self.FK_Solaris_Application">
             <End Role="Application" EntitySet="Application" />
+            <End Role="Solaris" EntitySet="Solaris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solaris_Server" Association="Self.FK_Solaris_Server">
+            <End Role="Server" EntitySet="Server" />
             <End Role="Solaris" EntitySet="Solaris" />
           </AssociationSet>
           <AssociationSet Name="FK_WebLogic_Health" Association="Self.FK_WebLogic_Health">
@@ -448,6 +484,8 @@
           <Property Name="HasClusteredDisks" Type="Int32" />
           <NavigationProperty Name="ServiceMonitors" Relationship="Models.FK_ServiceTracker_Server1" FromRole="Server" ToRole="ServiceMonitor" />
           <NavigationProperty Name="BizTalk" Relationship="Models.FK_BizTalk_Server" FromRole="Server" ToRole="BizTalk" />
+          <NavigationProperty Name="Dashboard" Relationship="Models.FK_Dashboard_Server" FromRole="Server" ToRole="Dashboard" />
+          <NavigationProperty Name="Solaris" Relationship="Models.FK_Solaris_Server" FromRole="Server" ToRole="Solaris" />
         </EntityType>
         <EntityContainer Name="AppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Servers" EntityType="Self.Server" />
@@ -521,6 +559,14 @@
           <AssociationSet Name="FK_BizTalk_Server" Association="Models.FK_BizTalk_Server">
             <End Role="Server" EntitySet="Servers" />
             <End Role="BizTalk" EntitySet="BizTalk" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dashboard_Server" Association="Models.FK_Dashboard_Server">
+            <End Role="Server" EntitySet="Servers" />
+            <End Role="Dashboard" EntitySet="Dashboard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solaris_Server" Association="Models.FK_Solaris_Server">
+            <End Role="Server" EntitySet="Servers" />
+            <End Role="Solaris" EntitySet="Solaris" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Application">
@@ -651,6 +697,8 @@
           <Property Name="StateId" Type="Int32" />
           <NavigationProperty Name="Health1" Relationship="Models.FK_WebLogic_Health" FromRole="WebLogic" ToRole="Health" />
           <Property Name="RunDate" Type="DateTime" Precision="3" />
+          <Property Name="ServerId" Type="Int32" />
+          <Property Name="ApplicationId" Type="Int32" />
         </EntityType>
         <EntityType Name="Health">
           <Key>
@@ -807,6 +855,8 @@
           <Property Name="RunDate" Type="DateTime" Precision="3" />
           <Property Name="ApplicationId" Type="Int32" />
           <NavigationProperty Name="Application" Relationship="Models.FK_Solaris_Application" FromRole="Solaris" ToRole="Application" />
+          <Property Name="ServerId" Type="Int32" />
+          <NavigationProperty Name="Server" Relationship="Models.FK_Solaris_Server" FromRole="Solaris" ToRole="Server" />
         </EntityType>
         <Association Name="FK_Solaris_Application">
           <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
@@ -856,6 +906,8 @@
           <Property Name="CheckedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Percentage" Type="Int32" />
           <NavigationProperty Name="Application" Relationship="Models.FK_Dashboard_Application" FromRole="Dashboard" ToRole="Application" />
+          <Property Name="ServerId" Type="Int32" />
+          <NavigationProperty Name="Server" Relationship="Models.FK_Dashboard_Server" FromRole="Dashboard" ToRole="Server" />
         </EntityType>
         <Association Name="FK_Dashboard_Application">
           <End Type="Models.Application" Role="Application" Multiplicity="0..1" />
@@ -907,6 +959,30 @@
               <PropertyRef Name="ServerId" />
             </Principal>
             <Dependent Role="BizTalk">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dashboard_Server">
+          <End Type="Models.Server" Role="Server" Multiplicity="0..1" />
+          <End Type="Models.Dashboard" Role="Dashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Dashboard">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solaris_Server">
+          <End Type="Models.Server" Role="Server" Multiplicity="0..1" />
+          <End Type="Models.Solaris" Role="Solaris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Server">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Solaris">
               <PropertyRef Name="ServerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1032,6 +1108,8 @@
           <EntitySetMapping Name="WebLogics">
             <EntityTypeMapping TypeName="Models.WebLogic">
               <MappingFragment StoreEntitySet="WebLogic">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="RunDate" ColumnName="RunDate" />
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="heapSizeCurrent" ColumnName="heapSizeCurrent" />
@@ -1090,6 +1168,7 @@
           <EntitySetMapping Name="Solaris">
             <EntityTypeMapping TypeName="Models.Solaris">
               <MappingFragment StoreEntitySet="Solaris">
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="RunDate" ColumnName="RunDate" />
                 <ScalarProperty Name="Mount" ColumnName="Mount" />
@@ -1117,6 +1196,7 @@
           <EntitySetMapping Name="Dashboard">
             <EntityTypeMapping TypeName="Models.Dashboard">
               <MappingFragment StoreEntitySet="Dashboard">
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
                 <ScalarProperty Name="CheckedBy" ColumnName="CheckedBy" />
                 <ScalarProperty Name="RunDate" ColumnName="RunDate" />

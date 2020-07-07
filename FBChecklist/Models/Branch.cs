@@ -8,6 +8,7 @@ namespace FBChecklist.Models
     public class Branch
     {
         public int Id { get; set; }
+        public int ServerId { get; set; }
         public Nullable<int> BranchCode { get; set; }
         public Nullable<int> TimeLevel { get; set; }
         public string EOCStage { get; set; }

@@ -35,6 +35,8 @@
         <EntityTypeShape EntityType="Models.BizTalk" Width="1.5" PointX="5.625" PointY="0.75" />
         <AssociationConnector Association="Models.FK_BizTalk_Application" />
         <AssociationConnector Association="Models.FK_BizTalk_Server" />
+        <AssociationConnector Association="Models.FK_Dashboard_Server" />
+        <AssociationConnector Association="Models.FK_Solaris_Server" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

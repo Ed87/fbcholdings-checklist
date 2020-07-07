@@ -45,9 +45,16 @@ namespace FBChecklist.Controllers
         public ActionResult BizTalk()
         {
             BizTalk model = new BizTalk();
+            var appId = Common.Helpers.parameters.BizTalk;
+
+            Session["ServerId"] = bizTalkService.GetServerId(appId);
+            Session["ServerName"] = bizTalkService.GetServerName(appId);
+            Session["Authority"] = bizTalkService.GetAuthority(appId);
+            Session["Username"] = bizTalkService.GetSuperUsername(appId);
+            Session["Password"] = bizTalkService.GetSuperUserPassword(appId);
             bizTalkService.SaveStatistics(model);
            
-            return View();
+            return RedirectToAction("Index","BizTalks");
         }
 
         // GET: WebLogic/Details/5

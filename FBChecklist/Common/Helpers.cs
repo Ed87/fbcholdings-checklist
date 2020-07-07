@@ -123,11 +123,62 @@ namespace FBChecklist.Common
             public static int Html = 4;
             public static int Xml = 5;
             public static int IsAct = 2;
+
+            //Apps
             public static int ActiveDirectory = 22;
             public static int Fcubs = 29;
+            public static int WeblogicFlexcubeServices = 36;
+            public static int WeblogicAppServer = 21;
+            public static int BizTalk = 24;
+            public static int OracleDatabaseServer = 23;
+            public static int BIPServer1 = 10;
+            public static int BIPServer2 = 11;
+            public static int GIS = 9;
+            public static int Sybrin = 17;
+            public static int SICSNT = 13;
+            public static int SunSystems = 14;
+            public static int VM1 = 3;
+            public static int VM2 = 4;
+            public static int VM3 = 5;
+            public static int VM4 = 6;
+            public static int VM5 = 7;
+            public static int FlexApp = 37;
+            public static int TDS = 12;
+            public static int FCCM = 1;
+            public static int RTGS = 2;
+            public static int BP1 = 15;
+            public static int BP2 = 16;
+            public static int FlexLIVE = 38;
+
+            //AppNames
+            public static string Sunsys = "SunSystems";
+            public static string Gis = "GIS";
+            public static string billpayments1 = "Bill Payments Server 1";
+            public static string tds = "TDS";
+            public static string billpayments2 = "Bill Payments Server 2";
+            public static string sybrin = "Sybrin";
+            public static string sics = "SICS NT";           
+            public static string Vm1 = "VM1";
+            public static string Vm2 = "VM2";
+            public static string Vm3 = "VM3";
+            public static string Vm4 = "VM4";
+            public static string Vm5 = "VM5";
+            public static string Flexapp = "FCUBS";           
+            public static string FCCm = "FCCM";
+            public static string RTGs = "RTGS";           
+            public static string FlexLIVe = "FlexLive";
+            public static string bipserver1 = "BIP Server 1";        
+            public static string bipserver2 = "BIP Server 2";
+            public static string bR= "BR.Net ";
+
 
             //FileFormats
             public static int HasServices = 1;
+
+            //FileFormats
+            public static string Stopped = "Stopped";
+            public static string Started = "Running";
+
 
             //ActionTypes
             public static string DeleteAction = "DELETE";
@@ -159,6 +210,19 @@ namespace FBChecklist.Common
             };
 
           
+        }
+
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>
+    (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            HashSet<TKey> seenKeys = new HashSet<TKey>();
+            foreach (TSource element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
         }
         public static string ToSafeFileName(string s)
         {
@@ -206,14 +270,15 @@ namespace FBChecklist.Common
 
         public static ServiceState GetServiceState(string serviceName)
         {
+                    
             var serverIP = Convert.ToString(System.Web.HttpContext.Current.Session["ServerIP"]);
-
+           
             ConnectionOptions options = new ConnectionOptions
             {
 
                 Username = Convert.ToString(System.Web.HttpContext.Current.Session["Username"]),
                 Password = Convert.ToString(System.Web.HttpContext.Current.Session["Password"]),
-                
+                Authority   = Convert.ToString(System.Web.HttpContext.Current.Session["Authority"])
             };
 
             //root - root of the tree, cimv2 - version           

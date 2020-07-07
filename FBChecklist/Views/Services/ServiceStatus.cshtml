@@ -92,10 +92,7 @@
                 </div><!-- /.pull-left -->
             </div><!-- /.ace-settings-box -->
         </div><!-- /.ace-settings-container -->
-        <div class="page-header">
-            <h1>Dashboard</h1>
-        </div>
-
+       
         
         <div class="row">
             <div class="col-xs-12">
@@ -107,23 +104,24 @@
                         <div class="widget-box transparent" id="recent-box">
                             <div class="widget-header">
                                 <h4 class="widget-title lighter smaller">
-                                    <i class="ace-icon fa fa-rss orange"></i>APPLICATION SERVICES
+                                    <i class="ace-icon fa fa-rss orange"></i>APPLICATION SERVICES DASHBOARD
                                 </h4>
 
                                 <div class="widget-toolbar no-border">
                                     <ul class="nav nav-tabs" id="recent-tab">
-                                       
+
                                         @*<li class="">
-                                            <a data-toggle="tab" href="#sybrin-tab" aria-expanded="false"></a>SYBRIN
-                                        </li>*@
+                        <a data-toggle="tab" href="#sybrin-tab" aria-expanded="false"></a>SYBRIN
+                    </li>*@
                                     </ul>
                                 </div>
-                              
+
                             </div>
 
                             <div class="widget-body">
                                 <div class="widget-main padding-4">
                                     <div class="tab-content padding-8">
+                                        <label>@ViewBag.GIS</label>
 
                                         <div id="gis-tab" class="tab-pane active">
                                             <div class="clearfix">
@@ -132,15 +130,11 @@
                                                 {
                                                     if (@item.ApplicationId == 9)
                                                     {
-                                                        <label>@item.Application.ApplicationName</label>
 
                                                         <div class="itemdiv memberdiv">
-                                                            @*<div class="user">
-                        <img alt="Bob Doe's avatar" src="assets/images/avatars/avatar2.png">
-                    </div>*@
-
+                                           
                                                             <div class="body">
-                                                                <div class="name">
+                                                                <div class="">
                                                                     <a href="#">@item.Service.ServiceName</a>
                                                                 </div>
 
@@ -158,25 +152,184 @@
                                                                         </button>
 
                                                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                                           @*if(@item.Status == Helpers.parameters){
-                                                                            
-                                                                            }*@
-                                                                            <li>
-                                                                                <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
-                                                                                    <span class="green">
-                                                                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                                                                    </span>
-                                                                                </a>
 
-                                                                            </li>
 
-                                                                            <li>
-                                                                                <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
-                                                                                    <span class="orange">
-                                                                                        <i class="ace-icon fa fa-times bigger-110"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </li>
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
+                                                                        </ul>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+                                        </div><!-- /.#member-tab -->
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <label>@ViewBag.BIPServer1</label>
+                                        <div id="sybrin-tab" class="tab-pane active">
+                                            <div class="clearfix">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    if (@item.ApplicationId == 10)
+                                                    {
+
+                                                        <div class="itemdiv memberdiv">
+
+
+                                                            <div class="body">
+                                                                <div class="">
+                                                                    <a href="#">@item.Service.ServiceName</a>
+                                                                </div>
+
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="green">@item.Server.ServerIp</span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <span class="label label-warning label-sm">@item.Status</span>
+
+                                                                    <div class="inline position-relative">
+                                                                        <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                            <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+
+                                            @*<div class="hr hr-double hr8"></div>*@
+                                        </div><!-- /.#member-tab -->
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <label>@ViewBag.SunSystems</label>
+                                        <div id="sybrin-tab" class="tab-pane active">
+                                            <div class="clearfix">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    if (@item.ApplicationId == 14)
+                                                    {
+
+
+                                                        <div class="itemdiv memberdiv">
+                                                            <div class="body">
+                                                                <div class="">
+                                                                    <a href="#">@item.Service.ServiceName</a>
+                                                                </div>
+
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="green">@item.Server.ServerIp</span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <span class="label label-warning label-sm">@item.Status</span>
+
+                                                                    <div class="inline position-relative">
+                                                                        <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                            <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
 
 
                                                                         </ul>
@@ -189,45 +342,33 @@
 
                                                 }
                                             </div>
-                                              
-                                                <div class="space-4"></div>
 
-                                                @*<div class="center">
-                <i class="ace-icon fa fa-users fa-2x green middle"></i>
+                                            <div class="space-4"></div>
 
-                &nbsp;
-                <a href="#" class="btn btn-sm btn-white btn-info">
-                    See all members &nbsp;
-                    <i class="ace-icon fa fa-arrow-right"></i>
-                </a>
-            </div>*@
 
-                                                @*<div class="hr hr-double hr8"></div>*@
-                                            </div><!-- /.#member-tab -->
+                                            @*<div class="hr hr-double hr8"></div>*@
+                                        </div><!-- /.#member-tab -->
 
                                     </div>
                                 </div><!-- /.widget-main -->
                             </div><!-- /.widget-body -->
 
-
                             <div class="widget-body">
                                 <div class="widget-main padding-4">
                                     <div class="tab-content padding-8">
-
+                                        <label>@ViewBag.tds</label>
                                         <div id="sybrin-tab" class="tab-pane active">
                                             <div class="clearfix">
 
                                                 @foreach (var item in Model)
                                                 {
-                                                    if (@item.ApplicationId == 17)
+                                                    if (@item.ApplicationId == 12)
                                                     {
-                                                        <label>@item.Application.ApplicationName</label>
+
 
                                                         <div class="itemdiv memberdiv">
-
-
                                                             <div class="body">
-                                                                <div class="name">
+                                                                <div class="">
                                                                     <a href="#">@item.Service.ServiceName</a>
                                                                 </div>
 
@@ -245,24 +386,30 @@
                                                                         </button>
 
                                                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                                            <li>
-                                                                                <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
-                <span class="green">
-                    <i class="ace-icon fa fa-check bigger-110"></i>
-                </span>
-            </a>
-                                                                           
-                                                                            </li>
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
 
-                                                                            <li>
-                                                                                <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
-                                                                                    <span class="orange">
-                                                                                        <i class="ace-icon fa fa-times bigger-110"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </li>
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
 
-                                                                            
+                                                                            }
+
+
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -286,6 +433,323 @@
 
 
 
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <label>@ViewBag.sics</label>
+                                        <div id="sybrin-tab" class="tab-pane active">
+                                            <div class="clearfix">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    if (@item.ApplicationId == 13)
+                                                    {
+
+
+                                                        <div class="itemdiv memberdiv">
+                                                            <div class="body">
+                                                                <div class="">
+                                                                    <a href="#">@item.Service.ServiceName</a>
+                                                                </div>
+
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="green">@item.Server.ServerIp</span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <span class="label label-warning label-sm">@item.Status</span>
+
+                                                                    <div class="inline position-relative">
+                                                                        <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                            <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
+
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+
+                                            @*<div class="hr hr-double hr8"></div>*@
+                                        </div><!-- /.#member-tab -->
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <label>@ViewBag.billpayments1</label>
+                                        <div id="sybrin-tab" class="tab-pane active">
+                                            <div class="clearfix">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    if (@item.ApplicationId == 15)
+                                                    {
+
+
+                                                        <div class="itemdiv memberdiv">
+                                                            <div class="body">
+                                                                <div class="">
+                                                                    <a href="#">@item.Service.ServiceName</a>
+                                                                </div>
+
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="green">@item.Server.ServerIp</span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <span class="label label-warning label-sm">@item.Status</span>
+
+                                                                    <div class="inline position-relative">
+                                                                        <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                            <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
+
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+
+                                            @*<div class="hr hr-double hr8"></div>*@
+                                        </div><!-- /.#member-tab -->
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+
+
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <label>@ViewBag.billpayments</label>
+                                        <div id="sybrin-tab" class="tab-pane active">
+                                            <div class="clearfix">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    if (@item.ApplicationId == 16)
+                                                    {
+
+
+                                                        <div class="itemdiv memberdiv">
+                                                            <div class="body">
+                                                                <div class="">
+                                                                    <a href="#">@item.Service.ServiceName</a>
+                                                                </div>
+
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="green">@item.Server.ServerIp</span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <span class="label label-warning label-sm">@item.Status</span>
+
+                                                                    <div class="inline position-relative">
+                                                                        <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                            <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
+
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+
+                                            @*<div class="hr hr-double hr8"></div>*@
+                                        </div><!-- /.#member-tab -->
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+
+
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <label>@ViewBag.sybrin</label>
+                                        <div id="sybrin-tab" class="tab-pane active">
+                                            <div class="clearfix">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    if (@item.ApplicationId == 17)
+                                                    {
+
+
+                                                        <div class="itemdiv memberdiv">
+                                                            <div class="body">
+                                                                <div class="">
+                                                                    <a href="#">@item.Service.ServiceName</a>
+                                                                </div>
+
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="green">@item.Server.ServerIp</span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <span class="label label-warning label-sm">@item.Status</span>
+
+                                                                    <div class="inline position-relative">
+                                                                        <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                                            <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                                            @if (item.Status == FBChecklist.Common.Helpers.parameters.Stopped)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Start">
+                                                                                        <span class="green">
+                                                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+
+                                                                                </li>
+                                                                            }
+                                                                            else if (item.Status == FBChecklist.Common.Helpers.parameters.Started)
+                                                                            {
+                                                                                <li>
+                                                                                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Stop">
+                                                                                        <span class="orange">
+                                                                                            <i class="ace-icon fa fa-times bigger-110"></i>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            }
+
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+
+                                            @*<div class="hr hr-double hr8"></div>*@
+                                        </div><!-- /.#member-tab -->
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
 
 
 

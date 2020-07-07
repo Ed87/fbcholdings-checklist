@@ -97,52 +97,66 @@
             <h1>Windows Servers Disk Statistics</h1>
         </div>
 
-        <div class="hr hr-16 hr-dotted"></div>
         <div class="row">
             <div class="col-xs-12">
-
-
 
                 <div class="row">
                     <div class="col-sm-6">
                         <h3 class="row header smaller lighter blue">
-                            <span class="col-xs-6"> Accordion </span><!-- /.col -->
-
-                            <span class="col-xs-6">
-                                <span class="pull-right inline">
-                                    <span class="grey smaller-80 bolder">style:</span>
-
-                                    <span class="btn-toolbar inline middle no-margin">
-                                        <span id="accordion-style" data-toggle="buttons" class="btn-group no-margin">
-                                            <label class="btn btn-xs btn-yellow active">
-                                                <input type="radio" value="1">
-                                                1
-                                            </label>
-
-                                            <label class="btn btn-xs btn-yellow">
-                                                <input type="radio" value="2">
-                                                2
-                                            </label>
-                                        </span>
-                                    </span>
-                                </span>
-                            </span><!-- /.col -->
+                            <span class="col-xs-6"> @ViewBag.VM1 </span><!-- /.col -->
                         </h3>
 
                         <div id="accordion" class="accordion-style1 panel-group">
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
                                             <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-                                            &nbsp;Group Item #1
+                                            &nbsp;
                                         </a>
                                     </h4>
                                 </div>
 
                                 <div class="panel-collapse collapse" id="collapseOne" aria-expanded="false" style="height: 0px;">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 3)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -151,47 +165,1008 @@
                     </div><!-- /.col -->
 
                     <div class="col-sm-6">
-                        <h3 class="header smaller lighter green">Progress Bar</h3>
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.BIP1 </span><!-- /.col -->
+                        </h3>
 
-                        <div class="row">
-                            @foreach (var item in Model)
-                            {
-                                <div class="col-xs-8">
-                                    <div id="home4" class="tab-pane in active">
-                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
-                                    </div>
-                                    <div id="home4" class="tab-pane in active">
-                                        <p>Is there enough disk space on the server?</p>
-                                    </div>
-                                    <p>Local Disk (@item.DiskName)</p>
-                                    <a class="navbar-brand">
-                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
-                                    </a>
-                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
-                                        <div class="progress-bar" style="width:50%;"></div>
-                                    </div>
-                                    <div class="infobox-content">
-                                        <span class="bigger-110">~</span>
-                                        @item.FreeSpace GB free of   @item.TotalSpace GB
-                                    </div>
-                                    <br />
-                                </div><!-- /.col -->
+                        <div id="accordion" class="accordion-style1 panel-group">
 
-                                <div class="col-xs-4 center">
-                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
-                                        @*<span class="percent"> CPU @item.CPU</span>%*@
-                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseTwo" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 10)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
                                     </div>
-                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
-                                        @*<span class="percent"> Memory @item.Memory</span>%*@
-                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
-                                    </div>
-                                </div><!-- /.col -->
-                            }
-                        </div><!-- /.row -->
+                                </div>
+                            </div>
+
+                        </div>
                     </div><!-- /.col -->
+
+
                 </div>
 
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.BIP2 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseThree" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 11)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.VM2 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseFour" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 4)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.VM3 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseFive" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 5)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.VM5 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseSix" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 7)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.VM4 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseEight" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 6)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.RTGs </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseNine" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 2)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.GIS </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseTen" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 9)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.tds </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseEleven" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 12)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.BLP1 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwelve" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapseTwelve" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 15)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.BLP2 </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse13" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapse13" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 16)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
+
+
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.SunSystems </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse14" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapse14" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 14)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.sybrin </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse15" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapse15" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 17)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6">@ViewBag.BR </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse16" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapse16" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 18)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <h3 class="row header smaller lighter blue">
+                            <span class="col-xs-6"> @ViewBag.sics </span><!-- /.col -->
+                        </h3>
+
+                        <div id="accordion" class="accordion-style1 panel-group">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse18" aria-expanded="false">
+                                            <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div class="panel-collapse collapse" id="collapse18" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.ApplicationId == 13)
+                                            {
+                                                <div class="col-xs-8">
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p><strong>@item.Application.ApplicationName (@item.Server.ServerIp)</strong></p>
+                                                    </div>
+                                                    <div id="home4" class="tab-pane in active">
+                                                        <p>Is there enough disk space on the server?</p>
+                                                    </div>
+                                                    <p>Local Disk (@item.DiskName)</p>
+                                                    <a class="navbar-brand">
+                                                        <img class="nav-user-photo" src="~/assets2/images/gallery/WinIcon.png" alt="Our Logo" />
+                                                    </a>
+                                                    <div class="progress pos-rel" data-percent="@item.PercentageUsed %">
+                                                        <div class="progress-bar" style="width:50%;"></div>
+                                                    </div>
+                                                    <div class="infobox-content">
+                                                        <span class="bigger-110">~</span>
+                                                        @item.FreeSpace GB free of   @item.TotalSpace GB
+                                                    </div>
+                                                    <br />
+                                                </div><!-- /.col -->
+
+                                                <div class="col-xs-4 center">
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> CPU @item.CPU</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                    <div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47" style="height: 36px; width: 36px; line-height: 35px; color: rgb(209, 91, 71);">
+                                                        @*<span class="percent"> Memory @item.Memory</span>%*@
+                                                        <canvas height="46" width="46" style="height: 36px; width: 36px;"></canvas>
+                                                    </div>
+                                                </div><!-- /.col -->
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.col -->
+
+
+                </div>
 
             </div>
 

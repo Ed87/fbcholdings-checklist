@@ -1,0 +1,1431 @@
+﻿
+@{
+    ViewBag.Title = "Tasks";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Infrastructure</a>
+            </li>
+
+            <li class="active">Check Services</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div class="nav-search" id="nav-search">
+            <form class="form-search">
+                <span class="input-icon">
+                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                    <i class="ace-icon fa fa-search nav-search-icon"></i>
+                </span>
+            </form>
+        </div><!-- /.nav-search -->
+    </div>
+
+    <div class="page-content">
+        @using (Html.BeginForm("ChoosePayCode", "PayRun", FormMethod.Post, new { @class = "form-horizontal", id = "submitForm" }))
+        {
+            <div class="ace-settings-container" id="ace-settings-container">
+                <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-130"></i>
+                </div>
+
+                <div class="ace-settings-box clearfix" id="ace-settings-box">
+                    <div class=" pull-left width-50">
+                        <div class="ace-settings-item">
+                            @*<div class="pull-left">
+                                <select id="skin-colorpicker" class="hide">
+                                    <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                    <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                    <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                    <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                </select>
+                            </div>*@
+                            <span>  @Html.ActionLink("Finish", "GenerateReport", null, new { @class = "btn btn-primary",@id="finish" })</span>
+                        </div>
+
+
+
+                        <div class="ace-settings-item">
+
+                            <label class="lbl" for="ace-settings-sidebar"></label>
+                        </div>
+
+                        <div class="ace-settings-item">
+
+                            <label class="lbl" for="ace-settings-breadcrumbs"> </label>
+                        </div>
+
+                        <div class="ace-settings-item">
+
+                            <label class="lbl" for="ace-settings-rtl"> </label>
+                        </div>
+
+                        <div class="ace-settings-item">
+
+                            <label class="lbl" for="ace-settings-add-container">
+
+                            </label>
+                        </div>
+                    </div><!-- /.pull-left -->
+
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <span class="input-icon">
+                                @Html.ActionLink("Email Report", "EmailReport", null, new { @class = "btn btn-primary" })
+                            </span>
+                        </div>
+
+                        @*<div class="ace-settings-item">
+                            <span class="input-icon">
+                                @Html.ActionLink("Email Report", "EmailReport", null, new { @class = "btn btn-primary" })
+                            </span>
+                        </div>*@
+
+                        @*<div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                        </div>*@
+                    </div><!-- /.pull-left -->
+                </div><!-- /.ace-settings-box -->
+            </div><!-- /.ace-settings-container -->
+        }
+        <h4 class="box-title">Systems Checklist</h4>
+        <div class="hr hr-16 hr-dotted"></div>
+        <div class="text-success">@ViewBag.SuccessMessage</div>
+        <div class="error">@ViewBag.ErrorMessage</div>
+
+        <div id="timeline-1">
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+
+                    <div class="form-horizontal">
+                        <div class="timeline-container">
+                            <div class="timeline-label">
+                                <span class="label label-primary arrowed-in-right label-lg">
+                                    <b>Perfomance Counters</b>
+                                </span>
+                            </div>
+
+                            <div class="timeline-items">
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    Weblogic Application Server
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space, CPU and Memory Usage
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-2" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-2" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetWeblogicAppServerPerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    Oracle Database Server
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space, CPU and Memory Usage
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-3" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-3" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetOracleDbServerPerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    BIP Server 1
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space, CPU and Memory Usage
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-4" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-4" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetBIPServer1PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    BIP Server 2
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space, CPU and Memory Usage
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-5" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-5" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetBIPServer2PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="orange">
+                                                    VM_1 (10.170.5.15)
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-6" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-6" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetVM1PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="orange">
+                                                    VM_2 (10.180.5.11)
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-7" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-7" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetVM2PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">...</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="orange">
+                                                    VM_3 (10.180.5.14)
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-8" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-8" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetVM3PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="orange">
+                                                    VM_4 (10.170.5.132)
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-9" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-9" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetVM4PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="orange">
+                                                    VM_5 (10.170.5.131)
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Space
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-10" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-10" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetVM5PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    Sybrin
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Usage, Memory and CPU Utilisation
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-11" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-11" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetSybrinPerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    Bill Payments 1
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Usage, Memory and CPU Utilisation
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-12" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-12" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetBillPayments1PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    Bill Payments 2
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Usage, Memory and CPU Utilisation
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-23" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-23" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetBillPayments2PerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    SunSystems
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Usage, Memory and CPU Utilisation
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:22
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-13" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-13" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetSunSystemsPerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    TDS
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Usage, Memory and CPU Utilisation
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:12
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-20" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-20" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetTDSPerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="timeline-item clearfix">
+                                    <div class="timeline-info">
+                                        <img alt="" src="assets/images/avatars/avatar1.png">
+                                        <span class="label label-info label-sm">....</span>
+                                    </div>
+
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-small">
+                                            <h5 class="widget-title smaller">
+                                                <a href="#" class="blue">
+                                                    SICSNT
+                                                </a>
+                                                <span class="grey">
+                                                    Check Disk Usage, Memory and CPU Utilisation
+                                                </span>
+                                            </h5>
+
+                                            <span class="widget-toolbar no-border">
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                16:12
+                                            </span>
+
+                                            <span class="widget-toolbar">
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                @*<a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>*@
+                                                <a href="#faq-1-21" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                    <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="faq-1-21" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                @*<div class="form-horizontal">*@
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+                                                        <span class="input-icon">
+                                                            @Html.ActionLink("Run Query", "GetSICSNTPerfomanceStatistics", null, new { @class = "btn btn-primary" })
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!-- /.timeline-items -->
+                        </div><!-- /.timeline-container -->
+
+                    </div>
+
+
+                    <div class="timeline-container">
+                        <div class="timeline-label">
+                            <span class="label label-success arrowed-in-right label-lg">
+                                <b>Server Services</b>
+                            </span>
+                        </div>
+
+                        <div class="timeline-items">
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <img alt="" src="assets/images/avatars/avatar1.png">
+                                    <span class="label label-info label-sm">....</span>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">
+                                            <a href="#" class="green">
+                                                Weblogic Application Server Services (Flexcube)
+                                            </a>
+                                            <span class="grey">Ensure Admin and Managed Servers are running</span>
+                                        </h5>
+
+                                        <span class="widget-toolbar no-border">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            16:22
+                                        </span>
+
+                                        <span class="widget-toolbar">
+                                            <a href="#" data-action="reload">
+                                                <i class="ace-icon fa fa-refresh"></i>
+                                            </a>
+
+                                            <a href="#faq-1-1" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="faq-1-1" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            @*<div class="form-horizontal">*@
+                                            <div class="form-group">
+
+                                                <div class="col-sm-9">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Run Query", "GetWeblogicApplicationServerServices", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            @*<div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <i class="timeline-indicator ace-icon fa fa-beer btn btn-inverse no-hover"></i>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">Haloween party</h5>
+
+                                        <span class="widget-toolbar">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            1 hour ago
+                                        </span>
+                                    </div>
+
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <div class="clearfix">
+                                                <div class="pull-left">
+                                                    Lots of fun at Haloween party.
+                                                    <br>
+                                                    Take a look at some pics:
+                                                </div>
+
+                                                <div class="pull-right">
+                                                    <i class="ace-icon fa fa-chevron-left blue bigger-110"></i>
+
+                                                    &nbsp;
+                                                    <img alt="Image 4" width="36" src="assets/images/gallery/thumb-4.jpg">
+                                                    <img alt="Image 3" width="36" src="assets/images/gallery/thumb-3.jpg">
+                                                    <img alt="Image 2" width="36" src="assets/images/gallery/thumb-2.jpg">
+                                                    <img alt="Image 1" width="36" src="assets/images/gallery/thumb-1.jpg">
+                                                    &nbsp;
+                                                    <i class="ace-icon fa fa-chevron-right blue bigger-110"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <img alt="" src="assets/images/avatars/avatar1.png">
+                                    <span class="label label-info label-sm">....</span>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">
+                                            <a href="#" class="green">
+                                                Zimra STP BizTalk Services
+                                            </a>
+                                            <span class="grey">Check if BizTalk services are enabled and running</span>
+                                        </h5>
+
+                                        <span class="widget-toolbar no-border">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            16:22
+                                        </span>
+
+                                        <span class="widget-toolbar">
+                                            <a href="#" data-action="reload">
+                                                <i class="ace-icon fa fa-refresh"></i>
+                                            </a>
+
+                                            <a href="#faq-1-15" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="faq-1-15" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            @*<div class="form-horizontal">*@
+                                            <div class="form-group">
+
+                                                <div class="col-sm-9">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Run Query", "GetZimraSTPBizTalkServices", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <img alt="" src="assets/images/avatars/avatar1.png">
+                                    <span class="label label-info label-sm">....</span>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">
+                                            <a href="#" class="green">
+                                                FlexBranch
+                                            </a>
+                                            <span class="grey">Is  time level for all branches is set to zero </span>
+                                        </h5>
+
+                                        <span class="widget-toolbar no-border">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            16:22
+                                        </span>
+
+                                        <span class="widget-toolbar">
+                                            <a href="#" data-action="reload">
+                                                <i class="ace-icon fa fa-refresh"></i>
+                                            </a>
+
+                                            <a href="#faq-1-16" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="faq-1-16" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            @*<div class="form-horizontal">*@
+                                            <div class="form-group">
+
+                                                <div class="col-sm-9">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Run Query", "GetFlexcubeTimeLevelStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <img alt="" src="assets/images/avatars/avatar1.png">
+                                    <span class="label label-info label-sm">....</span>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">
+                                            <a href="#" class="green">
+                                                BIP 12c
+                                            </a>
+                                            <span class="grey">Is Service running  </span>
+                                        </h5>
+
+                                        <span class="widget-toolbar no-border">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            16:22
+                                        </span>
+
+                                        <span class="widget-toolbar">
+                                            <a href="#" data-action="reload">
+                                                <i class="ace-icon fa fa-refresh"></i>
+                                            </a>
+
+                                            <a href="#faq-1-17" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="faq-1-17" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            @*<div class="form-horizontal">*@
+                                            <div class="form-group">
+
+                                                <div class="col-sm-9">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Run Query", "IsBIP12cReachable", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <img alt="" src="assets/images/avatars/avatar1.png">
+                                    <span class="label label-info label-sm">....</span>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">
+                                            <a href="#" class="green">
+                                                FCCM
+                                            </a>
+                                            <span class="grey">Is Service running  </span>
+                                        </h5>
+
+                                        <span class="widget-toolbar no-border">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            16:22
+                                        </span>
+
+                                        <span class="widget-toolbar">
+                                            <a href="#" data-action="reload">
+                                                <i class="ace-icon fa fa-refresh"></i>
+                                            </a>
+
+                                            <a href="#faq-1-18" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="faq-1-18" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            @*<div class="form-horizontal">*@
+                                            <div class="form-group">
+
+                                                <div class="col-sm-9">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Run Query", "IsFCCMReachable", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <img alt="" src="assets/images/avatars/avatar1.png">
+                                    <span class="label label-info label-sm">....</span>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">
+                                            <a href="#" class="green">
+                                                ZIMRA VPN
+                                            </a>
+                                            <span class="grey">Ping 10.16.64.155  </span>
+                                        </h5>
+
+                                        <span class="widget-toolbar no-border">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            16:22
+                                        </span>
+
+                                        <span class="widget-toolbar">
+                                            <a href="#" data-action="reload">
+                                                <i class="ace-icon fa fa-refresh"></i>
+                                            </a>
+
+                                            <a href="#faq-1-19" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                                <i class="ace-icon fa fa-chevron-up" data-icon-hide="ace-icon fa fa-chevron-down" data-icon-show="ace-icon fa fa-chevron-up"></i>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="faq-1-19" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            @*<div class="form-horizontal">*@
+                                            <div class="form-group">
+
+                                                <div class="col-sm-9">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Run Query", "IsZIMRAVPNReachable", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div><!-- /.timeline-items -->
+                    </div><!-- /.timeline-container -->
+
+                    <div class="timeline-container">
+                        <div class="timeline-label">
+                            <span class="label label-success arrowed-in-right label-lg">
+                                <b>Application Services</b>
+                            </span>
+                        </div>
+
+                        <div class="timeline-items">
+
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-info">
+                                    <i class="timeline-indicator ace-icon fa fa-beer btn btn-inverse no-hover"></i>
+                                </div>
+
+                                <div class="widget-box transparent">
+                                    <div class="widget-header widget-header-small">
+                                        <h5 class="widget-title smaller">Haloween party</h5>
+
+                                        <span class="widget-toolbar">
+                                            <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                            1 hour ago
+                                        </span>
+                                    </div>
+
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <div class="clearfix">
+                                                <div class="pull-left">
+
+                                                    <br>
+
+                                                </div>
+
+                                                <div class="pull-left">
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("GIS", "GetGISServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("SunSystems", "GetSunSystemsServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Bill Payments 1", "GetBillPayments1ServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Bill Payments 2", "GetBillPayments2ServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("SICSNT", "GetSICSNTServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("TDS", "GetTDSServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                    <span class="input-icon">
+                                                        @Html.ActionLink("Sybrin", "GetSybrinServiceStatistics", null, new { @class = "btn btn-primary" })
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.timeline-items -->
+                    </div><!-- /.timeline-container -->
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts {
+
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/bootstrap-3.3.6-dist/js/bootstrap.js")
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    @Scripts.Render("~/Scripts/sweet-alert.js")
+
+
+    <script type="text/javascript">
+       
+
+        //function Validate(ctl, event) {
+        //    event.preventDefault();
+        //    swal({
+        //        title: "Do you want to run payroll?",
+        //        text: "Ensure you do all checks before proceeding!",
+        //        type: "warning",
+        //        showCancelButton: true,
+        //        confirmButtonColor: "#DD6B55",
+        //        confirmButtonText: "Proceed",
+        //        cancelButtonText: "Cancel",
+        //        closeOnConfirm: false,
+        //        closeOnCancel: false
+        //    },
+        //        function (isConfirm) {
+        //            if (isConfirm) {
+        //                if (validateData() == true) {
+        //                    $("#PayrollForm").submit();
+        //                }
+        //            } else {
+        //                swal("Cancelled", "You have Cancelled Form Submission!", "error");
+        //            }
+        //        });
+        //}
+        $(function () {
+
+            $(".finish").click(function (e) {
+                //whenever our button is clicked
+
+                e.preventDefault();
+                // stop the default behavior(navigation)
+                var _form = $(this).closest("submitForm");
+                //get a reference to the container form 
+
+                swal({
+                    title: "Do you want to run payroll?",
+                 text: "Ensure you do all checks before proceeding!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Proceed",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+                }).then(function () {
+                    //user selected "Yes", Let's submit the form
+                    _form.submit();
+                    //.else {
+                    //    swal("Cancelled", "You have Cancelled Form Submission!", "error");
+                    }
+                });
+
+            });
+
+        })
+    </script>
+
+}
+

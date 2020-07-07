@@ -172,6 +172,7 @@
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\ServicesManager.cs" />
     <Compile Include="Controllers\BizTalksController.cs" />
+    <Compile Include="Controllers\DashboardsController.cs" />
     <Compile Include="Controllers\DisksController.cs" />
     <Compile Include="Controllers\FlexcubeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Controllers\ServersController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SolarisController.cs" />
+    <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebLogicController.cs" />
     <Compile Include="Credential.cs">
@@ -410,6 +412,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
+    <Content Include="Content\sweetalert\docs.css" />
+    <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -432,6 +438,12 @@
     <Content Include="assets2\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets2\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets2\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\sweetalert\sweet-alert.less" />
+    <Content Include="Content\sweetalert\sweet-alert-combine.less" />
+    <Content Include="Content\sweetalert\sweet-alert-animations.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -490,7 +502,6 @@
     <Content Include="Views\Services\Details.cshtml" />
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
-    <Content Include="Views\Services\QueryService.cshtml" />
     <Content Include="Views\Services\ServiceStatus.cshtml" />
     <Content Include="Views\Solaris\Create.cshtml" />
     <Content Include="Views\Solaris\Delete.cshtml" />
@@ -505,6 +516,13 @@
     <Content Include="Views\BizTalks\Details.cshtml" />
     <Content Include="Views\BizTalks\Edit.cshtml" />
     <Content Include="Views\BizTalks\Index.cshtml" />
+    <Content Include="Views\Dashboards\Create.cshtml" />
+    <Content Include="Views\Dashboards\Delete.cshtml" />
+    <Content Include="Views\Dashboards\Details.cshtml" />
+    <Content Include="Views\Dashboards\Edit.cshtml" />
+    <Content Include="Views\Dashboards\Index.cshtml" />
+    <Content Include="Views\Dashboards\Tasks.cshtml" />
+    <Content Include="Views\Sweet\Alert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -23,7 +23,9 @@ namespace FBChecklist
         public string Mount { get; set; }
         public Nullable<System.DateTime> RunDate { get; set; }
         public Nullable<int> ApplicationId { get; set; }
+        public Nullable<int> ServerId { get; set; }
     
         public virtual Application Application { get; set; }
+        public virtual Server Server { get; set; }
     }
 }

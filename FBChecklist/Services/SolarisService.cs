@@ -31,6 +31,16 @@ namespace FBChecklist.Services
             return password.ToString();
         }
 
+        public string GetServerId(int AppId)
+        {
+
+            var serverId = (from c in appEntities.Servers
+                            where c.ApplicationId == AppId
+                            select c.ServerId).FirstOrDefault();
+            return serverId.ToString();
+        }
+
+
         public string GetSuperUsername(int AppId)
         {
             var username = (from c in appEntities.Credentials
@@ -82,6 +92,7 @@ namespace FBChecklist.Services
                 entity.Used = di.Used;
                 entity.RunDate = DateTime.Now;                            
                 entity.ApplicationId = Convert.ToInt32(System.Web.HttpContext.Current.Session["SelectedApp"]);
+                entity.ServerId = Convert.ToInt32(System.Web.HttpContext.Current.Session["ServerId"]);
                 appEntities.Solaris.Add(entity);
                 appEntities.SaveChanges();
             }

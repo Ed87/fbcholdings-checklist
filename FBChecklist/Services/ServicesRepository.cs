@@ -61,6 +61,14 @@ namespace FBChecklist.Services
             return authority.ToString();
         }
 
+        public string GetServerName(int AppId)
+        {
+
+            var serverName = (from c in appEntities.Servers
+                              where c.ApplicationId == AppId
+                              select c.ServerName).FirstOrDefault();
+            return serverName.ToString();
+        }
 
         public string GetSuperUserPassword(int AppId)
         {
@@ -169,9 +177,7 @@ namespace FBChecklist.Services
             List<ServiceMonitor> serviceinfo = new List<ServiceMonitor>();
 
             List<string> services = (List<string>)HttpContext.Current.Session["Services"];
-
-            var serverIP = Convert.ToInt32(HttpContext.Current.Session["ServiceIP"]);
-                      
+                
             try
             {
 

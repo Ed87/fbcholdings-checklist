@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Management;
@@ -33,7 +34,7 @@ namespace FBChecklist.Controllers
             //the framework calls this
         }
 
-        public ActionResult CheckTimeLevel()
+        public List<Branch> GetFlexcubeBranchStats()
         {
             //Fetch Connection String from Web.config    
             var FCUBS = ConfigurationManager.ConnectionStrings[1];
@@ -45,23 +46,19 @@ namespace FBChecklist.Controllers
             var username = disksService.GetSuperUsername(Helpers.parameters.Fcubs);
             var password = disksService.GetSuperUserPassword(Helpers.parameters.Fcubs);
             var database = disksService.GetAuthority(Helpers.parameters.Fcubs);
+            var serverId = disksService.GetServerId(Helpers.parameters.FlexLIVE);
 
             FCUBS.ConnectionString = "user id=" + username + ";password=" + password + ";data source=" + database + "";
             var connstring = FCUBS.ConnectionString;
 
             List<Branch> branches = new List<Branch>();
-
-
             try
             {
                 using (OracleConnection connp = new OracleConnection(connstring))
                 {
                     connp.Open();
                     OracleCommand cmd1 = new OracleCommand("select * from STTM_CORE_BRANCH_STATUS", connp);
-
                     OracleDataReader dr1 = cmd1.ExecuteReader();
-
-
                     while (dr1.Read() && dr1.HasRows)
                     {
                         var model = new Branch();
@@ -69,8 +66,25 @@ namespace FBChecklist.Controllers
                         model.TimeLevel = Convert.ToInt32(dr1["TIME_LEVEL"]);
                         model.EOCStage = Convert.ToString(dr1["EOC_STAGE"]);
                         model.BranchCode = Convert.ToInt32(dr1["BRANCH_CODE"]);
+                        model.ServerId = Convert.ToInt32(serverId);
                         branches.Add(model);
 
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.SendErrorToText(ex);
+            }
+
+            return branches;
+        }
+            public ActionResult CheckTimeLevel()
+            {
+                        DateTime date = DateTime.Today;
+                        List<Branch> branches = GetFlexcubeBranchStats();
+                       
                         foreach (var branch in branches)
                         {
                             using (SqlConnection conn = new SqlConnection(Helpers.DatabaseConnect))
@@ -84,25 +98,13 @@ namespace FBChecklist.Controllers
                                 cmdp.Parameters.AddWithValue("@EOCStage", branch.EOCStage);
                                 cmdp.Parameters.AddWithValue("@RunDate", DateTime.Now);
                                 cmdp.Parameters.AddWithValue("@ApplicationId", Helpers.parameters.Fcubs);
+                                cmdp.Parameters.AddWithValue("@ServerId", branch.ServerId);
                                 cmdp.ExecuteNonQuery();
                                 conn.Close();
                             }
                         }
-                    }
-
-                    connp.Close();
-                }
-            }
-
-            catch (Exception ex)
-            {
-                ExceptionLogger.SendErrorToText(ex);
-            }
-
-
-
-
-            return View();
+          
+            return View(branches);
         }
 
 

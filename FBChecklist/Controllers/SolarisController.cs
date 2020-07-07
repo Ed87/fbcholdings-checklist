@@ -1,7 +1,9 @@
-﻿using FBChecklist.Services;
+﻿using FBChecklist.Common;
+using FBChecklist.Services;
 using FBChecklist.ViewModels;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -28,7 +30,9 @@ namespace FBChecklist.Controllers
         // GET: Solaris
         public ActionResult Index()
         {
-            var solaris = db.Solaris.Include(s => s.Application);
+            DateTime date = DateTime.Today;
+            var solaris = db.Solaris.Include(s => s.Application)
+                 .Where(d => EntityFunctions.TruncateTime(d.RunDate) == date);
             return View(solaris.ToList());
         }
 
@@ -162,6 +166,34 @@ namespace FBChecklist.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult WeblogicAppServer([Bind(Include = "ApplicationId,Filesystem,Blocks,Mount,Used,Available,Capacity,RunDate")] SolarisViewModel model)
+        {
+            var sv = Helpers.parameters.WeblogicFlexcubeServices;
+            Session["SelectedApp"] = sv;
+            Session["Username"] = solarisService.GetSuperUsername(Convert.ToInt32(Session["SelectedApp"]));
+            Session["Password"] = solarisService.GetSuperUserPassword(Convert.ToInt32(Session["SelectedApp"]));
+            Session["ServerIP"] = solarisService.GetServerIp(Convert.ToInt32(Session["SelectedApp"]));
+            Session["ServerId"] = solarisService.GetServerId(Convert.ToInt32(Session["SelectedApp"]));
+
+            var disk = new Solaris();
+            solarisService.SaveDiskInfo(disk);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult OracleDbServer([Bind(Include = "ApplicationId,Filesystem,Blocks,Mount,Used,Available,Capacity,RunDate")] SolarisViewModel model)
+        {
+            int sv = Helpers.parameters.OracleDatabaseServer;
+            Session["SelectedApp"] = sv;
+            Session["Username"] = solarisService.GetSuperUsername(sv);
+            Session["Password"] = solarisService.GetSuperUserPassword(sv);
+            Session["ServerIP"] = solarisService.GetServerIp(Convert.ToInt32(Session["SelectedApp"]));
+            Session["ServerId"] = solarisService.GetServerId(Convert.ToInt32(Session["SelectedApp"]));
+
+            var disk = new Solaris();
+            solarisService.SaveDiskInfo(disk);
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {

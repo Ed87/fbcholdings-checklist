@@ -21,7 +21,9 @@ namespace FBChecklist
         public Nullable<System.DateTime> RunDate { get; set; }
         public string CheckedBy { get; set; }
         public Nullable<int> Percentage { get; set; }
+        public Nullable<int> ServerId { get; set; }
     
         public virtual Application Application { get; set; }
+        public virtual Server Server { get; set; }
     }
 }

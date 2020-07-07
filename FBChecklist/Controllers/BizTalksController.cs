@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,8 +18,11 @@ namespace FBChecklist.Controllers
         // GET: BizTalks
         public ActionResult Index()
         {
-            var bizTalk = db.BizTalk.Include(b => b.Application1).Include(b => b.Server);
-            return View(bizTalk.ToList());
+            DateTime date = DateTime.Today;
+            var services = db.BizTalk.Include(d => d.Application1).Include(d => d.Server)
+                            .Where(d => EntityFunctions.TruncateTime(d.RunDate) == date);
+            return View(services.ToList());
+          
         }
 
         // GET: BizTalks/Details/5

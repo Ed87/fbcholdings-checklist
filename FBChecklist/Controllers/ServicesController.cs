@@ -41,6 +41,13 @@ namespace FBChecklist.Controllers
         // GET: ServicesStatus
         public ActionResult ServiceStatus()
         {
+            ViewBag.SunSystems = Common.Helpers.parameters.Sunsys;
+            ViewBag.GIS = Common.Helpers.parameters.Gis;
+            ViewBag.BIPServer1 = Common.Helpers.parameters.billpayments1;
+            ViewBag.sics = Common.Helpers.parameters.sics;
+            ViewBag.tds = Common.Helpers.parameters.tds;
+            ViewBag.sybrin = Common.Helpers.parameters.sybrin;
+           // ViewBag.billpayments = Common.Helpers.parameters.billpayments;
             DateTime date = DateTime.Today;
             var services = db.ServiceMonitors.Include(d => d.Application).Include(d => d.Server).Include(d =>d.Service)
                             .Where(d => EntityFunctions.TruncateTime(d.RunDate) == date);
@@ -155,14 +162,15 @@ namespace FBChecklist.Controllers
 
         public ActionResult QueryService()
         {
-            var model = new ServiceMonitorViewModel();
-            servicesRepository.GetApps(model);
-            return View(model);
+            //var model = new ServiceMonitorViewModel();
+            //servicesRepository.GetApps(model);
+            return View();
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+         [ValidateAntiForgeryToken]
+         [HttpPost]
         public ActionResult QueryService([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
         {
             if (!ModelState.IsValid)
@@ -174,7 +182,6 @@ namespace FBChecklist.Controllers
             var selectedValue = Request.Form["ApplicationId"].ToString();
             var sv = Convert.ToInt32(selectedValue);
             Session["SelectedApplication"] = sv;
-
             Session["ServerId"] = servicesRepository.GetServerId(sv);
             Session["ServerIP"] = servicesRepository.GetServerIp(sv);
             Session["Services"] = servicesRepository.GetApplicationServices(sv);
@@ -188,6 +195,122 @@ namespace FBChecklist.Controllers
         }
 
 
+        public ActionResult GISServices([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.GIS;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
+
+        public ActionResult SunSystemsServices([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.SunSystems;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["ServerName"] = servicesRepository.GetServerName(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
+
+
+        public ActionResult SICSNTServices([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.SICSNT;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
+
+
+
+        public ActionResult TDSServices([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.TDS;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
+
+
+        public ActionResult SybrinServices([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.Sybrin;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
+
+        public ActionResult BillPayments1Services([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.BP1;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
+
+        public ActionResult BillPayments2Services([Bind(Include = "ServiceId,ServiceName,CreatedBy,RunDate,ServerId,Status,ApplicationId")] ServiceMonitorViewModel model)
+        {
+            var sv = Common.Helpers.parameters.BP2;
+            Session["SelectedApplication"] = sv;
+            Session["ServerId"] = servicesRepository.GetServerId(sv);
+            Session["ServerIP"] = servicesRepository.GetServerIp(sv);
+            Session["Services"] = servicesRepository.GetApplicationServices(sv);
+            Session["Authority"] = servicesRepository.GetAuthority(sv);
+            Session["Username"] = servicesRepository.GetSuperUsername(sv);
+            Session["Password"] = servicesRepository.GetSuperUserPassword(sv);
+
+            var servicemonitor = new ServiceMonitor();
+            servicesRepository.SaveServicesInfo(servicemonitor);
+            return RedirectToAction("ServiceStatus");
+        }
 
         protected override void Dispose(bool disposing)
         {
