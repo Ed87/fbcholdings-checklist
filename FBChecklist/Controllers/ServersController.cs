@@ -1,5 +1,8 @@
 ﻿using FBChecklist.Services;
 using FBChecklist.ViewModels;
+using System;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace FBChecklist.Controllers
@@ -28,6 +31,29 @@ namespace FBChecklist.Controllers
             return View(serversService.GetAll());
         }
 
+        public ActionResult Email()
+        {
+            using (var message = new MailMessage("edmore.tshuma@fbc.co.zw", "tinotenda.musa@fbc.co.zw"))
+            {
+                message.Subject = "CHECKLIST REPORT TEST";
+                message.Body = "Daily checklist completed at " + DateTime.Now + "Please find attached report for your review";
+                message.CC.Add("farai.muusha@fbc.co.zw");
+                message.CC.Add("edmore.tshuma@fbc.co.zw");
+
+                SmtpClient client = new SmtpClient();
+                client.EnableSsl = false;
+                client.Host = "10.170.8.22";
+                client.Port = 25;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("fbc.corp\tshumae", "@Ert2020");
+
+                {
+                    client.Send(message);
+                }
+            }
+            return View();
+        }
 
         private void PopulateLookups(ServerViewModel model)
         {

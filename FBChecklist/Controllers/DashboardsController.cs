@@ -216,15 +216,15 @@ namespace FBChecklist.Controllers
             return RedirectToAction("BIPServer2", "Disks");
         }
 
-        public ActionResult GenerateMemo()
+        public ActionResult GenerateReport()
         {
 
             SqlConnection con = new SqlConnection(Helpers.DatabaseConnect);
-            DataTable dt = new DataTable();
+            DataSet dt = new DataSet();
             try
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Description,CurrencySymbol,ActualAmount,CurrencyAbbr FROM vw_PurchasesByCriteria WHERE Reference='" + Convert.ToString(Session["Reference"]) + "'", con);
+                SqlCommand cmd = new SqlCommand("SELECT mount, blocks, solarisfreespace, filesystem, capacity, solarisusedspace, totalspace, driveletter, winfreespace, winusedspace,winmemory, wincpu,instanceName,name,receiveHandler,receivePort,transportType,uri,status,msState,msName,msActiveThreadCount,msJvmProcessorLoad,msHeapFreeCurrent,msHeapSizeCurrent,msUsedPhysicalMemory,branchCode,timeLevel,eocStage,gisServiceName,gisServiceStatus,ApplicationName,Task1,ServerIp FROM vw_DailyChecklistt GROUP BY ApplicationName'", con);
                 SqlDataAdapter adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
@@ -232,22 +232,22 @@ namespace FBChecklist.Controllers
             catch (Exception ex)
             {
                 ExceptionLogger.SendErrorToText(ex);
-                //ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
-                return RedirectToAction("ReportError");
+                
+                //return RedirectToAction("ReportError");
 
             }
             var today = DateTime.Now.ToShortDateString();
-            var TaskReport = "Memo";
+            var TaskReport = "Checklist";
             string OutputFileName = TaskReport.ToString() + "_" + today + ".pdf";
 
             ReportClass rptH = new ReportClass();
-            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchaseMemo.rpt");
+            rptH.FileName = Server.MapPath(("~/Reports/") + "CheckList.rpt");
 
             rptH.Load();
             rptH.SetDataSource(dt);
 
 
-            string filePath = Server.MapPath("~/TaskReports/");
+            string filePath = Server.MapPath("~/ChecklistReports/");
             string destPath = Path.Combine(filePath, Helpers.ToSafeFileName(OutputFileName));
 
             rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
@@ -255,44 +255,7 @@ namespace FBChecklist.Controllers
             return File(stream, "application/pdf");
         }
 
-        public ActionResult GenerateWordMemo()
-        {
-
-            SqlConnection con = new SqlConnection(Helpers.DatabaseConnect);
-            DataTable dt = new DataTable();
-            try
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Description,CurrencySymbol,ActualAmount,CurrencyAbbr FROM vw_PurchasesByCriteria WHERE Reference='" + Convert.ToString(Session["Reference"]) + "'", con);
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
-                adp.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                //ExceptionLogging.SendErrorToText(ex);
-               // ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
-                return RedirectToAction("ReportError");
-            }
-            var today = DateTime.Now.ToShortDateString();
-            var TaskReport = "Memo";
-            string OutputFileName = TaskReport.ToString() + "_" + today + ".pdf";
-
-            ReportClass rptH = new ReportClass();
-            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchaseMemo.rpt");
-
-            rptH.Load();
-            rptH.SetDataSource(dt);
-
-
-            string filePath = Server.MapPath("~/TaskReports/");
-            string destPath = Path.Combine(filePath, Helpers.ToSafeFileName(OutputFileName));
-
-            rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
-
-            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
-            return File(stream, " application/msword");
-        }
-
+       
         public ActionResult GetOracleDbServerPerfomanceStatistics()
         {
             return RedirectToAction("OracleDbServer", "Solaris");
